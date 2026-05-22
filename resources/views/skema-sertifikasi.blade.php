@@ -74,6 +74,13 @@
 
 @media(max-width:960px){.schemes{grid-template-columns:1fr}.cta{grid-template-columns:1fr}}
 @media(max-width:640px){.unit-code{min-width:100px;font-size:10.5px}}
+
+/* Popular / paling diminati highlight */
+.scheme--popular{border:2px solid #f4891f;box-shadow:0 0 0 4px rgba(244,137,31,.10),0 2px 4px rgba(15,29,53,.05)}
+.scheme--popular:hover{border-color:#d95f00;box-shadow:0 0 0 4px rgba(244,137,31,.20),0 12px 32px rgba(244,137,31,.15);transform:translateY(-2px)}
+.scheme--popular .scheme-header{background:linear-gradient(135deg,#b84c00,#d95f00 50%,#e8750a)}
+.scheme--popular .scheme-badge{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35)}
+.popular-ribbon{position:absolute;top:14px;right:-1px;background:#fff;color:#b84c00;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:4px 14px 4px 10px;border-radius:999px 0 0 999px;box-shadow:0 2px 8px rgba(0,0,0,.20);display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
 </style>
 @endsection
 
@@ -202,8 +209,12 @@
       <div class="cat-title">Personil Organisasi Perguruan Tinggi</div>
       <div class="schemes">
 
-        <div class="scheme" data-cat="pt">
-          <div class="scheme-header">
+        <div class="scheme scheme--popular" data-cat="pt">
+          <div class="scheme-header" style="position:relative;overflow:hidden;">
+            <span class="popular-ribbon">
+              <svg style="width:11px;height:11px;fill:#f4891f;" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Paling Diminati
+            </span>
             <div class="scheme-top">
               <span class="scheme-badge">D</span>
               <div>
@@ -290,8 +301,12 @@
           </div>
         </div>
 
-        <div class="scheme" data-cat="lab17025">
-          <div class="scheme-header">
+        <div class="scheme scheme--popular" data-cat="lab17025">
+          <div class="scheme-header" style="position:relative;overflow:hidden;">
+            <span class="popular-ribbon">
+              <svg style="width:11px;height:11px;fill:#f4891f;" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Paling Diminati
+            </span>
             <div class="scheme-top">
               <span class="scheme-badge">G</span>
               <div>

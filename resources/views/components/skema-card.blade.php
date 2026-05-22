@@ -1,6 +1,7 @@
 @props(['scheme'])
 
 @php
+$popular = $scheme['popular'] ?? false;
 $iconPaths = [
   'building' => 'M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M13 9h.01M9 13h.01M13 13h.01M9 17h6',
   'beaker'   => 'M9 3v6L4 19a2 2 0 002 3h12a2 2 0 002-3l-5-10V3M9 3h6M7 14h10',
@@ -21,21 +22,36 @@ $cat = $cats[$scheme['kategori']] ?? $cats['spmi'];
 $iconPath = $iconPaths[$cat['icon']] ?? '';
 @endphp
 
-<article style="background:#fff;border-radius:18px;overflow:hidden;border:1px solid #e6e9f0;
-                display:flex;flex-direction:column;box-shadow:0 1px 0 rgba(15,29,53,.02);
+<article style="background:#fff;border-radius:18px;overflow:hidden;
+                border:{{ $popular ? '2px solid #f4891f' : '1px solid #e6e9f0' }};
+                display:flex;flex-direction:column;
+                box-shadow:{{ $popular ? '0 0 0 4px rgba(244,137,31,.10),0 2px 4px rgba(15,29,53,.05)' : '0 1px 0 rgba(15,29,53,.02)' }};
                 transition:transform .18s,box-shadow .18s;"
          data-cat="{{ $scheme['kategori'] }}"
-         onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(15,29,53,.10)'"
-         onmouseleave="this.style.transform='';this.style.boxShadow='0 1px 0 rgba(15,29,53,.02)'">
+         onmouseenter="this.style.transform='translateY(-3px)';this.style.boxShadow='{{ $popular ? '0 0 0 4px rgba(244,137,31,.18),0 12px 32px rgba(244,137,31,.15)' : '0 8px 24px rgba(15,29,53,.10)' }}'"
+         onmouseleave="this.style.transform='';this.style.boxShadow='{{ $popular ? '0 0 0 4px rgba(244,137,31,.10),0 2px 4px rgba(15,29,53,.05)' : '0 1px 0 rgba(15,29,53,.02)' }}'">
 
   {{-- HEADER BAND --}}
-  <div style="background:linear-gradient(135deg,#0a2547,#102d57);color:#fff;
+  <div style="background:{{ $popular ? 'linear-gradient(135deg,#b84c00,#d95f00 50%,#e8750a)' : 'linear-gradient(135deg,#0a2547,#102d57)' }};color:#fff;
               padding:20px 22px;position:relative;overflow:hidden;">
 
     {{-- Corner glow --}}
     <div style="position:absolute;top:-40px;right:-40px;width:140px;height:140px;
                 pointer-events:none;
-                background:radial-gradient(circle,{{ $cat['color'] }}40,transparent 70%);"></div>
+                background:radial-gradient(circle,{{ $popular ? 'rgba(255,255,255,.25)' : $cat['color'].'40' }},transparent 70%);"></div>
+
+    @if($popular)
+    {{-- Paling Diminati ribbon --}}
+    <div style="position:absolute;top:14px;right:-1px;
+                background:#fff;color:#b84c00;
+                font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;
+                padding:4px 12px 4px 10px;border-radius:999px 0 0 999px;
+                box-shadow:0 2px 8px rgba(0,0,0,.18);
+                display:flex;align-items:center;gap:5px;">
+      <svg style="width:11px;height:11px;fill:#f4891f;" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Paling Diminati
+    </div>
+    @endif
 
     {{-- Icon tile + scheme number/code --}}
     <div style="position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
@@ -49,7 +65,7 @@ $iconPath = $iconPaths[$cat['icon']] ?? '';
           </svg>
         </div>
         <div>
-          <div style="font-size:10.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#f4891f;">
+          <div style="font-size:10.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:{{ $popular ? 'rgba(255,255,255,.9)' : '#f4891f' }};">
             Skema {{ $scheme['nomor'] }}
           </div>
           <div style="font-size:11.5px;color:rgba(255,255,255,.55);font-family:ui-monospace,monospace;margin-top:2px;">
@@ -107,7 +123,7 @@ $iconPath = $iconPaths[$cat['icon']] ?? '';
         <span style="color:#0a2547;font-weight:800;">{{ $scheme['jumlah_unit'] }}</span>
         <span style="color:#5a6a85;"> unit kompetensi</span>
       </span>
-      <span style="background:#0a2547;color:#fff;border-radius:999px;
+      <span style="background:{{ $popular ? '#d95f00' : '#0a2547' }};color:#fff;border-radius:999px;
                    padding:6px 14px;font-size:12px;font-weight:700;letter-spacing:0.02em;
                    display:inline-flex;align-items:center;gap:6px;">
         Lihat detail

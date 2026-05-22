@@ -46,7 +46,7 @@ class PageController extends Controller
             [
                 'nomor' => '04', 'kode' => 'EDUKIA-ToT-2024-004',
                 'judul' => 'Training of Trainer (ToT) Outcome Based Education (OBE)',
-                'kategori' => 'pt', 'jumlah_unit' => 6,
+                'kategori' => 'pt', 'jumlah_unit' => 6, 'popular' => true,
                 'reqs' => [
                     'Pendidikan minimal S2',
                     'Pengalaman kerja di bidang Perguruan Tinggi',
@@ -76,7 +76,7 @@ class PageController extends Controller
             [
                 'nomor' => '07', 'kode' => 'EDUKIA-LIM-2024-007',
                 'judul' => 'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
-                'kategori' => 'lab17025', 'jumlah_unit' => 7,
+                'kategori' => 'lab17025', 'jumlah_unit' => 7, 'popular' => true,
                 'reqs' => [
                     'Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate',
                     'Memiliki Sertifikat Pelatihan Auditor Internal & ISO 17025:2017',
