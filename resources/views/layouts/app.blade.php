@@ -6,7 +6,7 @@
 <title>@yield('title', 'LSP Edukia — Sertifikasi Profesi')</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy-900:#06172e;--navy-800:#0a2547;--navy-700:#102d57;
@@ -105,31 +105,11 @@ section{padding:96px 0;border-top:1px solid var(--line)}
 .step:last-child .step-connector{display:none}
 /* Filter chips */
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px}
-.chip{height:38px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:#fff;font-size:14px;font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:8px;transition:all .15s}
+.chip{height:40px;padding:0 18px;border-radius:999px;border:1px solid var(--line-2);background:#fff;font-size:13.5px;font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:10px;transition:all .15s;cursor:pointer}
 .chip:hover{border-color:var(--navy-500);color:var(--navy-800)}
 .chip.active{background:var(--navy-800);color:#fff;border-color:var(--navy-800)}
-.chip .count{font-size:12px;color:var(--muted);font-weight:600}
-.chip.active .count{color:rgba(255,255,255,.7)}
-/* Scheme cards */
-.schemes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.scheme{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:12px;transition:all .18s}
-.scheme:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 10px 28px rgba(15,29,53,.07)}
-.scheme.hidden{display:none}
-.scheme[data-cat="pendidikan"] .tag{background:#eaf4fd;color:#1f6da8}
-.scheme[data-cat="laboratorium"] .tag{background:#eef9f1;color:#256d3e}
-.scheme[data-cat="lifting"] .tag{background:#fef4e8;color:#a45d10}
-.scheme[data-cat="industri"] .tag{background:#fdecec;color:#a82e2e}
-.scheme[data-cat="hukum"] .tag{background:#f0ecfa;color:#5a3aa6}
-.tag{align-self:flex-start;font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:6px;letter-spacing:0.01em}
-.scheme h3{font-size:15px;line-height:1.35;color:var(--ink)}
-.scheme-num{font-size:11px;font-weight:700;color:var(--muted);font-family:ui-monospace,monospace;background:var(--cream-2);padding:3px 8px;border-radius:5px;align-self:flex-start}
-.req-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px;margin-top:4px}
-.req-list li{font-size:13px;color:var(--ink-2);padding-left:16px;position:relative;line-height:1.5}
-.req-list li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--blue);opacity:.7}
-.req-group-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;margin-bottom:4px}
-.scheme-foot{display:flex;justify-content:flex-end;align-items:center;margin-top:auto;padding-top:14px;border-top:1px dashed var(--line-2)}
-.unit-link{font-size:13px;color:var(--blue-deep);font-weight:600;display:inline-flex;align-items:center;gap:4px}
-.unit-link:hover{color:var(--orange-deep)}
+.chip .count{font-size:11.5px;color:var(--muted);font-weight:600;padding:2px 7px;border-radius:999px;background:var(--cream-2)}
+.chip.active .count{color:rgba(255,255,255,.7);background:rgba(255,255,255,.12)}
 /* Slider */
 .slider-wrap{position:relative}
 .slider-viewport{overflow:hidden;border-radius:20px}
@@ -203,7 +183,6 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
   .wa-float{padding:0;width:52px;justify-content:center}
 }
 @media(max-width:640px){
-  .schemes{grid-template-columns:1fr}
   .slide{flex:0 0 calc(90% - 10px)}
 }
 </style>

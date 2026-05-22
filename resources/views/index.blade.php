@@ -1,13 +1,22 @@
 @extends('layouts.app')
 @section('title', 'LSP Edukia — Sertifikasi Kompetensi Profesional')
 
+@section('extra-css')
+<style>
+#schemes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:960px){#schemes{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){#schemes{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(26px,3.6vw,48px)}
+</style>
+@endsection
+
 @section('content')
 <!-- HERO -->
 <section class="hero" style="border-top:0;padding:0">
   <div class="wrap hero-grid">
     <div>
       <div class="badge"><span class="dot"></span> Berlisensi KAN · LSP-033-IDN</div>
-      <h1>Sertifikasi kompetensi <em>profesional</em> berstandar nasional</h1>
+      <h1>Sertifikasi kompetensi <em>profesional</em> berstandar Nasional dan <em>"Internasional"</em></h1>
       <p class="lead">26 skema sertifikasi untuk bidang Pendidikan Tinggi, Laboratorium, Lifting Engineering, dan Industri. Uji kompetensi daring, sertifikat berlaku 3 tahun.</p>
       <div class="hero-cta">
         <a href="#persyaratan" class="btn btn-primary btn-lg">Lihat persyaratan
@@ -71,45 +80,31 @@
 <section id="persyaratan" style="background:#fbf9f3">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">Bagian 3</div>
+      <div class="eyebrow">Persyaratan Sertifikasi</div>
       <h2>Persyaratan Dasar Pemohon Sertifikasi</h2>
       <p class="sub">Persyaratan pendidikan, pengalaman, dan sertifikat pelatihan yang harus dipenuhi untuk setiap skema kompetensi.</p>
     </div>
     <div class="chips" id="chips">
       <button class="chip active" data-filter="all">Semua <span class="count">26</span></button>
-      <button class="chip" data-filter="pendidikan">Pendidikan Tinggi &amp; SPMI <span class="count">5</span></button>
-      <button class="chip" data-filter="laboratorium">Laboratorium &amp; Pengujian <span class="count">9</span></button>
+      <button class="chip" data-filter="spmi">SPMI ISO 21001 <span class="count">3</span></button>
+      <button class="chip" data-filter="pt">Perguruan Tinggi <span class="count">2</span></button>
+      <button class="chip" data-filter="lab17025">Lab ISO 17025 <span class="count">2</span></button>
       <button class="chip" data-filter="lifting">Lifting Engineering <span class="count">4</span></button>
-      <button class="chip" data-filter="industri">Sistem Manajemen &amp; Industri <span class="count">7</span></button>
-      <button class="chip" data-filter="hukum">Hukum Korporasi <span class="count">1</span></button>
+      <button class="chip" data-filter="labtest">Lab &amp; Pengujian <span class="count">6</span></button>
+      <button class="chip" data-filter="manajemen">Sistem Manajemen <span class="count">8</span></button>
     </div>
-    <div class="schemes" id="schemes">
-      <div class="scheme" data-cat="pendidikan"><span class="scheme-num">Skema 01</span><span class="tag">Pendidikan Tinggi &amp; SPMI</span><h3>Auditor Internal SPMI Terintegrasi ISO 21001:2018</h3><ul class="req-list"><li>Pendidikan minimal S2</li><li>Pengalaman kerja di bidang Perguruan Tinggi</li><li>Memiliki Sertifikat Pelatihan Auditor Internal</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="pendidikan"><span class="scheme-num">Skema 02</span><span class="tag">Pendidikan Tinggi &amp; SPMI</span><h3>Lead Auditor Internal SPMI Terintegrasi ISO 21001:2018</h3><ul class="req-list"><li>Pendidikan minimal S2</li><li>Pengalaman kerja di bidang Perguruan Tinggi</li><li>Memiliki Sertifikat Pelatihan Auditor Internal</li><li>Pengalaman sebagai Ketua Auditor</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="pendidikan"><span class="scheme-num">Skema 03</span><span class="tag">Pendidikan Tinggi &amp; SPMI</span><h3>Lead Implementer SPMI Terintegrasi ISO 21001:2018</h3><ul class="req-list"><li>Pendidikan minimal S2</li><li>Pengalaman kerja di bidang Perguruan Tinggi</li><li>Memiliki Sertifikat Pelatihan SPMI / ISO 21001:2018</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="pendidikan"><span class="scheme-num">Skema 04</span><span class="tag">Pendidikan Tinggi &amp; SPMI</span><h3>Training of Trainer (ToT) Outcome Based Education (OBE)</h3><ul class="req-list"><li>Pendidikan minimal S2</li><li>Pengalaman kerja di bidang Perguruan Tinggi</li><li>Memiliki Sertifikat Pelatihan Kurikulum OBE / Pelatihan yang relevan dengan kurikulum</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="pendidikan"><span class="scheme-num">Skema 05</span><span class="tag">Pendidikan Tinggi &amp; SPMI</span><h3>Implementer Tata Kelola Organisasi Perguruan Tinggi</h3><ul class="req-list"><li>Pendidikan minimal S2</li><li>Pengalaman kerja di bidang Perguruan Tinggi</li><li>Memiliki Sertifikat Pelatihan relevan dengan Tata Kelola Organisasi Perguruan Tinggi</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="laboratorium"><span class="scheme-num">Skema 06</span><span class="tag">Laboratorium &amp; Pengujian</span><h3>Auditor Internal Standar Laboratorium ISO/IEC 17025</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK, pengalaman kerja di bidang Laboratorium minimal 2 tahun</li><li>Memiliki Sertifikat Pelatihan Auditor Internal &amp; ISO 17025:2017</li></ul><div class="req-group-label">Jalur 2 — D3</div><ul class="req-list"><li>Pendidikan minimal D3, pengalaman kerja di bidang Laboratorium</li><li>Memiliki Sertifikat ISO 17025:2017</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="laboratorium"><span class="scheme-num">Skema 07</span><span class="tag">Laboratorium &amp; Pengujian</span><h3>Lead Implementer Standar Laboratorium ISO/IEC 17025</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK, pengalaman kerja di bidang Laboratorium minimal 2 tahun</li><li>Memiliki Sertifikat Pelatihan Auditor Internal &amp; ISO 17025:2017</li></ul><div class="req-group-label">Jalur 2 — D3</div><ul class="req-list"><li>Pendidikan minimal D3, pengalaman kerja di bidang Laboratorium</li><li>Memiliki Sertifikat ISO 17025:2017</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="lifting"><span class="scheme-num">Skema 08</span><span class="tag">Lifting Engineering</span><h3>Lifting Engineer for Medium Lifting</h3><ul class="req-list"><li>Pendidikan minimal D3 Teknik</li><li>Fresh graduated atau pengalaman kerja di bidang Lifting</li><li>Memiliki Sertifikat Pelatihan terkait Lifting Engineer for Medium Lifting</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="lifting"><span class="scheme-num">Skema 09</span><span class="tag">Lifting Engineering</span><h3>Lifting Engineer For Heavy &amp; Critical Lifting</h3><ul class="req-list"><li>Pendidikan minimal D3 Teknik</li><li>Fresh graduated atau pengalaman kerja di bidang Lifting</li><li>Memiliki Sertifikat Competent Person for Medium Lifting Operation</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="lifting"><span class="scheme-num">Skema 10</span><span class="tag">Lifting Engineering</span><h3>2D Lifting Designer</h3><ul class="req-list"><li>Pendidikan minimal SMK/SMA</li><li>Fresh graduated atau pengalaman kerja di bidang CAD Drafter</li><li>Memiliki Sertifikat Pelatihan Lifting Drafter</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="lifting"><span class="scheme-num">Skema 11</span><span class="tag">Lifting Engineering</span><h3>3D Lifting Designer</h3><ul class="req-list"><li>Pendidikan minimal SMK/SMA</li><li>Fresh graduated atau pengalaman kerja di bidang Lifting Drafter</li><li>Memiliki Sertifikat Lifting Drafter</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="laboratorium"><span class="scheme-num">Skema 12</span><span class="tag">Laboratorium &amp; Pengujian</span><h3>Laboratory Quality System Officer ISO/IEC 17025</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di laboratorium</li><li>Memiliki Sertifikat Pelatihan ISO/IEC 17025:2017</li></ul><div class="req-group-label">Jalur 2 — D3 Fresh Graduate</div><ul class="req-list"><li>Fresh graduated D3 bidang sains atau teknik</li><li>Magang di laboratorium minimal 3 bulan, atau Sertifikat Pelatihan ISO/IEC 17025:2017</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="laboratorium"><span class="scheme-num">Skema 13</span><span class="tag">Laboratorium &amp; Pengujian</span><h3>Food Safety Management Officer / Petugas Sistem Keamanan Pangan</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di laboratorium</li><li>Memiliki Sertifikat Pelatihan HACCP, ISO 22000, CPPOB/GMP</li></ul><div class="req-group-label">Jalur 2 — D3 Fresh Graduate</div><ul class="req-list"><li>Fresh graduated D3 bidang sains</li><li>Magang di bidang produksi/keamanan pangan minimal 3 bulan, atau Sertifikat Pelatihan HACCP / ISO 22000</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="laboratorium"><span class="scheme-num">Skema 14</span><span class="tag">Laboratorium &amp; Pengujian</span><h3>Panelis Terlatih Pengujian Sensori Pangan</h3><ul class="req-list"><li>Pendidikan minimal D3/S1 Teknologi Pangan, Ilmu Gizi, Kimia, Biologi, atau Tek. Hasil Pertanian</li><li>Fresh Graduated dan/atau magang di industri/laboratorium pangan minimal 3 bulan</li><li>Memiliki Sertifikat Pelatihan Pengujian Sensori Pangan</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="laboratorium"><span class="scheme-num">Skema 15</span><span class="tag">Laboratorium &amp; Pengujian</span><h3>GLP Laboratory Technician / Teknisi Laboratorium Berbasis GLP</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di laboratorium</li><li>Memiliki Sertifikat Pelatihan ISO/IEC 17025:2017</li></ul><div class="req-group-label">Jalur 2 — D3 Fresh Graduate</div><ul class="req-list"><li>Fresh graduated D3 bidang sains atau Teknik</li><li>Magang di laboratorium minimal 3 bulan, atau Sertifikat Pelatihan ISO/IEC 17025:2017</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="laboratorium"><span class="scheme-num">Skema 16</span><span class="tag">Laboratorium &amp; Pengujian</span><h3>Laboratory HSE Officer / Petugas K3L Laboratorium</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di laboratorium</li><li>Memiliki Sertifikat Pelatihan ISO/IEC 17025:2017, ISO 14001, ISO 45001</li></ul><div class="req-group-label">Jalur 2 — D3 Fresh Graduate</div><ul class="req-list"><li>Fresh graduated D3 bidang sains atau Teknik</li><li>Magang di laboratorium minimal 3 bulan, atau Sertifikat Pelatihan ISO/IEC 17025:2017, ISO 14001, ISO 45001</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="laboratorium"><span class="scheme-num">Skema 17</span><span class="tag">Laboratorium &amp; Pengujian</span><h3>Laboratory Operations Officer / Pranata Laboratorium</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di laboratorium</li><li>Memiliki Sertifikat Pelatihan ISO/IEC 17025:2017</li></ul><div class="req-group-label">Jalur 2 — D3 Fresh Graduate</div><ul class="req-list"><li>Fresh graduated D3 bidang sains atau Teknik</li><li>Magang di laboratorium minimal 3 bulan, atau Sertifikat Pelatihan ISO/IEC 17025:2017</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="industri"><span class="scheme-num">Skema 18</span><span class="tag">Sistem Manajemen &amp; Industri</span><h3>Quality Management System (ISO 9001) Officer</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di laboratorium atau industri</li><li>Memiliki Sertifikat Pelatihan ISO/IEC 9001:2015</li></ul><div class="req-group-label">Jalur 2 — D3 Fresh Graduate</div><ul class="req-list"><li>Fresh graduated D3 bidang sains atau Teknik</li><li>Magang di laboratorium atau industri minimal 3 bulan, atau Sertifikat Pelatihan ISO/IEC 9001:2015</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="laboratorium"><span class="scheme-num">Skema 19</span><span class="tag">Laboratorium &amp; Pengujian</span><h3>QC Laboratory Analyst / Analis QC Laboratorium</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di laboratorium</li><li>Memiliki Sertifikat Pelatihan QC / ISO 9001:2015 / ISO 17025:2017</li></ul><div class="req-group-label">Jalur 2 — D3/S1</div><ul class="req-list"><li>Pendidikan minimal D3/S1 Teknik, Ilmu Gizi, Kimia, Biologi, atau Farmasi</li><li>Fresh graduated dan/atau pengalaman kerja di industri atau laboratorium</li><li>Memiliki Sertifikat Pelatihan QC / ISO 9001:2015 / ISO 17025:2017</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="industri"><span class="scheme-num">Skema 20</span><span class="tag">Sistem Manajemen &amp; Industri</span><h3>Quality Assurance Officer</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di industri bagian quality assurance</li><li>Memiliki Sertifikat Pelatihan QAQC / ISO 9001 / ISO 17025</li></ul><div class="req-group-label">Jalur 2 — D3/S1</div><ul class="req-list"><li>Pendidikan minimal D3/S1 Teknik, Ilmu Gizi, Kimia, Biologi, atau Farmasi</li><li>Fresh graduated dan/atau pengalaman kerja di industri</li><li>Memiliki Sertifikat Pelatihan QAQC / ISO 9001 / ISO 17025</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="industri"><span class="scheme-num">Skema 21</span><span class="tag">Sistem Manajemen &amp; Industri</span><h3>Research and Development Officer</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di laboratorium atau industri</li><li>Memiliki Sertifikat Pelatihan ISO 17025 / GMP (CPPOB, CPAKB, CPOIB)</li></ul><div class="req-group-label">Jalur 2 — D3/S1</div><ul class="req-list"><li>Pendidikan minimal D3/S1 Teknik, Ilmu Gizi, Kimia, Biologi, atau Farmasi</li><li>Fresh graduated dan/atau pengalaman kerja di industri atau laboratorium</li><li>Memiliki Sertifikat Pelatihan ISO 17025 / GMP (CPPOB, CPAKB, CPOIB)</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="industri"><span class="scheme-num">Skema 22</span><span class="tag">Sistem Manajemen &amp; Industri</span><h3>Regulatory Affairs Officer</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di industri bagian quality assurance</li><li>Memiliki Sertifikat Pelatihan ISO 9001 / GMP (Good Manufacturing Practices)</li></ul><div class="req-group-label">Jalur 2 — D3/S1</div><ul class="req-list"><li>Pendidikan minimal D3/S1 Teknik, Ilmu Gizi, Kimia, Biologi, atau Farmasi</li><li>Fresh graduated dan/atau pengalaman kerja di industri</li><li>Memiliki Sertifikat Pelatihan ISO 9001 / GMP (Good Manufacturing Practices)</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="industri"><span class="scheme-num">Skema 23</span><span class="tag">Sistem Manajemen &amp; Industri</span><h3>Sustainability Officer</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di laboratorium atau industri</li><li>Memiliki Sertifikat Pelatihan Sustainability / ESG / Manajemen Risiko</li></ul><div class="req-group-label">Jalur 2 — D3 Fresh Graduate</div><ul class="req-list"><li>Fresh graduated D3 bidang sains atau Teknik</li><li>Magang di laboratorium atau industri minimal 3 bulan, atau Sertifikat Pelatihan Sustainability / ESG / Manajemen Risiko</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="industri"><span class="scheme-num">Skema 24</span><span class="tag">Sistem Manajemen &amp; Industri</span><h3>ESG Officer</h3><div class="req-group-label">Jalur 1 — SMA/SMK</div><ul class="req-list"><li>Pendidikan minimal SMA/SMK bidang sains atau teknis, pengalaman kerja minimal 2 tahun di laboratorium atau industri</li><li>Memiliki Sertifikat Pelatihan Sustainability / ESG / Manajemen Risiko</li></ul><div class="req-group-label">Jalur 2 — D3 Fresh Graduate</div><ul class="req-list"><li>Fresh graduated D3 bidang sains atau Teknik</li><li>Magang di laboratorium atau industri minimal 3 bulan, atau Sertifikat Pelatihan Sustainability / ESG / Manajemen Risiko</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="industri"><span class="scheme-num">Skema 25</span><span class="tag">Sistem Manajemen &amp; Industri</span><h3>Environmental Management System (ISO 14001) Officer</h3><ul class="req-list"><li>Pendidikan minimal D3/S1 Teknik Lingkungan, Teknik Kimia, Kesehatan Lingkungan, atau bidang terkait</li><li>Fresh graduated atau magang di bidang EMS / pengelolaan lingkungan minimal 3 bulan</li><li>Memiliki Sertifikat Pelatihan ISO 14001:2015 Environmental Management System atau pelatihan terkait</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
-      <div class="scheme" data-cat="hukum"><span class="scheme-num">Skema 26</span><span class="tag">Hukum Korporasi</span><h3>Corporate Legal Officer</h3><ul class="req-list"><li>Pendidikan minimal D3/S1 Ilmu Hukum dan Hukum Islam (terbuka untuk disiplin ilmu lain yang berminat di Corporate Legal)</li><li>Fresh graduated dan/atau pengalaman kerja di perusahaan atau korporasi</li><li>Memiliki Sertifikat Pelatihan Corporate Legal Officer</li></ul><div class="scheme-foot"><a class="unit-link" href="{{ route('skema') }}">Unit kompetensi <svg class="icon"><use href="#i-chev-r"></use></svg></a></div></div>
+    <div id="schemes">
+      @foreach($schemes as $i => $scheme)
+        <x-skema-card :scheme="$scheme" />
+      @endforeach
+    </div>
+    <div id="showAllWrap" style="text-align:center;margin-top:32px">
+      <button id="showAllBtn" class="btn btn-outline" style="gap:10px;">
+        Tampilkan semua 26 skema
+        <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </button>
     </div>
   </div>
 </section>
@@ -179,18 +174,40 @@
 
 @section('scripts')
 <script>
-const chips = document.querySelectorAll('#chips .chip');
-const cards = document.querySelectorAll('#schemes .scheme');
+const chips   = document.querySelectorAll('#chips .chip');
+const cards   = Array.from(document.querySelectorAll('#schemes article'));
+const showBtn = document.getElementById('showAllBtn');
+const showWrap= document.getElementById('showAllWrap');
+let activeFilter = 'all';
+let showAll = false;
+
+function applyState() {
+  cards.forEach((card, i) => {
+    const catMatch = activeFilter === 'all' || card.dataset.cat === activeFilter;
+    // When a specific category is filtered, show ALL matching across 26.
+    // When "Semua" is active, respect the show-all toggle (first 9 by default).
+    const visible = catMatch && (activeFilter !== 'all' || showAll || i < 9);
+    card.style.display = visible ? '' : 'none';
+  });
+  // Hide the button once expanded, or when a category filter is active
+  showWrap.style.display = (activeFilter === 'all' && !showAll) ? '' : 'none';
+}
+
 chips.forEach(chip => {
   chip.addEventListener('click', () => {
     chips.forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
-    const filter = chip.dataset.filter;
-    cards.forEach(card => {
-      card.classList.toggle('hidden', filter !== 'all' && card.dataset.cat !== filter);
-    });
+    activeFilter = chip.dataset.filter;
+    applyState();
   });
 });
+
+showBtn.addEventListener('click', () => {
+  showAll = true;
+  applyState();
+});
+
+applyState();
 
 (function() {
   const track = document.getElementById('sliderTrack');

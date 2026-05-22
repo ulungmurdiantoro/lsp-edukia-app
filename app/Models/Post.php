@@ -8,14 +8,34 @@ use Illuminate\Support\Str;
 class Post extends Model
 {
     protected $fillable = [
-        'judul', 'slug', 'thumbnail', 'ringkasan',
-        'konten', 'kategori', 'penulis', 'published', 'published_at',
+        'judul', 'slug', 'ringkasan', 'konten',
+        'thumbnail', 'kategori', 'penulis', 'published', 'published_at',
     ];
 
     protected $casts = [
-        'published' => 'boolean',
+        'published'    => 'boolean',
         'published_at' => 'datetime',
     ];
+
+    public function scopePublished(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->where('published', true)
+            ->where(function ($q) {
+                $q->whereNull('published_at')->orWhere('published_at', '<=', now());
+            });
+    }
+
+    public function getThumbnailUrlAttribute(): string
+    {
+        return $this->thumbnail ? asset('storage/' . $this->thumbnail) : '';
+    }
+
+    // ~200 words per minute reading speed
+    public function getReadingTimeAttribute(): int
+    {
+        $words = str_word_count(strip_tags($this->konten ?? ''));
+        return max(1, (int) ceil($words / 200));
+    }
 
     protected static function booted(): void
     {
@@ -24,10 +44,5 @@ class Post extends Model
                 $post->slug = Str::slug($post->judul);
             }
         });
-    }
-
-    public function scopePublished($query)
-    {
-        return $query->where('published', true)->orderByDesc('published_at');
     }
 }

@@ -6,6 +6,43 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+  /* Typography */
+  --font-sans:    "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Navy scale */
+  --color-navy-50:  #eef3fb;
+  --color-navy-500: #21528f;
+  --color-navy-600: #173a6b;
+  --color-navy-700: #102d57;
+  --color-navy-800: #0a2547;
+  --color-navy-900: #06172e;
+
+  /* Accents */
+  --color-orange:      #f4891f;
+  --color-orange-deep: #d77110;
+  --color-orange-50:   #fdf0e1;
+  --color-blue:        #449fe5;
+  --color-blue-deep:   #2a7fc4;
+  --color-blue-50:     #eaf4fd;
+
+  /* Ink (text) */
+  --color-ink:    #0f1d35;
+  --color-ink-2:  #2a3a55;
+  --color-muted:  #5a6a85;
+
+  /* Surfaces */
+  --color-cream:   #f5f1e8;
+  --color-cream-2: #efeadc;
+  --color-line:    #e6e9f0;
+  --color-line-2:  #dfe3ec;
+}
+
+@layer base {
+  body {
+    font-family: theme(--font-sans);
+    color: theme(--color-ink);
+    background: theme(--color-cream);
+  }
 }

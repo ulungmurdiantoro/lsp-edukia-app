@@ -36,7 +36,7 @@
 .scheme:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 10px 28px rgba(15,29,53,.07)}
 .scheme-header{padding:16px 20px;background:linear-gradient(135deg,var(--navy-800),var(--navy-700))}
 .scheme-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
-.scheme-badge{background:var(--orange);color:#fff;font-size:12px;font-weight:800;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;flex:0 0 auto;margin-top:2px}
+.scheme-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:0 0 auto}
 .scheme-name{color:#fff;font-weight:700;font-size:14.5px;line-height:1.35}
 .scheme-type{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:4px;line-height:1.4}
 .scheme-type strong{color:rgba(255,255,255,.75);font-weight:500}
@@ -885,6 +885,24 @@ chips.forEach(chip => {
       }
     });
   });
+});
+
+// Replace letter badges with category SVG icons (same as homepage cards)
+const catIcons = {
+  spmi:     'M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M13 9h.01M9 13h.01M13 13h.01M9 17h6',
+  pt:       'M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M13 9h.01M9 13h.01M13 13h.01M9 17h6',
+  lab17025: 'M9 3v6L4 19a2 2 0 002 3h12a2 2 0 002-3l-5-10V3M9 3h6M7 14h10',
+  labtest:  'M9 3v6L4 19a2 2 0 002 3h12a2 2 0 002-3l-5-10V3M9 3h6M7 14h10',
+  lifting:  'M3 21h18M6 21V8M6 8h13M6 8L4 6M6 8v3l4 4M19 8v2h-3',
+  manajemen:'M3 21h18M5 21V11l5 3V11l5 3V8l4-3v16',
+  riset:    'M12 3v18M5 7h14M7 21h10M5 7l-3 7h6L5 7zM19 7l-3 7h6l-3-7z',
+  hukum:    'M12 3v18M5 7h14M7 21h10M5 7l-3 7h6L5 7zM19 7l-3 7h6l-3-7z',
+};
+document.querySelectorAll('.scheme[data-cat]').forEach(scheme => {
+  const path = catIcons[scheme.dataset.cat];
+  if (!path) return;
+  const badge = scheme.querySelector('.scheme-badge');
+  if (badge) badge.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${path}"/></svg>`;
 });
 </script>
 @endsection

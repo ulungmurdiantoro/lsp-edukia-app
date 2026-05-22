@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blueprint — Skema Card B1 · LSP Edukia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --navy-900:#06172e; --navy-800:#0a2547; --navy-700:#102d57;
+  --navy-600:#173a6b; --navy-500:#21528f; --navy-50:#eef3fb;
+  --ink:#0f1d35; --ink-2:#2a3a55; --muted:#5a6a85;
+  --line:#e6e9f0; --line-2:#dfe3ec;
+  --cream:#f5f1e8; --cream-2:#efeadc; --paper:#ffffff; --paper-off:#fbf9f3;
+  --orange:#f4891f; --orange-deep:#d77110; --orange-50:#fdf0e1;
+  --blue:#449fe5; --blue-deep:#2a7fc4; --blue-50:#eaf4fd;
+  --green-ok:#2f8a55;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: var(--ink); background: var(--paper-off); line-height: 1.6; }
+a { color: var(--navy-800); }
+.mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+.serif { font-family: "Fraunces", serif; font-style: italic; font-weight: 400; }
+
+/* Layout */
+.layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; max-width: 1480px; margin: 0 auto; }
+aside.toc {
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  background: var(--paper); border-right: 1px solid var(--line);
+  padding: 36px 28px;
+}
+.toc-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.toc-brand img { height: 32px; }
+.toc-brand .pill { background: var(--orange-50); color: var(--orange-deep); padding: 3px 8px; border-radius: 4px;
+                    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.toc h4 { font-size: 10px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
+           color: var(--muted); margin: 24px 0 10px; }
+.toc ol { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.toc ol a { display: block; padding: 6px 10px; text-decoration: none; color: var(--ink-2);
+             font-size: 13.5px; border-radius: 6px; }
+.toc ol a:hover { background: var(--cream); color: var(--navy-800); }
+.toc ol a.section-num { color: var(--muted); font-family: "JetBrains Mono", monospace;
+                         font-size: 11.5px; margin-right: 6px; }
+
+main { padding: 56px 64px 96px; max-width: 920px; }
+
+/* Header */
+.doc-header { padding-bottom: 32px; border-bottom: 1px solid var(--line); margin-bottom: 48px; }
+.doc-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+                 color: var(--orange-deep); display: inline-flex; align-items: center; gap: 10px;
+                 margin-bottom: 16px; font-family: "JetBrains Mono", monospace; }
+.doc-eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--orange); }
+h1.doc-title { font-size: clamp(36px, 4vw, 52px); line-height: 1.05; letter-spacing: -0.03em;
+                font-weight: 800; margin: 0 0 18px; color: var(--ink); }
+h1.doc-title em { font-family: "Fraunces", serif; font-style: italic; font-weight: 400; color: var(--orange); }
+.doc-lead { font-size: 17px; color: var(--ink-2); line-height: 1.65; max-width: 64ch; margin: 0; }
+.doc-meta { display: flex; gap: 28px; margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line);
+             font-size: 12.5px; color: var(--muted); }
+.doc-meta strong { color: var(--ink); font-weight: 600; }
+
+/* Sections */
+section { margin-bottom: 64px; scroll-margin-top: 24px; }
+section h2 { font-size: 28px; line-height: 1.15; letter-spacing: -0.02em; font-weight: 700;
+              color: var(--ink); margin: 0 0 16px; display: flex; align-items: baseline; gap: 12px; }
+section h2 .num { font-family: "Fraunces", serif; font-style: italic; font-weight: 400;
+                   font-size: 32px; color: var(--orange); line-height: 1; }
+section h3 { font-size: 18px; font-weight: 700; color: var(--ink); margin: 32px 0 12px; letter-spacing: -0.01em; }
+section h4 { font-size: 14px; font-weight: 700; color: var(--ink); margin: 24px 0 10px; letter-spacing: -0.005em; }
+section p { font-size: 15px; color: var(--ink-2); margin: 0 0 14px; max-width: 70ch; }
+section p strong { color: var(--ink); font-weight: 700; }
+
+/* Tables */
+table.spec { width: 100%; border-collapse: collapse; margin: 18px 0 24px; font-size: 13.5px; }
+table.spec th, table.spec td { padding: 11px 14px; border-bottom: 1px solid var(--line);
+                                 text-align: left; vertical-align: top; }
+table.spec th { background: var(--cream); color: var(--muted); font-size: 11px; font-weight: 700;
+                  letter-spacing: 0.12em; text-transform: uppercase; }
+table.spec td { color: var(--ink-2); }
+table.spec td:first-child { color: var(--ink); font-weight: 600; }
+table.spec td.mono { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--navy-800); }
+table.spec .swatch { display: inline-flex; align-items: center; gap: 10px; }
+table.spec .swatch-box { width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--line-2);
+                         flex: 0 0 auto; }
+
+/* Code block */
+pre.code { background: #0d1421; color: #d9e0e9; border-radius: 12px; padding: 20px 24px;
+            overflow-x: auto; font-family: "JetBrains Mono", monospace; font-size: 13px;
+            line-height: 1.65; margin: 14px 0 22px; position: relative; }
+pre.code::before { content: attr(data-lang); position: absolute; top: 12px; right: 16px;
+                    font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+                    color: rgba(255,255,255,.4); }
+pre.code .c-comment { color: #6a7888; font-style: italic; }
+pre.code .c-tag { color: #ffa657; }
+pre.code .c-attr { color: #79c0ff; }
+pre.code .c-str { color: #a5d6ff; }
+pre.code .c-php { color: #d2a8ff; }
+pre.code .c-var { color: #ff7b72; }
+pre.code .c-key { color: #ff7b72; }
+pre.code .c-num { color: #79c0ff; }
+
+/* File path */
+.filepath { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px;
+            background: var(--cream); color: var(--ink); font-family: "JetBrains Mono", monospace;
+            font-size: 12.5px; font-weight: 600; }
+.filepath::before { content: "📄"; font-size: 11px; }
+
+/* Callout */
+.callout { background: var(--paper); border: 1px solid var(--line); border-left: 4px solid var(--blue);
+            border-radius: 8px; padding: 16px 20px; margin: 20px 0; font-size: 14px; color: var(--ink-2); }
+.callout.warn { border-left-color: var(--orange); background: var(--orange-50); color: #7d3e10; }
+.callout.ok { border-left-color: var(--green-ok); background: #ecfdf5; color: #14532d; }
+.callout strong { display: block; margin-bottom: 4px; color: var(--ink); font-weight: 700; }
+.callout.warn strong { color: #5a2c0c; }
+.callout.ok strong { color: #14532d; }
+
+/* Anatomy card visual */
+.anatomy-wrap { background: var(--cream); border-radius: 16px; padding: 36px;
+                 display: grid; grid-template-columns: 360px 1fr; gap: 40px; align-items: center;
+                 margin: 24px 0 28px; border: 1px solid var(--line); }
+.anatomy-legend { display: flex; flex-direction: column; gap: 14px; }
+.anatomy-legend-item { display: flex; gap: 12px; font-size: 13.5px; }
+.anatomy-legend-item .pin { width: 22px; height: 22px; border-radius: 50%; background: var(--orange);
+                             color: #fff; font-weight: 800; font-size: 11px; display: grid; place-items: center;
+                             flex: 0 0 auto; }
+.anatomy-legend-item div b { color: var(--ink); font-weight: 700; display: block; margin-bottom: 2px; }
+.anatomy-legend-item div span { color: var(--muted); font-size: 12.5px; }
+
+/* The mini card visual for anatomy */
+.card-anatomy {
+  background: #fff; border-radius: 18px; overflow: hidden; border: 1px solid var(--line);
+  position: relative; box-shadow: 0 10px 30px rgba(15,29,53,.08);
+}
+.card-anatomy .header { background: linear-gradient(135deg, var(--navy-800), var(--navy-700));
+                         color: #fff; padding: 20px 22px; position: relative; overflow: hidden; }
+.card-anatomy .header::after { content: ""; position: absolute; top: -40px; right: -40px;
+                                width: 140px; height: 140px; border-radius: 50%;
+                                background: radial-gradient(circle, rgba(26,74,138,.4), transparent 70%); }
+.card-anatomy .ico-icon { width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,.08);
+                           border: 1px solid rgba(255,255,255,.18); display: grid; place-items: center;
+                           color: #fff; }
+.card-anatomy .ico-pin { position: absolute; width: 22px; height: 22px; border-radius: 50%; background: var(--orange);
+                          color: #fff; font-weight: 800; font-size: 11px; display: grid; place-items: center;
+                          z-index: 5; box-shadow: 0 0 0 3px #fff; }
+
+/* Implementation steps */
+.steps { display: flex; flex-direction: column; gap: 14px; margin: 24px 0; }
+.step { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 18px 22px;
+        display: grid; grid-template-columns: 36px 1fr; gap: 16px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--navy-800); color: #fff;
+             font-weight: 800; font-size: 13px; display: grid; place-items: center; }
+.step h4 { margin: 0 0 4px; font-size: 15px; }
+.step p { font-size: 13.5px; margin: 0 0 8px; color: var(--ink-2); }
+.step ul { margin: 8px 0 0; padding-left: 18px; font-size: 13.5px; color: var(--ink-2); }
+.step ul li { margin-bottom: 4px; }
+
+/* Phone preview frame */
+.phone-row { display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: flex-start; margin: 24px 0; }
+.phone {
+  width: 280px; height: 540px; border-radius: 32px; background: #1a1f2e; padding: 12px;
+  box-shadow: 0 24px 48px rgba(15,29,53,.18);
+}
+.phone-screen {
+  width: 100%; height: 100%; border-radius: 22px; overflow: hidden; background: var(--cream);
+  display: flex; flex-direction: column;
+}
+.phone-card {
+  background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+  margin: 14px;
+}
+
+/* Color swatch grid */
+.swatch-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; border-radius: 12px;
+               overflow: hidden; border: 1px solid var(--line); margin: 14px 0; }
+.swatch { aspect-ratio: 1/1.1; padding: 12px; position: relative; }
+.swatch .label { position: absolute; bottom: 10px; left: 12px; font-size: 10.5px; font-weight: 700;
+                  font-family: "JetBrains Mono", monospace; }
+
+/* Checklist */
+.checklist { background: var(--paper); border: 1px solid var(--line); border-radius: 12px;
+              padding: 20px 24px; margin: 20px 0; }
+.checklist h4 { margin: 0 0 12px; font-size: 14px; }
+.checklist ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.checklist li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 13.5px; color: var(--ink-2);
+                 line-height: 1.55; }
+.checklist li .box { width: 18px; height: 18px; border: 1.5px solid var(--line-2); border-radius: 4px; margin-top: 2px; }
+
+/* Print */
+@media print {
+  body { background: #fff; }
+  .layout { grid-template-columns: 1fr; }
+  aside.toc { display: none; }
+  main { padding: 20px; max-width: 100%; }
+  pre.code { background: #f6f8fa; color: #24292f; border: 1px solid #d0d7de; }
+  pre.code .c-comment { color: #6e7781; }
+  pre.code .c-tag, pre.code .c-key, pre.code .c-var { color: #cf222e; }
+  pre.code .c-attr, pre.code .c-num { color: #0550ae; }
+  pre.code .c-str, pre.code .c-php { color: #0a3069; }
+  section { page-break-inside: avoid; }
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  aside.toc { display: none; }
+  main { padding: 32px 20px; }
+  .anatomy-wrap { grid-template-columns: 1fr; gap: 24px; }
+  .phone-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<aside class="toc">
+  <div class="toc-brand">
+    <img src="assets/logo-edukia.png" alt="LSP Edukia">
+  </div>
+  <div style="font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;font-weight:700;font-family:'JetBrains Mono',monospace;margin-bottom:8px">Developer Handoff</div>
+  <div style="font-size:14px;color:var(--ink);font-weight:700;margin-bottom:4px;line-height:1.3">Skema Card B1 Blueprint</div>
+  <div style="font-size:12px;color:var(--muted)">v1.0 · 2026</div>
+
+  <h4>Sections</h4>
+  <ol>
+    <li><a href="#overview"><span class="section-num">01</span> Overview</a></li>
+    <li><a href="#tokens"><span class="section-num">02</span> Design tokens</a></li>
+    <li><a href="#tailwind"><span class="section-num">03</span> Tailwind config</a></li>
+    <li><a href="#anatomy"><span class="section-num">04</span> Anatomy card</a></li>
+    <li><a href="#component"><span class="section-num">05</span> Blade component</a></li>
+    <li><a href="#usage"><span class="section-num">06</span> Usage</a></li>
+    <li><a href="#mobile"><span class="section-num">07</span> Mobile responsive</a></li>
+    <li><a href="#integration"><span class="section-num">08</span> Integration steps</a></li>
+    <li><a href="#checklist"><span class="section-num">09</span> QA checklist</a></li>
+  </ol>
+
+  <h4 style="margin-top:32px">Related</h4>
+  <ol>
+    <li><a href="LSP Edukia Redesign.html">→ Design canvas</a></li>
+  </ol>
+
+  <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6">
+    <strong style="color:var(--ink);display:block;margin-bottom:6px">Tech stack</strong>
+    Laravel 11 · Blade · Tailwind v4 · Vite
+  </div>
+</aside>
+
+<main>
+
+<!-- HEADER -->
+<header class="doc-header">
+  <div class="doc-eyebrow">Developer Handoff · Variant B1 (Headline)</div>
+  <h1 class="doc-title">Card Skema Kompetensi — <em>blueprint</em> implementasi.</h1>
+  <p class="doc-lead">
+    Panduan lengkap untuk mengimplementasikan card skema kompetensi versi B1 (Headline) ke
+    aplikasi <span class="mono">lsp-edukia-app</span> — design tokens, kode Blade component, varian mobile, dan langkah integrasi.
+  </p>
+  <div class="doc-meta">
+    <span><strong>Tech</strong> · Laravel 11 + Tailwind v4 + Blade</span>
+    <span><strong>Output</strong> · 1 component file + CSS tokens</span>
+    <span><strong>Estimasi</strong> · 2–3 jam implementasi</span>
+  </div>
+</header>
+
+<!-- 01 OVERVIEW -->
+<section id="overview">
+  <h2><span class="num">01</span> Overview</h2>
+  <p>
+    Card <strong>B1 Headline</strong> adalah varian yang dipilih sebagai master untuk seluruh sistem.
+    Karakteristiknya: <strong>navy gradient header band</strong> dengan ikon kategori, badge "Skema 0X" berwarna oranye,
+    kode dokumen mono, judul putih, kategori chip berwarna sesuai bidang, body dengan checkmark list,
+    dan <strong>pil CTA</strong> di bottom yang menggabungkan jumlah unit + tombol detail.
+  </p>
+
+  <div class="anatomy-wrap" style="grid-template-columns:1fr">
+    <div style="display:flex;justify-content:center">
+      <div class="card-anatomy" style="width:380px">
+        <div class="header">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative">
+            <div style="display:flex;gap:12px;align-items:center">
+              <div class="ico-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+                  <path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M13 9h.01M9 13h.01M13 13h.01M9 17h6"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size:10.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange)">Skema 01</div>
+                <div style="font-size:11.5px;color:rgba(255,255,255,.55);font-family:'JetBrains Mono',monospace;margin-top:2px">EDUKIA-AIL-2024-001</div>
+              </div>
+            </div>
+          </div>
+          <h3 style="font-size:17.5px;line-height:1.3;letter-spacing:-0.01em;font-weight:700;color:#fff;margin:18px 0 12px">Auditor Internal SPMI Terintegrasi ISO 21001:2018</h3>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:6px;font-size:11px;font-weight:700;background:#e0ebff;color:#1a4a8a;letter-spacing:0.02em">
+            <span style="width:6px;height:6px;border-radius:50%;background:#1a4a8a"></span>
+            SPMI ISO 21001
+          </span>
+        </div>
+        <div style="padding:22px 22px 18px">
+          <div style="font-size:10.5px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Persyaratan Dasar</div>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px">
+            <li style="display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:flex-start">
+              <span style="width:20px;height:20px;border-radius:6px;background:var(--navy-50);color:var(--navy-700);display:grid;place-items:center;margin-top:1px">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+              </span>
+              <span style="font-size:13.5px;line-height:1.55;color:var(--ink-2)">Pendidikan minimal S2</span>
+            </li>
+            <li style="display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:flex-start">
+              <span style="width:20px;height:20px;border-radius:6px;background:var(--navy-50);color:var(--navy-700);display:grid;place-items:center;margin-top:1px">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+              </span>
+              <span style="font-size:13.5px;line-height:1.55;color:var(--ink-2)">Pengalaman kerja di Perguruan Tinggi</span>
+            </li>
+            <li style="display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:flex-start">
+              <span style="width:20px;height:20px;border-radius:6px;background:var(--navy-50);color:var(--navy-700);display:grid;place-items:center;margin-top:1px">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+              </span>
+              <span style="font-size:13.5px;line-height:1.55;color:var(--ink-2)">Sertifikat Pelatihan Auditor Internal</span>
+            </li>
+          </ul>
+        </div>
+        <div style="padding:0 22px 22px">
+          <a href="#" style="display:flex;justify-content:space-between;align-items:center;background:var(--cream);border:1px solid var(--line-2);border-radius:999px;padding:8px 8px 8px 18px;text-decoration:none;color:var(--ink);font-weight:600;font-size:13.5px">
+            <span><span style="color:var(--navy-800);font-weight:800">7</span><span style="color:var(--muted)"> unit kompetensi</span></span>
+            <span style="background:var(--navy-800);color:#fff;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700;letter-spacing:0.02em;display:inline-flex;align-items:center;gap:6px">
+              Lihat detail
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 TOKENS -->
+<section id="tokens">
+  <h2><span class="num">02</span> Design tokens</h2>
+  <p>Semua warna sudah ada di hardcoded CSS di <span class="filepath">resources/views/layouts/app.blade.php</span>. Pindahkan ke Tailwind v4 <span class="mono">@theme</span> agar bisa diakses sebagai utility class.</p>
+
+  <h3>Brand colors</h3>
+  <table class="spec">
+    <thead><tr><th>Token</th><th>Hex</th><th>Tailwind class</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td><span class="swatch"><span class="swatch-box" style="background:#06172e"></span>Navy 900</span></td><td class="mono">#06172e</td><td class="mono">bg-navy-900</td><td>Footer, deep backgrounds</td></tr>
+      <tr><td><span class="swatch"><span class="swatch-box" style="background:#0a2547"></span>Navy 800</span></td><td class="mono">#0a2547</td><td class="mono">bg-navy-800</td><td>Card header gradient start, nav active</td></tr>
+      <tr><td><span class="swatch"><span class="swatch-box" style="background:#102d57"></span>Navy 700</span></td><td class="mono">#102d57</td><td class="mono">bg-navy-700</td><td>Card header gradient end</td></tr>
+      <tr><td><span class="swatch"><span class="swatch-box" style="background:#eef3fb"></span>Navy 50</span></td><td class="mono">#eef3fb</td><td class="mono">bg-navy-50</td><td>Checkmark icon bg, soft tint</td></tr>
+      <tr><td><span class="swatch"><span class="swatch-box" style="background:#f4891f"></span>Orange</span></td><td class="mono">#f4891f</td><td class="mono">bg-orange / text-orange</td><td>CTA buttons, "Skema 0X" label, accent</td></tr>
+      <tr><td><span class="swatch"><span class="swatch-box" style="background:#d77110"></span>Orange Deep</span></td><td class="mono">#d77110</td><td class="mono">bg-orange-deep</td><td>CTA hover, eyebrow text</td></tr>
+      <tr><td><span class="swatch"><span class="swatch-box" style="background:#449fe5"></span>Blue</span></td><td class="mono">#449fe5</td><td class="mono">bg-blue / text-blue</td><td>Italic display accent (Fraunces)</td></tr>
+      <tr><td><span class="swatch"><span class="swatch-box" style="background:#f5f1e8"></span>Cream</span></td><td class="mono">#f5f1e8</td><td class="mono">bg-cream</td><td>Page background, CTA pill bg</td></tr>
+      <tr><td><span class="swatch"><span class="swatch-box" style="background:#e6e9f0"></span>Line</span></td><td class="mono">#e6e9f0</td><td class="mono">border-line</td><td>Card borders, dividers</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Category colors (mapping ke field <span class="mono">kategori</span>)</h3>
+  <table class="spec">
+    <thead><tr><th>Kategori</th><th>Chip BG</th><th>Chip text</th><th>Hex</th></tr></thead>
+    <tbody>
+      <tr><td>spmi</td><td><span class="swatch"><span class="swatch-box" style="background:#e0ebff"></span>SPMI ISO 21001</span></td><td style="color:#1a4a8a;font-weight:700">SPMI ISO 21001</td><td class="mono">#1a4a8a / #e0ebff</td></tr>
+      <tr><td>pt</td><td><span class="swatch"><span class="swatch-box" style="background:#eef3fb"></span>Perguruan Tinggi</span></td><td style="color:#102d57;font-weight:700">Perguruan Tinggi</td><td class="mono">#102d57 / #eef3fb</td></tr>
+      <tr><td>lab17025, labtest</td><td><span class="swatch"><span class="swatch-box" style="background:#e3f5ea"></span>Laboratorium</span></td><td style="color:#1a5c35;font-weight:700">Lab ISO 17025</td><td class="mono">#1a5c35 / #e3f5ea</td></tr>
+      <tr><td>lifting</td><td><span class="swatch"><span class="swatch-box" style="background:#fdf0e1"></span>Lifting</span></td><td style="color:#d77110;font-weight:700">Lifting Engineering</td><td class="mono">#d77110 / #fdf0e1</td></tr>
+      <tr><td>manajemen</td><td><span class="swatch"><span class="swatch-box" style="background:#fde8e8"></span>Sistem Manajemen</span></td><td style="color:#922b2b;font-weight:700">Sistem Manajemen</td><td class="mono">#922b2b / #fde8e8</td></tr>
+      <tr><td>hukum</td><td><span class="swatch"><span class="swatch-box" style="background:#f0ecfa"></span>Hukum Korporasi</span></td><td style="color:#5a3aa6;font-weight:700">Hukum Korporasi</td><td class="mono">#5a3aa6 / #f0ecfa</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Typography</h3>
+  <table class="spec">
+    <thead><tr><th>Role</th><th>Family</th><th>Weight</th><th>Tailwind</th></tr></thead>
+    <tbody>
+      <tr><td>UI / Body / Headings</td><td>Plus Jakarta Sans</td><td>400 / 500 / 700 / 800</td><td class="mono">font-sans</td></tr>
+      <tr><td>Italic display accent</td><td>Fraunces</td><td>400 italic</td><td class="mono">font-display italic</td></tr>
+      <tr><td>Code / metadata</td><td>JetBrains Mono / ui-monospace</td><td>500 / 600</td><td class="mono">font-mono</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 03 TAILWIND -->
+<section id="tailwind">
+  <h2><span class="num">03</span> Tailwind v4 config</h2>
+  <p>Aplikasi Anda sudah pakai Tailwind v4 dengan <span class="mono">@theme</span> directive. Tambahkan tokens berikut ke <span class="filepath">resources/css/app.css</span>:</p>
+
+  <pre class="code" data-lang="CSS · resources/css/app.css"><span class="c-tag">@import</span> <span class="c-str">'tailwindcss'</span>;
+
+<span class="c-tag">@source</span> <span class="c-str">'../**/*.blade.php'</span>;
+<span class="c-tag">@source</span> <span class="c-str">'../**/*.js'</span>;
+
+<span class="c-tag">@theme</span> {
+  <span class="c-comment">/* Typography */</span>
+  <span class="c-attr">--font-sans</span>: <span class="c-str">"Plus Jakarta Sans"</span>, ui-sans-serif, system-ui, sans-serif;
+  <span class="c-attr">--font-display</span>: <span class="c-str">"Fraunces"</span>, ui-serif, Georgia, serif;
+  <span class="c-attr">--font-mono</span>: <span class="c-str">"JetBrains Mono"</span>, ui-monospace, SFMono-Regular, monospace;
+
+  <span class="c-comment">/* Navy scale */</span>
+  <span class="c-attr">--color-navy-50</span>:  <span class="c-num">#eef3fb</span>;
+  <span class="c-attr">--color-navy-500</span>: <span class="c-num">#21528f</span>;
+  <span class="c-attr">--color-navy-600</span>: <span class="c-num">#173a6b</span>;
+  <span class="c-attr">--color-navy-700</span>: <span class="c-num">#102d57</span>;
+  <span class="c-attr">--color-navy-800</span>: <span class="c-num">#0a2547</span>;
+  <span class="c-attr">--color-navy-900</span>: <span class="c-num">#06172e</span>;
+
+  <span class="c-comment">/* Accents */</span>
+  <span class="c-attr">--color-orange</span>:      <span class="c-num">#f4891f</span>;
+  <span class="c-attr">--color-orange-deep</span>: <span class="c-num">#d77110</span>;
+  <span class="c-attr">--color-orange-50</span>:   <span class="c-num">#fdf0e1</span>;
+  <span class="c-attr">--color-blue</span>:        <span class="c-num">#449fe5</span>;
+  <span class="c-attr">--color-blue-deep</span>:   <span class="c-num">#2a7fc4</span>;
+  <span class="c-attr">--color-blue-50</span>:     <span class="c-num">#eaf4fd</span>;
+
+  <span class="c-comment">/* Ink (text) */</span>
+  <span class="c-attr">--color-ink</span>:    <span class="c-num">#0f1d35</span>;
+  <span class="c-attr">--color-ink-2</span>:  <span class="c-num">#2a3a55</span>;
+  <span class="c-attr">--color-muted</span>:  <span class="c-num">#5a6a85</span>;
+
+  <span class="c-comment">/* Surfaces */</span>
+  <span class="c-attr">--color-cream</span>:   <span class="c-num">#f5f1e8</span>;
+  <span class="c-attr">--color-cream-2</span>: <span class="c-num">#efeadc</span>;
+  <span class="c-attr">--color-line</span>:    <span class="c-num">#e6e9f0</span>;
+  <span class="c-attr">--color-line-2</span>:  <span class="c-num">#dfe3ec</span>;
+}
+
+<span class="c-comment">/* Web fonts */</span>
+<span class="c-tag">@layer</span> base {
+  body { font-family: theme(<span class="c-str">--font-sans</span>); color: theme(<span class="c-str">--color-ink</span>); }
+}</pre>
+
+  <div class="callout">
+    <strong>Tip</strong>
+    Setelah ini, kelas seperti <span class="mono">bg-navy-800</span>, <span class="mono">text-orange</span>, <span class="mono">border-line</span>, <span class="mono">font-display</span> langsung tersedia di Blade.
+  </div>
+
+  <h3>Load fonts</h3>
+  <p>Tambahkan ke <span class="mono">&lt;head&gt;</span> di <span class="filepath">resources/views/layouts/app.blade.php</span> (sudah ada untuk Plus Jakarta Sans + Fraunces, cukup tambahkan JetBrains Mono untuk kode):</p>
+  <pre class="code" data-lang="HTML"><span class="c-tag">&lt;link</span> <span class="c-attr">rel</span>=<span class="c-str">"preconnect"</span> <span class="c-attr">href</span>=<span class="c-str">"https://fonts.googleapis.com"</span><span class="c-tag">&gt;</span>
+<span class="c-tag">&lt;link</span> <span class="c-attr">rel</span>=<span class="c-str">"preconnect"</span> <span class="c-attr">href</span>=<span class="c-str">"https://fonts.gstatic.com"</span> <span class="c-attr">crossorigin</span><span class="c-tag">&gt;</span>
+<span class="c-tag">&lt;link</span> <span class="c-attr">href</span>=<span class="c-str">"https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap"</span> <span class="c-attr">rel</span>=<span class="c-str">"stylesheet"</span><span class="c-tag">&gt;</span></pre>
+</section>
+
+<!-- 04 ANATOMY -->
+<section id="anatomy">
+  <h2><span class="num">04</span> Anatomy card</h2>
+  <p>Card terdiri dari 3 region utama. Semua ukuran fixed, kecuali width yang fluid mengikuti grid container.</p>
+
+  <table class="spec">
+    <thead><tr><th>Region</th><th>Padding</th><th>Background</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Card wrapper</td><td class="mono">—</td><td class="mono">#fff</td><td>border 1px line, border-radius 18px, overflow hidden</td></tr>
+      <tr><td>Header band</td><td class="mono">20px 22px</td><td class="mono">linear-gradient navy-800 → navy-700</td><td>relative; corner radial pattern di top-right</td></tr>
+      <tr><td>Icon tile</td><td class="mono">9px (38×38)</td><td class="mono">rgba(255,255,255,.08)</td><td>border 1px white/18, rounded-lg</td></tr>
+      <tr><td>"Skema 0X" label</td><td class="mono">—</td><td class="mono">—</td><td>10.5px / 700 / 0.18em / uppercase / text-orange</td></tr>
+      <tr><td>Code line</td><td class="mono">—</td><td class="mono">—</td><td>11.5px / mono / white/55</td></tr>
+      <tr><td>Title (h3)</td><td class="mono">margin 18/0 12/0</td><td class="mono">—</td><td>17.5px / 700 / leading-1.3 / -0.01em / text-balance</td></tr>
+      <tr><td>Category chip</td><td class="mono">5px 10px</td><td class="mono">cat.bg</td><td>border-radius 6px, fontSize 11/700, with dot indicator</td></tr>
+      <tr><td>Body</td><td class="mono">22px (top: 22px, bottom: 18px)</td><td class="mono">#fff</td><td>"Persyaratan dasar" eyebrow + ul</td></tr>
+      <tr><td>Check icon tile</td><td class="mono">— (20×20)</td><td class="mono">bg-navy-50</td><td>rounded 6px, text-navy-700, stroke 2.5</td></tr>
+      <tr><td>Requirement item</td><td class="mono">grid 22px / 1fr / gap 10px</td><td class="mono">—</td><td>13.5px / leading-1.55 / text-ink-2</td></tr>
+      <tr><td>CTA pill</td><td class="mono">12px 8px 12px 18px</td><td class="mono">bg-cream</td><td>border-radius 999px, navy-800 detail button inset</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 05 COMPONENT -->
+<section id="component">
+  <h2><span class="num">05</span> Blade component</h2>
+  <p>Buat file komponen Laravel Blade. Karena pakai data dari controller (lihat <span class="mono">PageController</span>), terima props <span class="mono">$scheme</span> dengan field: <span class="mono">nomor</span>, <span class="mono">kode</span>, <span class="mono">judul</span>, <span class="mono">kategori</span>, <span class="mono">jumlah_unit</span>, dan array <span class="mono">$reqs</span>.</p>
+
+  <h3>File: <span class="filepath">resources/views/components/skema-card.blade.php</span></h3>
+
+  <pre class="code" data-lang="Blade · PHP"><span class="c-tag">@props</span>([<span class="c-str">'scheme'</span>])
+
+<span class="c-tag">@php</span>
+<span class="c-comment">// Map category → chip color + icon name</span>
+<span class="c-var">$cats</span> = [
+  <span class="c-str">'spmi'</span>      =&gt; [<span class="c-str">'label'</span>=&gt;<span class="c-str">'SPMI ISO 21001'</span>,   <span class="c-str">'color'</span>=&gt;<span class="c-str">'#1a4a8a'</span>, <span class="c-str">'bg'</span>=&gt;<span class="c-str">'#e0ebff'</span>, <span class="c-str">'icon'</span>=&gt;<span class="c-str">'building'</span>],
+  <span class="c-str">'pt'</span>        =&gt; [<span class="c-str">'label'</span>=&gt;<span class="c-str">'Perguruan Tinggi'</span>, <span class="c-str">'color'</span>=&gt;<span class="c-str">'#102d57'</span>, <span class="c-str">'bg'</span>=&gt;<span class="c-str">'#eef3fb'</span>, <span class="c-str">'icon'</span>=&gt;<span class="c-str">'building'</span>],
+  <span class="c-str">'lab17025'</span>  =&gt; [<span class="c-str">'label'</span>=&gt;<span class="c-str">'Lab ISO 17025'</span>,    <span class="c-str">'color'</span>=&gt;<span class="c-str">'#1a5c35'</span>, <span class="c-str">'bg'</span>=&gt;<span class="c-str">'#e3f5ea'</span>, <span class="c-str">'icon'</span>=&gt;<span class="c-str">'beaker'</span>],
+  <span class="c-str">'labtest'</span>   =&gt; [<span class="c-str">'label'</span>=&gt;<span class="c-str">'Lab &amp; Pengujian'</span>,  <span class="c-str">'color'</span>=&gt;<span class="c-str">'#1a5c35'</span>, <span class="c-str">'bg'</span>=&gt;<span class="c-str">'#e3f5ea'</span>, <span class="c-str">'icon'</span>=&gt;<span class="c-str">'beaker'</span>],
+  <span class="c-str">'lifting'</span>   =&gt; [<span class="c-str">'label'</span>=&gt;<span class="c-str">'Lifting Eng.'</span>,     <span class="c-str">'color'</span>=&gt;<span class="c-str">'#d77110'</span>, <span class="c-str">'bg'</span>=&gt;<span class="c-str">'#fdf0e1'</span>, <span class="c-str">'icon'</span>=&gt;<span class="c-str">'crane'</span>],
+  <span class="c-str">'manajemen'</span> =&gt; [<span class="c-str">'label'</span>=&gt;<span class="c-str">'Sistem Manajemen'</span>, <span class="c-str">'color'</span>=&gt;<span class="c-str">'#922b2b'</span>, <span class="c-str">'bg'</span>=&gt;<span class="c-str">'#fde8e8'</span>, <span class="c-str">'icon'</span>=&gt;<span class="c-str">'factory'</span>],
+  <span class="c-str">'hukum'</span>     =&gt; [<span class="c-str">'label'</span>=&gt;<span class="c-str">'Hukum Korporasi'</span>,  <span class="c-str">'color'</span>=&gt;<span class="c-str">'#5a3aa6'</span>, <span class="c-str">'bg'</span>=&gt;<span class="c-str">'#f0ecfa'</span>, <span class="c-str">'icon'</span>=&gt;<span class="c-str">'scale'</span>],
+];
+<span class="c-var">$cat</span> = <span class="c-var">$cats</span>[<span class="c-var">$scheme</span>[<span class="c-str">'kategori'</span>]] ?? <span class="c-var">$cats</span>[<span class="c-str">'spmi'</span>];
+<span class="c-tag">@endphp</span>
+
+<span class="c-tag">&lt;article</span> <span class="c-attr">class</span>=<span class="c-str">"bg-white rounded-2xl overflow-hidden border border-line flex flex-col
+                  shadow-[0_1px_0_rgba(15,29,53,0.02)] transition hover:-translate-y-0.5 
+                  hover:shadow-lg"</span><span class="c-tag">&gt;</span>
+
+  <span class="c-comment">{{-- ===== HEADER BAND ===== --}}</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"relative overflow-hidden p-5 bg-gradient-to-br from-navy-800 to-navy-700 text-white"</span><span class="c-tag">&gt;</span>
+    <span class="c-comment">{{-- Decorative corner glow --}}</span>
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"absolute -top-10 -right-10 w-36 h-36 rounded-full pointer-events-none"</span>
+         <span class="c-attr">style</span>=<span class="c-str">"background: radial-gradient(circle, {{ <span class="c-var">$cat</span>[<span class="c-str">'color'</span>] }}40, transparent 70%);"</span><span class="c-tag">&gt;&lt;/div&gt;</span>
+
+    <span class="c-comment">{{-- Top row: icon + number/code --}}</span>
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"relative flex justify-between items-start gap-3"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"flex gap-3 items-center"</span><span class="c-tag">&gt;</span>
+        <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"w-9 h-9 rounded-lg bg-white/10 border border-white/20 grid place-items-center"</span><span class="c-tag">&gt;</span>
+          <span class="c-tag">&lt;x-icon</span> <span class="c-attr">:name</span>=<span class="c-str">"$cat[<span class="c-str">'icon'</span>]"</span> <span class="c-attr">class</span>=<span class="c-str">"w-5 h-5"</span> <span class="c-tag">/&gt;</span>
+        <span class="c-tag">&lt;/div&gt;</span>
+        <span class="c-tag">&lt;div&gt;</span>
+          <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"text-[10.5px] font-bold tracking-[0.18em] uppercase text-orange"</span><span class="c-tag">&gt;</span>
+            Skema {{ <span class="c-var">$scheme</span>[<span class="c-str">'nomor'</span>] }}
+          <span class="c-tag">&lt;/div&gt;</span>
+          <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"text-[11.5px] text-white/55 font-mono mt-0.5"</span><span class="c-tag">&gt;</span>
+            {{ <span class="c-var">$scheme</span>[<span class="c-str">'kode'</span>] }}
+          <span class="c-tag">&lt;/div&gt;</span>
+        <span class="c-tag">&lt;/div&gt;</span>
+      <span class="c-tag">&lt;/div&gt;</span>
+    <span class="c-tag">&lt;/div&gt;</span>
+
+    <span class="c-comment">{{-- Title --}}</span>
+    <span class="c-tag">&lt;h3</span> <span class="c-attr">class</span>=<span class="c-str">"text-[17.5px] leading-tight tracking-tight font-bold text-white 
+                   mt-4 mb-3 text-balance"</span><span class="c-tag">&gt;</span>
+      {{ <span class="c-var">$scheme</span>[<span class="c-str">'judul'</span>] }}
+    <span class="c-tag">&lt;/h3&gt;</span>
+
+    <span class="c-comment">{{-- Category chip --}}</span>
+    <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-str">"inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md 
+                     text-[11px] font-bold tracking-wider"</span>
+          <span class="c-attr">style</span>=<span class="c-str">"background: {{ <span class="c-var">$cat</span>[<span class="c-str">'bg'</span>] }}; color: {{ <span class="c-var">$cat</span>[<span class="c-str">'color'</span>] }};"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-str">"w-1.5 h-1.5 rounded-full"</span>
+            <span class="c-attr">style</span>=<span class="c-str">"background: {{ <span class="c-var">$cat</span>[<span class="c-str">'color'</span>] }}"</span><span class="c-tag">&gt;&lt;/span&gt;</span>
+      {{ <span class="c-var">$cat</span>[<span class="c-str">'label'</span>] }}
+    <span class="c-tag">&lt;/span&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+
+  <span class="c-comment">{{-- ===== BODY ===== --}}</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"p-5 pt-[22px] flex-1"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"text-[10.5px] font-extrabold tracking-[0.16em] uppercase text-muted mb-3.5"</span><span class="c-tag">&gt;</span>
+      Persyaratan Dasar
+    <span class="c-tag">&lt;/div&gt;</span>
+    <span class="c-tag">&lt;ul</span> <span class="c-attr">class</span>=<span class="c-str">"space-y-2.5 list-none p-0 m-0"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">@foreach</span>(<span class="c-var">$scheme</span>[<span class="c-str">'reqs'</span>] as <span class="c-var">$req</span>)
+      <span class="c-tag">&lt;li</span> <span class="c-attr">class</span>=<span class="c-str">"grid grid-cols-[22px_1fr] gap-2.5 items-start"</span><span class="c-tag">&gt;</span>
+        <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-str">"w-5 h-5 rounded-md bg-navy-50 text-navy-700 
+                       grid place-items-center mt-px flex-shrink-0"</span><span class="c-tag">&gt;</span>
+          <span class="c-tag">&lt;svg</span> <span class="c-attr">class</span>=<span class="c-str">"w-3 h-3"</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0 0 24 24"</span> <span class="c-attr">fill</span>=<span class="c-str">"none"</span> 
+               <span class="c-attr">stroke</span>=<span class="c-str">"currentColor"</span> <span class="c-attr">stroke-width</span>=<span class="c-str">"2.5"</span> <span class="c-attr">stroke-linecap</span>=<span class="c-str">"round"</span> 
+               <span class="c-attr">stroke-linejoin</span>=<span class="c-str">"round"</span><span class="c-tag">&gt;</span>
+            <span class="c-tag">&lt;path</span> <span class="c-attr">d</span>=<span class="c-str">"M4 12l5 5L20 6"</span> <span class="c-tag">/&gt;</span>
+          <span class="c-tag">&lt;/svg&gt;</span>
+        <span class="c-tag">&lt;/span&gt;</span>
+        <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-str">"text-[13.5px] leading-relaxed text-ink-2"</span><span class="c-tag">&gt;</span>{{ <span class="c-var">$req</span> }}<span class="c-tag">&lt;/span&gt;</span>
+      <span class="c-tag">&lt;/li&gt;</span>
+      <span class="c-tag">@endforeach</span>
+    <span class="c-tag">&lt;/ul&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+
+  <span class="c-comment">{{-- ===== CTA PILL ===== --}}</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"px-5 pb-5"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-str">"{{ route('skema') }}#skema-{{ <span class="c-var">$scheme</span>[<span class="c-str">'nomor'</span>] }}"</span>
+       <span class="c-attr">class</span>=<span class="c-str">"flex justify-between items-center bg-cream border border-line-2 
+              rounded-full py-3 pl-4 pr-1.5 no-underline text-ink font-semibold text-[13.5px]
+              hover:bg-cream-2 transition"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">&lt;span&gt;</span>
+        <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-str">"text-navy-800 font-extrabold"</span><span class="c-tag">&gt;</span>{{ <span class="c-var">$scheme</span>[<span class="c-str">'jumlah_unit'</span>] }}<span class="c-tag">&lt;/span&gt;</span>
+        <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-str">"text-muted"</span><span class="c-tag">&gt;</span> unit kompetensi<span class="c-tag">&lt;/span&gt;</span>
+      <span class="c-tag">&lt;/span&gt;</span>
+      <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-str">"bg-navy-800 text-white rounded-full px-3.5 py-1.5 
+                     text-xs font-bold tracking-wider inline-flex items-center gap-1.5"</span><span class="c-tag">&gt;</span>
+        Lihat detail
+        <span class="c-tag">&lt;svg</span> <span class="c-attr">class</span>=<span class="c-str">"w-3 h-3"</span> <span class="c-attr">viewBox</span>=<span class="c-str">"0 0 24 24"</span> <span class="c-attr">fill</span>=<span class="c-str">"none"</span> 
+             <span class="c-attr">stroke</span>=<span class="c-str">"currentColor"</span> <span class="c-attr">stroke-width</span>=<span class="c-str">"2.5"</span> <span class="c-attr">stroke-linecap</span>=<span class="c-str">"round"</span><span class="c-tag">&gt;</span>
+          <span class="c-tag">&lt;path</span> <span class="c-attr">d</span>=<span class="c-str">"M5 12h14M13 6l6 6-6 6"</span> <span class="c-tag">/&gt;</span>
+        <span class="c-tag">&lt;/svg&gt;</span>
+      <span class="c-tag">&lt;/span&gt;</span>
+    <span class="c-tag">&lt;/a&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/article&gt;</span></pre>
+
+  <h3>Optional: extract icons to a component</h3>
+  <p>Sederhanakan dengan helper komponen <span class="filepath">resources/views/components/icon.blade.php</span>:</p>
+  <pre class="code" data-lang="Blade · PHP"><span class="c-tag">@props</span>([<span class="c-str">'name'</span>])
+
+<span class="c-tag">@php</span>
+<span class="c-var">$paths</span> = [
+  <span class="c-str">'building'</span> =&gt; <span class="c-str">'M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M13 9h.01M9 13h.01M13 13h.01M9 17h6'</span>,
+  <span class="c-str">'beaker'</span>   =&gt; <span class="c-str">'M9 3v6L4 19a2 2 0 002 3h12a2 2 0 002-3l-5-10V3M9 3h6M7 14h10'</span>,
+  <span class="c-str">'crane'</span>    =&gt; <span class="c-str">'M3 21h18M6 21V8M6 8h13M6 8L4 6M6 8v3l4 4M19 8v2h-3'</span>,
+  <span class="c-str">'factory'</span>  =&gt; <span class="c-str">'M3 21h18M5 21V11l5 3V11l5 3V8l4-3v16'</span>,
+  <span class="c-str">'scale'</span>    =&gt; <span class="c-str">'M12 3v18M5 7h14M7 21h10M5 7l-3 7h6L5 7zM19 7l-3 7h6l-3-7z'</span>,
+];
+<span class="c-tag">@endphp</span>
+
+<span class="c-tag">&lt;svg</span> {{ <span class="c-var">$attributes</span>-&gt;<span class="c-attr">merge</span>([<span class="c-str">'viewBox'</span>=&gt;<span class="c-str">'0 0 24 24'</span>, <span class="c-str">'fill'</span>=&gt;<span class="c-str">'none'</span>, 
+                          <span class="c-str">'stroke'</span>=&gt;<span class="c-str">'currentColor'</span>, <span class="c-str">'stroke-width'</span>=&gt;<span class="c-str">'1.6'</span>, 
+                          <span class="c-str">'stroke-linejoin'</span>=&gt;<span class="c-str">'round'</span>, <span class="c-str">'stroke-linecap'</span>=&gt;<span class="c-str">'round'</span>]) }}<span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;path</span> <span class="c-attr">d</span>=<span class="c-str">"{{ <span class="c-var">$paths</span>[<span class="c-var">$name</span>] ?? <span class="c-str">''</span> }}"</span> <span class="c-tag">/&gt;</span>
+<span class="c-tag">&lt;/svg&gt;</span></pre>
+</section>
+
+<!-- 06 USAGE -->
+<section id="usage">
+  <h2><span class="num">06</span> Usage di halaman</h2>
+  <p>Update <span class="filepath">resources/views/index.blade.php</span> dan <span class="filepath">resources/views/skema-sertifikasi.blade.php</span>:</p>
+
+  <h3>Loop di home page (excerpt)</h3>
+  <pre class="code" data-lang="Blade"><span class="c-comment">{{-- index.blade.php · section persyaratan --}}</span>
+<span class="c-tag">&lt;section</span> <span class="c-attr">id</span>=<span class="c-str">"persyaratan"</span> <span class="c-attr">class</span>=<span class="c-str">"py-24 bg-cream"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"wrap"</span><span class="c-tag">&gt;</span>
+    <span class="c-comment">{{-- ... section head ... --}}</span>
+
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"</span> <span class="c-attr">id</span>=<span class="c-str">"schemes"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">@foreach</span>(<span class="c-var">$schemes</span> as <span class="c-var">$scheme</span>)
+        <span class="c-tag">&lt;x-skema-card</span> <span class="c-attr">:scheme</span>=<span class="c-str">"$scheme"</span> <span class="c-tag">/&gt;</span>
+      <span class="c-tag">@endforeach</span>
+    <span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/section&gt;</span></pre>
+
+  <h3>Controller data shape</h3>
+  <p>Pastikan <span class="filepath">app/Http/Controllers/PageController.php</span> memasok struktur ini ke view:</p>
+  <pre class="code" data-lang="PHP · App\Http\Controllers\PageController"><span class="c-php">public function</span> <span class="c-attr">home</span>()
+{
+    <span class="c-var">$schemes</span> = [
+        [
+            <span class="c-str">'nomor'</span>       =&gt; <span class="c-str">'01'</span>,
+            <span class="c-str">'kode'</span>        =&gt; <span class="c-str">'EDUKIA-AIL-2024-001'</span>,
+            <span class="c-str">'judul'</span>       =&gt; <span class="c-str">'Auditor Internal SPMI Terintegrasi ISO 21001:2018'</span>,
+            <span class="c-str">'kategori'</span>    =&gt; <span class="c-str">'spmi'</span>,
+            <span class="c-str">'jumlah_unit'</span> =&gt; <span class="c-num">7</span>,
+            <span class="c-str">'reqs'</span>        =&gt; [
+                <span class="c-str">'Pendidikan minimal S2'</span>,
+                <span class="c-str">'Pengalaman kerja di bidang Perguruan Tinggi'</span>,
+                <span class="c-str">'Sertifikat Pelatihan Auditor Internal'</span>,
+            ],
+        ],
+        <span class="c-comment">// ... 25 skema lainnya dari sumber data Anda</span>
+    ];
+
+    <span class="c-var">$kegiatan</span> = <span class="c-php">\App\Models\Kegiatan</span>::<span class="c-attr">orderByDesc</span>(<span class="c-str">'tanggal'</span>)-&gt;<span class="c-attr">take</span>(<span class="c-num">6</span>)-&gt;<span class="c-attr">get</span>();
+
+    <span class="c-php">return</span> <span class="c-attr">view</span>(<span class="c-str">'index'</span>, <span class="c-attr">compact</span>(<span class="c-str">'schemes'</span>, <span class="c-str">'kegiatan'</span>));
+}</pre>
+
+  <div class="callout warn">
+    <strong>Catatan data</strong>
+    Saat ini di Blade Anda data 26 skema hard-coded sebagai HTML. Memindahkannya ke array PHP (atau ke database model <span class="mono">Skema</span>) akan membuat card component reusable dan editable lewat admin panel Filament yang sudah ada.
+  </div>
+</section>
+
+<!-- 07 MOBILE -->
+<section id="mobile">
+  <h2><span class="num">07</span> Mobile responsive</h2>
+  <p>Card menggunakan utility responsive Tailwind. Tidak perlu component terpisah — cukup tambahkan modifier breakpoint pada beberapa elemen yang perlu disesuaikan.</p>
+
+  <h3>Adjustments di mobile (&lt;768px)</h3>
+  <table class="spec">
+    <thead><tr><th>Element</th><th>Desktop</th><th>Mobile</th></tr></thead>
+    <tbody>
+      <tr><td>Card grid</td><td><span class="mono">lg:grid-cols-3</span></td><td><span class="mono">grid-cols-1</span></td></tr>
+      <tr><td>Header padding</td><td><span class="mono">p-5</span></td><td><span class="mono">p-4</span></td></tr>
+      <tr><td>Title size</td><td><span class="mono">text-[17.5px]</span></td><td><span class="mono">text-[16px]</span> (tetap untuk readability)</td></tr>
+      <tr><td>Body padding</td><td><span class="mono">p-5</span></td><td><span class="mono">p-4</span></td></tr>
+      <tr><td>CTA pill</td><td>Full row dengan "Lihat detail"</td><td>Touch target min 44px tinggi — sudah aman dengan <span class="mono">py-3</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Versi mobile-tweaked component (alt)</h3>
+  <p>Cukup ganti class di card wrapper Blade dengan modifier responsive — tidak perlu file terpisah:</p>
+  <pre class="code" data-lang="Blade · diff"><span class="c-comment">{{-- Header band --}}</span>
+- <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"... p-5 ..."</span><span class="c-tag">&gt;</span>
++ <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"... p-4 sm:p-5 ..."</span><span class="c-tag">&gt;</span>
+
+<span class="c-comment">{{-- Title --}}</span>
+- <span class="c-tag">&lt;h3</span> <span class="c-attr">class</span>=<span class="c-str">"text-[17.5px] ..."</span><span class="c-tag">&gt;</span>
++ <span class="c-tag">&lt;h3</span> <span class="c-attr">class</span>=<span class="c-str">"text-[16px] sm:text-[17.5px] ..."</span><span class="c-tag">&gt;</span>
+
+<span class="c-comment">{{-- Body padding --}}</span>
+- <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"p-5 pt-[22px] flex-1"</span><span class="c-tag">&gt;</span>
++ <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"p-4 sm:p-5 sm:pt-[22px] flex-1"</span><span class="c-tag">&gt;</span>
+
+<span class="c-comment">{{-- Grid container in parent page --}}</span>
+- <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"grid grid-cols-3 gap-4"</span><span class="c-tag">&gt;</span>
++ <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"</span><span class="c-tag">&gt;</span></pre>
+
+  <h3>Filter chip — mobile scroll horizontal</h3>
+  <p>Chip kategori di mobile perlu horizontal scroll agar tidak overflow:</p>
+  <pre class="code" data-lang="Blade"><span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-str">"flex gap-2 overflow-x-auto -mx-5 px-5 pb-2 
+            md:flex-wrap md:overflow-visible md:mx-0 md:px-0"</span> <span class="c-attr">id</span>=<span class="c-str">"chips"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">@foreach</span>(<span class="c-var">$categories</span> as <span class="c-var">$cat</span>)
+    <span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-str">"flex-shrink-0 chip ..."</span> <span class="c-attr">data-filter</span>=<span class="c-str">"{{ <span class="c-var">$cat</span>[<span class="c-str">'id'</span>] }}"</span><span class="c-tag">&gt;</span>
+      {{ <span class="c-var">$cat</span>[<span class="c-str">'label'</span>] }} <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-str">"count"</span><span class="c-tag">&gt;</span>{{ <span class="c-var">$cat</span>[<span class="c-str">'count'</span>] }}<span class="c-tag">&lt;/span&gt;</span>
+    <span class="c-tag">&lt;/button&gt;</span>
+  <span class="c-tag">@endforeach</span>
+<span class="c-tag">&lt;/div&gt;</span></pre>
+
+  <div class="phone-row">
+    <div class="phone">
+      <div class="phone-screen">
+        <div style="background:#0a2547;color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center">
+          <img src="assets/logo-edukia.png" style="height:24px;filter:brightness(0) invert(1)">
+          <span style="font-size:18px">☰</span>
+        </div>
+        <div style="padding:14px;flex:1;overflow:hidden;background:#f5f1e8">
+          <!-- Mini card -->
+          <div class="phone-card">
+            <div style="background:linear-gradient(135deg,#0a2547,#102d57);color:#fff;padding:14px 16px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:-30px;right:-30px;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(26,74,138,.4),transparent 70%)"></div>
+              <div style="display:flex;align-items:center;gap:10px;position:relative">
+                <div style="width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);display:grid;place-items:center">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#f4891f">Skema 01</div>
+                  <div style="font-size:9.5px;color:rgba(255,255,255,.55);font-family:monospace;margin-top:1px">EDUKIA-AIL-2024-001</div>
+                </div>
+              </div>
+              <h3 style="font-size:13.5px;line-height:1.3;font-weight:700;color:#fff;margin:12px 0 8px">Auditor Internal SPMI Terintegrasi ISO 21001</h3>
+              <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:4px;font-size:9px;font-weight:700;background:#e0ebff;color:#1a4a8a">
+                <span style="width:4px;height:4px;border-radius:50%;background:#1a4a8a"></span>
+                SPMI ISO 21001
+              </span>
+            </div>
+            <div style="padding:14px 16px">
+              <div style="font-size:8.5px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:#5a6a85;margin-bottom:10px">Persyaratan Dasar</div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div style="display:grid;grid-template-columns:18px 1fr;gap:8px">
+                  <span style="width:16px;height:16px;border-radius:5px;background:#eef3fb;color:#102d57;display:grid;place-items:center">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>
+                  </span>
+                  <span style="font-size:11px;color:#2a3a55;line-height:1.5">Pendidikan minimal S2</span>
+                </div>
+                <div style="display:grid;grid-template-columns:18px 1fr;gap:8px">
+                  <span style="width:16px;height:16px;border-radius:5px;background:#eef3fb;color:#102d57;display:grid;place-items:center">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>
+                  </span>
+                  <span style="font-size:11px;color:#2a3a55;line-height:1.5">Pengalaman di Perguruan Tinggi</span>
+                </div>
+                <div style="display:grid;grid-template-columns:18px 1fr;gap:8px">
+                  <span style="width:16px;height:16px;border-radius:5px;background:#eef3fb;color:#102d57;display:grid;place-items:center">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>
+                  </span>
+                  <span style="font-size:11px;color:#2a3a55;line-height:1.5">Sertifikat Pelatihan Auditor</span>
+                </div>
+              </div>
+            </div>
+            <div style="padding:0 14px 14px">
+              <div style="display:flex;justify-content:space-between;align-items:center;background:#f5f1e8;border:1px solid #dfe3ec;border-radius:999px;padding:7px 5px 7px 14px">
+                <span style="font-size:11px"><span style="color:#0a2547;font-weight:800">7</span><span style="color:#5a6a85"> unit kompetensi</span></span>
+                <span style="background:#0a2547;color:#fff;border-radius:999px;padding:4px 10px;font-size:9.5px;font-weight:700;display:inline-flex;align-items:center;gap:4px">
+                  Lihat detail
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h4 style="margin-top:0">Hasil di mobile (390px)</h4>
+      <p style="font-size:14px">Card otomatis full-width dengan padding p-4. Header gradient tetap kebaca, kategori chip tetap visible, dan CTA pill tetap mudah di-tap (target 44px).</p>
+      <p style="font-size:14px">Filter chips di parent page horizontal-scroll dengan <span class="mono">overflow-x-auto</span> + <span class="mono">flex-shrink-0</span> pada setiap chip.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 INTEGRATION -->
+<section id="integration">
+  <h2><span class="num">08</span> Integration steps</h2>
+  <p>Langkah berurutan untuk integrasi ke aplikasi <span class="mono">lsp-edukia-app</span> Anda:</p>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">1</span>
+      <div>
+        <h4>Update Tailwind tokens</h4>
+        <p>Edit <span class="filepath">resources/css/app.css</span>. Tambahkan <span class="mono">@theme</span> block dari section 03.</p>
+        <p style="margin-top:4px;font-size:12.5px;color:var(--muted)"><em>Verifikasi:</em> jalankan <span class="mono">npm run dev</span> dan inspect element untuk pastikan utility seperti <span class="mono">bg-navy-800</span> bekerja.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <div>
+        <h4>Buat icon component</h4>
+        <p>Buat file <span class="filepath">resources/views/components/icon.blade.php</span> dengan code dari section 05 (subsection "Optional: extract icons").</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <div>
+        <h4>Buat skema-card component</h4>
+        <p>Buat file <span class="filepath">resources/views/components/skema-card.blade.php</span> dengan code utama dari section 05.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <div>
+        <h4>Refactor data 26 skema</h4>
+        <p>Pindahkan data skema dari hard-coded HTML di Blade ke salah satu opsi:</p>
+        <ul>
+          <li><strong>Opsi A (cepat):</strong> Array PHP di <span class="mono">PageController</span> — lihat section 06.</li>
+          <li><strong>Opsi B (recommended):</strong> Buat migration & model <span class="mono">Skema</span> + seeder. Bisa dikelola via Filament admin yang sudah ada.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">5</span>
+      <div>
+        <h4>Refactor halaman</h4>
+        <p>Ganti loop manual di <span class="filepath">resources/views/index.blade.php</span> dan <span class="filepath">resources/views/skema-sertifikasi.blade.php</span> dengan <span class="mono">&lt;x-skema-card :scheme="$scheme" /&gt;</span> di dalam <span class="mono">@foreach</span>.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">6</span>
+      <div>
+        <h4>Bersihkan CSS lama</h4>
+        <p>Di <span class="filepath">layouts/app.blade.php</span>, hapus block CSS <span class="mono">.scheme</span>, <span class="mono">.scheme-header</span>, <span class="mono">.tag</span>, <span class="mono">.unit-link</span>, dst (yang sudah digantikan utility Tailwind).</p>
+        <p style="margin-top:4px;font-size:12.5px;color:var(--muted)"><em>Catatan:</em> CSS lain (hero, header, footer, alur) bisa tetap dipertahankan sampai siap migrasi penuh ke Tailwind.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">7</span>
+      <div>
+        <h4>Mobile responsive</h4>
+        <p>Update grid container di parent — gunakan <span class="mono">grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4</span>. Tambahkan responsive modifier di card wrapper jika perlu (section 07).</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">8</span>
+      <div>
+        <h4>Test cross-browser & accessibility</h4>
+        <p>QA checklist di section 09. Pastikan: kontras warna OK (chip kategori vs bg), keyboard navigation jalan, screen reader bisa baca struktur card dengan benar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 CHECKLIST -->
+<section id="checklist">
+  <h2><span class="num">09</span> QA checklist</h2>
+
+  <div class="checklist">
+    <h4>Visual fidelity</h4>
+    <ul>
+      <li><span class="box"></span><span>Header band gradient match (navy-800 → navy-700) di semua kategori</span></li>
+      <li><span class="box"></span><span>Corner glow di top-right header mengikuti warna kategori</span></li>
+      <li><span class="box"></span><span>"Skema 0X" label oranye tampil di header, code mono di bawahnya</span></li>
+      <li><span class="box"></span><span>Title white, 17.5px, balance, max 3 lines (test dengan judul panjang)</span></li>
+      <li><span class="box"></span><span>Category chip warna sesuai mapping (7 kategori distinct)</span></li>
+      <li><span class="box"></span><span>Checkmark icon dalam tile navy-50 dengan navy-700 stroke</span></li>
+      <li><span class="box"></span><span>CTA pill bg-cream dengan navy-800 detail button inset</span></li>
+      <li><span class="box"></span><span>Hover state: subtle lift (-translate-y-0.5) + shadow</span></li>
+    </ul>
+  </div>
+
+  <div class="checklist">
+    <h4>Responsive</h4>
+    <ul>
+      <li><span class="box"></span><span>Grid: 1 kolom di mobile (&lt;640), 2 di tablet (md), 3 di desktop (lg)</span></li>
+      <li><span class="box"></span><span>Padding berkurang p-5 → p-4 di mobile</span></li>
+      <li><span class="box"></span><span>Title tidak overflow di mobile (text-balance + max-width container)</span></li>
+      <li><span class="box"></span><span>CTA pill mudah di-tap (min height 44px)</span></li>
+      <li><span class="box"></span><span>Filter chips horizontal-scroll di mobile</span></li>
+    </ul>
+  </div>
+
+  <div class="checklist">
+    <h4>Accessibility</h4>
+    <ul>
+      <li><span class="box"></span><span>Semantic: <span class="mono">&lt;article&gt;</span> wrapper, <span class="mono">&lt;h3&gt;</span> untuk title</span></li>
+      <li><span class="box"></span><span>Link CTA punya text deskriptif ("Lihat detail [Nama Skema]") — tambahkan aria-label jika perlu</span></li>
+      <li><span class="box"></span><span>Kontras: chip kategori meet WCAG AA (test setiap kategori)</span></li>
+      <li><span class="box"></span><span>Keyboard: tab order natural, focus visible dengan outline-2 outline-blue</span></li>
+      <li><span class="box"></span><span>Icon decorative punya <span class="mono">aria-hidden="true"</span> atau dimasukkan ke dalam link</span></li>
+    </ul>
+  </div>
+
+  <div class="checklist">
+    <h4>Performance</h4>
+    <ul>
+      <li><span class="box"></span><span>Fonts: <span class="mono">font-display: swap</span> di Google Fonts URL</span></li>
+      <li><span class="box"></span><span>Tailwind v4 sudah otomatis purge — tidak ada CSS bloat dari token tambahan</span></li>
+      <li><span class="box"></span><span>SVG icons inline, bukan separate file requests</span></li>
+      <li><span class="box"></span><span>Lighthouse CLS &lt;0.1 (test dengan card terisi data sebenarnya)</span></li>
+    </ul>
+  </div>
+
+  <div class="callout ok" style="margin-top:32px">
+    <strong>Ready to ship</strong>
+    Setelah 9 checkbox di atas tercentang, card sudah siap di-merge. Test di staging dengan data 26 skema lengkap sebelum push ke production.
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="margin-top:80px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px">
+  <span>Blueprint v1.0 · Skema Card B1 · LSP Edukia</span>
+  <span><a href="LSP Edukia Redesign.html" style="color:var(--navy-800);text-decoration:none;font-weight:600">← Kembali ke Design Canvas</a></span>
+</footer>
+
+</main>
+
+</div><!-- /layout -->
+
+<script>
+// Smooth scroll for ToC links — use window.scrollTo (avoid scrollIntoView)
+document.querySelectorAll('aside.toc a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 24;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+
+// Active section highlight in ToC
+const sections = document.querySelectorAll('section[id]');
+const tocLinks = document.querySelectorAll('aside.toc ol a[href^="#"]');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      const id = en.target.id;
+      tocLinks.forEach(a => {
+        const active = a.getAttribute('href') === '#' + id;
+        a.style.background = active ? 'var(--navy-50)' : '';
+        a.style.color = active ? 'var(--navy-800)' : '';
+        a.style.fontWeight = active ? '700' : '';
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(s => io.observe(s));
+</script>
+
+</body>
+</html>

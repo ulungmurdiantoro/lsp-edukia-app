@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\PostResource\Pages;
+namespace App\Filament\Resources\SertifikatResource\Pages;
 
-use App\Filament\Resources\PostResource;
+use App\Filament\Resources\SertifikatResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditPost extends EditRecord
+class EditSertifikat extends EditRecord
 {
-    protected static string $resource = PostResource::class;
+    protected static string $resource = SertifikatResource::class;
 
     protected function getHeaderActions(): array
     {

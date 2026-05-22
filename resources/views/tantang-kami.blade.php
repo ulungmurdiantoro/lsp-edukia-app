@@ -17,7 +17,9 @@
 .profil-hero h3{color:var(--orange);font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px}
 .profil-hero h2{color:#fff;font-size:clamp(20px,3vw,28px);margin-bottom:28px}
 .profil-paras{display:flex;flex-direction:column;gap:16px}
-.profil-paras p{color:rgba(255,255,255,.82);font-size:15px;line-height:1.75}
+.profil-paras p{font-size:15px;line-height:1.75}
+.profil-paras p:nth-child(odd){color:rgba(255,255,255,.90)}
+.profil-paras p:nth-child(even){color:#f4891f}
 .profil-paras p strong{color:#fff}
 .komitmen-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .komitmen-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:border-color .2s}
@@ -55,6 +57,17 @@
 .org-card h4{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px}
 .org-roles{display:flex;flex-wrap:wrap;gap:8px}
 .org-role{background:var(--cream-2);color:var(--ink-2);font-size:12.5px;font-weight:500;padding:5px 12px;border-radius:6px}
+.chart-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:40px 36px;position:relative;overflow:hidden}
+.chart-card-bg{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(#e6e9f0 1px,transparent 1px);background-size:24px 24px;opacity:.3;mask-image:radial-gradient(60% 60% at 50% 50%,#000 30%,transparent)}
+.chart-head{position:relative;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.chart-legend{position:relative;margin-top:28px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:20px;align-items:center;font-size:12.5px}
+.legend-item{display:inline-flex;align-items:center;gap:8px;color:var(--ink-2)}
+.roster-grid{margin-top:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.roster-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.roster-title{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-deep);margin-bottom:14px}
+.roster-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.roster-list li{padding:8px 12px;border-radius:8px;font-size:13.5px;font-weight:600}
+@media(max-width:960px){.roster-grid{grid-template-columns:1fr}.chart-head{flex-direction:column;gap:8px;align-items:flex-start}}
 @media(max-width:960px){.komitmen-grid{grid-template-columns:1fr}.komitmen-card.full{grid-column:auto}.cta{grid-template-columns:1fr}.profil-hero{padding:32px}.doc-card{flex-direction:column}}
 </style>
 @endsection
@@ -64,7 +77,7 @@
   <div class="wrap page-hero-inner">
     <div class="badge">PM.SM.01 Rev. 3 · Panduan Mutu</div>
     <h1>Tentang <em>Kami</em></h1>
-    <p class="lead">Profil, visi, misi, komitmen manajemen, struktur organisasi, dan acuan normatif LSP Edukasi Global Cendekia.</p>
+    <p class="lead">Profil, visi, misi, komitmen manajemen, struktur organisasi, dan landasan hukum LSP Edukasi Global Cendekia.</p>
   </div>
 </div>
 
@@ -152,52 +165,240 @@
   </div>
 </section>
 
-<section id="pernyataan">
+<section id="komitmen">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">Dokumen Mutu</div>
-      <h2>Pernyataan Komitmen</h2>
-      <p class="sub">Panduan Mutu LSP Edukasi Global Cendekia sebagai dasar penyelenggaraan sertifikasi yang konsisten dan profesional.</p>
+      <div class="eyebrow">Kebijakan LSP</div>
+      <h2>Pernyataan Komitmen Ketidakberpihakan</h2>
     </div>
-    <div class="doc-card">
-      <div class="doc-ico"><svg width="24" height="24"><use href="#i-doc"></use></svg></div>
-      <div class="doc-info">
-        <h3>Dokumen Pernyataan Komitmen — Panduan Mutu LSP</h3>
-        <p>Salinan terkendali dari dokumen Panduan Mutu LSP Edukasi Global Cendekia tersedia dalam bentuk PDF bertanda tangan digital dalam server jaringan PT. EDUKASI GLOBAL CENDEKIA dan dapat diakses oleh pengguna yang memiliki otorisasi.</p>
-        <div class="doc-meta">No. Dokumen: PM.SM.01 &nbsp;|&nbsp; Nomor Revisi: 3 &nbsp;|&nbsp; Tgl. Efektif: 29 April 2026</div>
-      </div>
+    <div class="panel">
+      <p style="font-size:15px;color:var(--ink-2);line-height:1.7;margin-bottom:24px">Lembaga Sertifikasi Person (LSP) PT Edukasi Global Cendekia berkomitmen untuk menjalankan seluruh kegiatan operasionalnya secara jujur, adil dan berintegritas mengikuti seluruh ketentuan regulasi dan pedoman yang dipersyaratkan. Dalam menjalankan kegiatan sertifikasi, LSP PT Edukasi Global Cendekia menerapkan kebijakan sebagai berikut.</p>
+      <ol class="num-list navy">
+        <li><span class="n">1</span><p>Menjamin bahwa kegiatan sertifikasi dilaksanakan secara objektif dan tidak berpihak.</p></li>
+        <li><span class="n">2</span><p>Menjamin bahwa kebijakan dan prosedur sertifikasi dilaksanakan secara adil untuk semua pemohon sertifikasi, calon peserta sertifikasi dan pemegang sertifikat sesuai dengan segala ketentuan, regulasi dan pedoman yang terkait.</p></li>
+        <li><span class="n">3</span><p>Menjamin proses sertifikasi dibatasi atas dasar keterbatasan keuangan atau keterbatasan lainnya, seperti keanggotaan asosiasi atau kelompok. Tidak satupun dalam mekanisme operasional sertifikasi ini yang dapat menghambat atau menghalangi akses pemohon atau calon peserta sertifikasi.</p></li>
+        <li><span class="n">4</span><p>Menjamin proses sertifikasi tidak akan mengijinkan tekanan komersial, keuangan atau tekanan lain untuk mengkompromikan ketidakberpihakan.</p></li>
+        <li><span class="n">5</span><p>Menjamin ketersediaan dan kemudahan akses untuk publik tanpa permintaan yang menyatakan dan memberikan pemahaman tentang pentingnya ketidakberpihakan dalam pelaksanaan sertifikasi, pengelolaan konflik kepentingan dan jaminan objektivitas sertifikasi.</p></li>
+        <li><span class="n">6</span><p>Berkomitmen untuk selalu mengidentifikasi, menghilangkan, mengurangi atau mengelola seluruh risiko dan ancaman terhadap ketidakberpihakan secara berkelanjutan, yang mencakup dari internal operasional sertifikasi, lembaga lain atau hubungan dengan pihak lain yang terkait, dan hubungan dari personil di dalam lembaga sertifikasi kepada pihak lain terkait dan yang berkepentingan.</p></li>
+        <li><span class="n">7</span><p>Menjamin keamanan informasi dalam pengelolaan seluruh proses sertifikasi termasuk materi ujian, sesuai dengan hukum dan regulasi yang berlaku dan mengambil langkah-langkah tindakan korektif bila terjadi pelanggaran keamanan informasi.</p></li>
+        <li><span class="n">8</span><p>Menangani semua keluhan dan banding secara konstruktif, netral, dan tepat waktu sesuai dengan prosedur yang telah ditentukan.</p></li>
+      </ol>
     </div>
   </div>
 </section>
 
-<section id="struktur" style="background:#fbf9f3">
+<section id="struktur" style="background:#fbf9f3;padding:96px 0;border-top:1px solid var(--line)">
   <div class="wrap">
     <div class="sec-head">
       <div class="eyebrow">Tata Kelola</div>
       <h2>Struktur Organisasi</h2>
       <p class="sub">Susunan pengurus dan personel LSP Edukasi Global Cendekia berdasarkan SK No: 001/SK-AK/LSP-EDUKIA/I/2026.</p>
     </div>
-    <div class="coming-soon">
-      <h4>Bagan Struktur Organisasi</h4>
-      <p>Struktur organisasi LSP Edukasi Global Cendekia sedang dalam proses pengunggahan.</p>
-    </div>
-    <div class="org-card">
-      <h4>Susunan Pengurus &amp; Personel</h4>
-      <div class="org-roles">
-        <span class="org-role">Ketua LSP</span>
-        <span class="org-role">Manajer Teknis</span>
-        <span class="org-role">Manajer Mutu &amp; Administrasi</span>
-        <span class="org-role">Manajer Skema</span>
-        <span class="org-role">Manajer Ketidakberpihakan, Kerahasiaan &amp; Keamanan MUK</span>
-        <span class="org-role">Manajer HR, Keuangan &amp; Sales</span>
-        <span class="org-role">Manajer Sertifikasi</span>
-        <span class="org-role">Anggota Teknis</span>
-        <span class="org-role">Staff Administrasi</span>
-        <span class="org-role">Staff Sales</span>
-        <span class="org-role">Tim Auditor Internal</span>
-        <span class="org-role">Asesor &amp; Pengawas</span>
+
+    {{-- Chart card --}}
+    <div class="chart-card">
+      <div class="chart-card-bg"></div>
+
+      {{-- Header strip --}}
+      <div class="chart-head">
+        <div>
+          <div style="font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange-deep);font-family:ui-monospace,monospace;margin-bottom:6px">
+            Bagan Tata Kelola · v2026
+          </div>
+          <h3 style="font-size:22px;font-weight:700;color:var(--ink);margin:0;letter-spacing:-0.015em">
+            Struktur Organisasi LSP Edukasi Global Cendekia
+          </h3>
+        </div>
+        <div style="font-size:12.5px;color:var(--muted);text-align:right">
+          <div style="font-family:ui-monospace,monospace">SK No. 001/SK-AK/LSP-EDUKIA/I/2026</div>
+          <div style="margin-top:2px">Efektif sejak Januari 2026</div>
+        </div>
+      </div>
+
+      {{-- SVG Org Chart --}}
+      <div style="overflow-x:auto">
+        <svg viewBox="0 0 1240 680" xmlns="http://www.w3.org/2000/svg"
+             style="width:100%;min-width:600px;height:auto;display:block;font-family:'Plus Jakarta Sans',sans-serif">
+
+          {{-- Connector lines --}}
+          <g stroke="#5a6a85" stroke-width="1.5" fill="none">
+            {{-- Central spine: Ketua → operational bus --}}
+            <line x1="620" y1="90"  x2="620" y2="530"/>
+            {{-- Bus at y=150 → Manajer Teknis & Mutu --}}
+            <line x1="370" y1="150" x2="840" y2="150"/>
+            <line x1="370" y1="150" x2="370" y2="220"/>
+            <line x1="840" y1="150" x2="840" y2="220"/>
+            {{-- Manajer Mutu → Tim Audit Internal --}}
+            <line x1="840" y1="280" x2="840" y2="320"/>
+            {{-- Wide bus at y=385 → 4 Manajer --}}
+            <line x1="120"  y1="385" x2="1120" y2="385"/>
+            <line x1="120"  y1="385" x2="120"  y2="420"/>
+            <line x1="400"  y1="385" x2="400"  y2="420"/>
+            <line x1="790"  y1="385" x2="790"  y2="420"/>
+            <line x1="1120" y1="385" x2="1120" y2="420"/>
+            {{-- Operational bus at y=530 → TUK / Asesor / Pengawas --}}
+            <line x1="275" y1="530" x2="895" y2="530"/>
+            <line x1="275" y1="530" x2="275" y2="560"/>
+            <line x1="620" y1="530" x2="620" y2="560"/>
+            <line x1="895" y1="530" x2="895" y2="560"/>
+          </g>
+
+          {{-- Dashed advisory: exits bottom of Ketua at spine (x=620), drops to Komite level, turns right --}}
+          <g stroke="#f4891f" stroke-width="2" stroke-dasharray="6 5" fill="none">
+            <line x1="620" y1="90"  x2="620" y2="120"/>
+            <line x1="620" y1="120" x2="900" y2="120"/>
+          </g>
+
+          {{-- Ketua LSP (primary) --}}
+          <rect x="472" y="34" width="300" height="60" rx="8" fill="#06172e" opacity="0.18"/>
+          <rect x="470" y="30"  width="300" height="60" rx="8" fill="#0a2547"/>
+          <foreignObject x="470" y="30" width="300" height="60">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px;color:#fff;font-weight:700;font-size:18px;text-align:center;line-height:1.3;letter-spacing:-0.01em">Ketua LSP</div>
+          </foreignObject>
+
+          {{-- Komite Ketidakberpihakan (dashed) — between Ketua and Manajer rows --}}
+          <rect x="900" y="90" width="280" height="60" rx="8" fill="#fff" stroke="#f4891f" stroke-width="2" stroke-dasharray="6 4"/>
+          <foreignObject x="900" y="90" width="280" height="60">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px;color:#0f1d35;font-weight:600;font-size:14px;text-align:center;line-height:1.3">Komite Ketidakberpihakan</div>
+          </foreignObject>
+
+          {{-- Manajer Teknis (manager) --}}
+          <rect x="240" y="220" width="260" height="60" rx="8" fill="#fff" stroke="#0a2547" stroke-width="1.5"/>
+          <rect x="240" y="220" width="4"   height="60" rx="2" fill="#f4891f"/>
+          <foreignObject x="240" y="220" width="260" height="60">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px 0 18px;color:#0a2547;font-weight:600;font-size:14px;text-align:center;line-height:1.3">Manajer Teknis</div>
+          </foreignObject>
+
+          {{-- Manajer Mutu dan Administrasi (manager) --}}
+          <rect x="680" y="220" width="320" height="60" rx="8" fill="#fff" stroke="#0a2547" stroke-width="1.5"/>
+          <rect x="680" y="220" width="4"   height="60" rx="2" fill="#f4891f"/>
+          <foreignObject x="680" y="220" width="320" height="60">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px 0 18px;color:#0a2547;font-weight:600;font-size:14px;text-align:center;line-height:1.3">Manajer Mutu dan Administrasi</div>
+          </foreignObject>
+
+          {{-- Tim Audit Internal (sub) --}}
+          <rect x="720" y="320" width="240" height="50" rx="8" fill="#eef3fb" stroke="#102d57" stroke-width="1"/>
+          <foreignObject x="720" y="320" width="240" height="50">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px;color:#102d57;font-weight:600;font-size:13px;text-align:center;line-height:1.3">Tim Audit Internal</div>
+          </foreignObject>
+
+          {{-- Manajer Skema (manager) --}}
+          <rect x="20"  y="420" width="200" height="90" rx="8" fill="#fff" stroke="#0a2547" stroke-width="1.5"/>
+          <rect x="20"  y="420" width="4"   height="90" rx="2" fill="#f4891f"/>
+          <foreignObject x="20" y="420" width="200" height="90">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px 0 18px;color:#0a2547;font-weight:600;font-size:14px;text-align:center;line-height:1.3">Manajer Skema</div>
+          </foreignObject>
+
+          {{-- Manajer Ketidakberpihakan, Kerahasiaan dan Keamanan MUK (manager) --}}
+          <rect x="240" y="420" width="320" height="90" rx="8" fill="#fff" stroke="#0a2547" stroke-width="1.5"/>
+          <rect x="240" y="420" width="4"   height="90" rx="2" fill="#f4891f"/>
+          <foreignObject x="240" y="420" width="320" height="90">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px 0 18px;color:#0a2547;font-weight:600;font-size:14px;text-align:center;line-height:1.3">Manajer Ketidakberpihakan, Kerahasiaan dan Keamanan MUK</div>
+          </foreignObject>
+
+          {{-- Manajer HR, Keuangan dan Sales (manager) — shifted right so spine is visible --}}
+          <rect x="650" y="420" width="280" height="90" rx="8" fill="#fff" stroke="#0a2547" stroke-width="1.5"/>
+          <rect x="650" y="420" width="4"   height="90" rx="2" fill="#f4891f"/>
+          <foreignObject x="650" y="420" width="280" height="90">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px 0 18px;color:#0a2547;font-weight:600;font-size:14px;text-align:center;line-height:1.3">Manajer HR, Keuangan dan Sales</div>
+          </foreignObject>
+
+          {{-- Manajer Sertifikasi (manager) --}}
+          <rect x="1020" y="420" width="200" height="90" rx="8" fill="#fff" stroke="#0a2547" stroke-width="1.5"/>
+          <rect x="1020" y="420" width="4"   height="90" rx="2" fill="#f4891f"/>
+          <foreignObject x="1020" y="420" width="200" height="90">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px 0 18px;color:#0a2547;font-weight:600;font-size:14px;text-align:center;line-height:1.3">Manajer Sertifikasi</div>
+          </foreignObject>
+
+          {{-- TUK (operational) --}}
+          <rect x="170" y="560" width="210" height="50" rx="8" fill="#f5f1e8" stroke="#dfe3ec" stroke-width="1.5"/>
+          <foreignObject x="170" y="560" width="210" height="50">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px;color:#0a2547;font-weight:700;font-size:15px;text-align:center;line-height:1.3">TUK</div>
+          </foreignObject>
+
+          {{-- Asesor (operational) — centered on spine x=620 --}}
+          <rect x="490" y="560" width="260" height="50" rx="8" fill="#f5f1e8" stroke="#dfe3ec" stroke-width="1.5"/>
+          <foreignObject x="490" y="560" width="260" height="50">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px;color:#0a2547;font-weight:700;font-size:15px;text-align:center;line-height:1.3">Asesor</div>
+          </foreignObject>
+
+          {{-- Pengawas (operational) --}}
+          <rect x="790" y="560" width="210" height="50" rx="8" fill="#f5f1e8" stroke="#dfe3ec" stroke-width="1.5"/>
+          <foreignObject x="790" y="560" width="210" height="50">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:0 14px;color:#0a2547;font-weight:700;font-size:15px;text-align:center;line-height:1.3">Pengawas</div>
+          </foreignObject>
+        </svg>
+      </div>
+
+      {{-- Legend --}}
+      <div class="chart-legend">
+        <span style="font-size:11px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink)">Legenda</span>
+        <span class="legend-item">
+          <span style="width:14px;height:14px;border-radius:3px;background:#0a2547;display:inline-block;flex-shrink:0"></span>
+          Posisi puncak
+        </span>
+        <span class="legend-item">
+          <span style="width:14px;height:14px;border-radius:3px;background:#fff;border:2px dashed #f4891f;display:inline-block;flex-shrink:0"></span>
+          Komite independen
+        </span>
+        <span class="legend-item">
+          <span style="width:14px;height:14px;border-radius:3px;background:#fff;border:1.5px solid #0a2547;display:inline-block;flex-shrink:0;position:relative">
+            <span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#f4891f;border-radius:1px"></span>
+          </span>
+          Manajemen
+        </span>
+        <span class="legend-item">
+          <span style="width:14px;height:14px;border-radius:3px;background:#eef3fb;border:1px solid #102d57;display:inline-block;flex-shrink:0"></span>
+          Tim pendukung
+        </span>
+        <span class="legend-item">
+          <span style="width:14px;height:14px;border-radius:3px;background:#f5f1e8;border:1.5px solid #dfe3ec;display:inline-block;flex-shrink:0"></span>
+          Operasional
+        </span>
+        <span style="flex:1"></span>
+        <span class="legend-item">
+          <svg width="28" height="10" viewBox="0 0 28 10">
+            <line x1="0" y1="5" x2="28" y2="5" stroke="#f4891f" stroke-width="2" stroke-dasharray="6 4"/>
+          </svg>
+          Hubungan independen / advisory
+        </span>
       </div>
     </div>
+
+    {{-- Roster --}}
+    {{-- <div class="roster-grid">
+
+      <div class="roster-card">
+        <div class="roster-title">Pimpinan &amp; Pengawasan</div>
+        <ul class="roster-list">
+          <li style="background:#0a2547;color:#fff;">Ketua LSP</li>
+          <li style="background:#fff;color:var(--ink);border:1.5px dashed #f4891f;">Komite Ketidakberpihakan</li>
+          <li style="background:#eef3fb;color:#102d57;">Tim Audit Internal</li>
+        </ul>
+      </div>
+
+      <div class="roster-card">
+        <div class="roster-title">Manajemen</div>
+        <ul class="roster-list">
+          @foreach(['Manajer Teknis','Manajer Mutu dan Administrasi','Manajer Skema','Manajer Ketidakberpihakan, Kerahasiaan &amp; Keamanan MUK','Manajer HR, Keuangan dan Sales','Manajer Sertifikasi'] as $role)
+          <li style="background:#fff;color:#0a2547;border:1px solid var(--line);padding-left:18px;position:relative">
+            <span style="position:absolute;left:6px;top:6px;bottom:6px;width:2px;border-radius:1px;background:#f4891f"></span>
+            {!! $role !!}
+          </li>
+          @endforeach
+        </ul>
+      </div>
+
+      <div class="roster-card">
+        <div class="roster-title">Operasional</div>
+        <ul class="roster-list">
+          @foreach(['TUK (Tempat Uji Kompetensi)','Asesor Kompetensi','Pengawas','Anggota Teknis','Staff Administrasi','Staff Sales'] as $role)
+          <li style="background:#f5f1e8;color:#0a2547;">{!! $role !!}</li>
+          @endforeach
+        </ul>
+      </div>
+
+    </div> --}}
   </div>
 </section>
 
@@ -205,7 +406,7 @@
   <div class="wrap">
     <div class="sec-head">
       <div class="eyebrow">Referensi Regulasi</div>
-      <h2>Acuan Normatif</h2>
+      <h2>Landasan Hukum</h2>
       <p class="sub">Regulasi dan standar yang menjadi landasan penyelenggaraan LSP Edukasi Global Cendekia (PM.SM.01 Rev. 3).</p>
     </div>
     <div class="panel">

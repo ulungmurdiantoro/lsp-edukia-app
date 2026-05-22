@@ -3,7 +3,18 @@
     "allow": [
       "Bash(del /q \"c:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\storage\\\\framework\\\\views\\\\*.php\")",
       "Bash(dir \"c:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\public\" /b)",
-      "Bash(explorer \"c:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\public\\\\images\\\\test\")"
+      "Bash(explorer \"c:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\public\\\\images\\\\test\")",
+      "Bash(find /mnt/c/Users/umurd/Downloads -maxdepth 3 -type d -iname \"*lspedukia*\" -o -type d -iname \"*lsp-edukia*\" -o -type d -iname \"*prod*\" 2>/dev/null | head -20)",
+      "Read(//mnt/c/Users/umurd/**)",
+      "Read(//c/Users/umurd/Downloads/**)",
+      "Read(//c/Users/umurd/**)",
+      "Bash(ls /mnt/c/Users/umurd/ 2>/dev/null || ls /mnt/c/Users/ 2>/dev/null)",
+      "Read(//mnt/c/**)",
+      "Bash(dir \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lspedukia-prod\" /B)",
+      "Bash(Test-Path \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\app\\\\Models\\\\Post.php\")"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\umurd\\Downloads\\lspedukia-prod\\assets"
     ]
   }
 }
