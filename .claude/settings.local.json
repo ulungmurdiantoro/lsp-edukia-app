@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(del /q \"c:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\storage\\\\framework\\\\views\\\\*.php\")",
+      "Bash(dir \"c:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\public\" /b)",
+      "Bash(explorer \"c:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\public\\\\images\\\\test\")"
+    ]
+  }
+}
