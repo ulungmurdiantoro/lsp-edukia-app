@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Post;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ImportWordpressBlog extends Command
@@ -118,7 +119,29 @@ class ImportWordpressBlog extends Command
             '_fields' => 'source_url',
         ]);
 
-        return $response->ok() ? ($response->json('source_url') ?? null) : null;
+        if (! $response->ok()) return null;
+
+        $url = $response->json('source_url');
+        if (! $url) return null;
+
+        return $this->downloadImage($url);
+    }
+
+    private function downloadImage(string $url): ?string
+    {
+        try {
+            $imageResponse = Http::timeout(20)->get($url);
+            if (! $imageResponse->ok()) return $url;
+
+            $ext      = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'jpg';
+            $filename = 'blog/' . Str::uuid() . '.' . $ext;
+
+            Storage::disk('public')->put($filename, $imageResponse->body());
+
+            return $filename;
+        } catch (\Throwable) {
+            return $url; // fallback ke URL eksternal jika gagal download
+        }
     }
 
     private function cleanContent(string $html): string

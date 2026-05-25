@@ -27,7 +27,9 @@ class Post extends Model
 
     public function getThumbnailUrlAttribute(): string
     {
-        return $this->thumbnail ? asset('storage/' . $this->thumbnail) : '';
+        if (! $this->thumbnail) return '';
+        if (str_starts_with($this->thumbnail, 'http')) return $this->thumbnail;
+        return asset('storage/' . $this->thumbnail);
     }
 
     // ~200 words per minute reading speed
