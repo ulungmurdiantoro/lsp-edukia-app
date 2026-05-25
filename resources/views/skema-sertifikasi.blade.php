@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Skema Kompetensi — LSP Edukia')
+@section('description', '26 skema sertifikasi kompetensi LSP Edukia mencakup SPMI ISO 21001, Perguruan Tinggi, Laboratorium ISO/IEC 17025, Lifting Engineering, Sistem Manajemen ISO, dan Hukum Korporasi. Terakreditasi BNSP.')
+@section('og-image', asset('images/hero-skema.jpg'))
 
 @section('extra-css')
 <style>

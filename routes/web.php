@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\SitemapController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/informasi-publik', [PageController::class, 'informasi'])->name('informasi');
@@ -13,4 +14,10 @@ Route::get('/daftar-penerima-sertifikat/search', [PageController::class, 'sertif
 Route::get('/kegiatan', [PageController::class, 'kegiatan'])->name('kegiatan.index');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
-Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+Route::get('/blog/{slug}', [BlogController::class, 'redirectLegacy'])->name('blog.show.legacy');
+
+Route::get('/{slug}', [BlogController::class, 'show'])
+    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|kegiatan$|livewire$|login$|logout$|register$|reset-password$|sanctum$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[A-Za-z0-9-]+')
+    ->name('blog.show');

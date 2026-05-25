@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
 
 class BlogController extends Controller
 {
@@ -38,5 +39,10 @@ class BlogController extends Controller
         }
 
         return view('blog.show', compact('post', 'related'))->with('activeNav', 'blog');
+    }
+
+    public function redirectLegacy(string $slug): RedirectResponse
+    {
+        return redirect()->route('blog.show', ['slug' => $slug], 301);
     }
 }

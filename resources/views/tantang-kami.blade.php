@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Tentang Kami — LSP Edukia')
+@section('description', 'LSP Edukia (Edukasi Global Cendekia) adalah lembaga sertifikasi profesi berlisensi BNSP yang berpusat di Semarang. Kami berkomitmen meningkatkan kompetensi tenaga profesional Indonesia.')
+@section('og-image', asset('images/hero-tentang.jpg'))
 
 @section('extra-css')
 <style>

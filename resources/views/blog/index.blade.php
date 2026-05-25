@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Blog & Artikel — LSP Edukia')
+@section('description', 'Artikel dan tips seputar sertifikasi profesi: info skema terbaru, panduan uji kompetensi, tips lulus sertifikasi, dan berita dari LSP Edukasi Global Cendekia.')
 
 @section('extra-css')
 <style>

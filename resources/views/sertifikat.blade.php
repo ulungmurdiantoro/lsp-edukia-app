@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Daftar Penerima Sertifikat — LSP Edukia')
+@section('description', 'Cek status sertifikat kompetensi LSP Edukia. Telusuri daftar penerima sertifikat berdasarkan nama, nomor sertifikat, atau skema kompetensi yang diikuti.')
+@section('og-image', asset('images/hero-sertifikat.jpg'))
 
 @section('extra-css')
 <style>

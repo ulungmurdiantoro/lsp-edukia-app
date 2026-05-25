@@ -1,5 +1,32 @@
 @extends('layouts.app')
 @section('title', 'LSP Edukia — Sertifikasi Kompetensi Profesional')
+@section('description', 'LSP Edukia adalah lembaga sertifikasi profesi terakreditasi BNSP. Kami menyediakan 26 skema sertifikasi di bidang pendidikan tinggi, manajemen mutu, laboratorium, lifting engineering, dan hukum korporasi.')
+@section('og-image', asset('images/hero-index.jpg'))
+@section('schema-json')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "LSP Edukia",
+  "alternateName": "LSP Edukasi Global Cendekia",
+  "url": "{{ config('app.url') }}",
+  "logo": "{{ asset('images/logo-edukia.png') }}",
+  "image": "{{ asset('images/hero-index.jpg') }}",
+  "telephone": "+6285175479385",
+  "email": "edukasi.cendekia@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Jl. Teras Bali No.12, Mijen",
+    "addressLocality": "Kota Semarang",
+    "addressRegion": "Jawa Tengah",
+    "addressCountry": "ID"
+  },
+  "description": "Lembaga sertifikasi profesi terakreditasi BNSP dengan 26 skema kompetensi di bidang pendidikan, manajemen, laboratorium, dan hukum korporasi.",
+  "areaServed": "Indonesia",
+  "sameAs": []
+}
+</script>
+@endsection
 
 @section('extra-css')
 <style>

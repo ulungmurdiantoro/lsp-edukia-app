@@ -37,7 +37,7 @@ class PostResource extends Resource
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->hint('Auto-dibuat dari judul — dapat diedit manual')
-                    ->prefix('blog/')
+                    ->prefix('/')
                     ->columnSpanFull(),
 
                 Forms\Components\Textarea::make('ringkasan')
