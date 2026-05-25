@@ -27,8 +27,9 @@ class ListSertifikats extends ListRecords
                 ->modalHeading('Import Data Sertifikat')
                 ->modalDescription(new \Illuminate\Support\HtmlString(
                     'Upload file Excel (.xlsx) atau CSV.<br><br>' .
-                    '<strong>Kolom wajib:</strong> nama, skema, kategori, nomor_sertifikat, tanggal_terbit, tanggal_kadaluarsa<br>' .
-                    '<strong>Kolom opsional:</strong> gelar, no_sk, no_skema, tampil (1/0)<br>' .
+                    '<strong>Kolom wajib:</strong> nama, skema, nomor_sertifikat, tanggal_terbit, tanggal_kadaluarsa<br>' .
+                    '<strong>Kolom opsional:</strong> gelar, no_sk, no_skema, tampil (1/0), kategori<br>' .
+                    'Kolom <strong>kategori</strong> terisi otomatis dari skema jika dikosongkan.<br>' .
                     'Format tanggal: <code>YYYY-MM-DD</code> (contoh: 2024-01-15)<br>' .
                     'Baris dengan <strong>nomor_sertifikat</strong> yang sudah ada akan diperbarui otomatis.<br><br>' .
                     '<a href="/downloads/template-import-sertifikat.csv" download style="color:#f59e0b;font-weight:600;">⬇ Unduh template CSV</a>'
