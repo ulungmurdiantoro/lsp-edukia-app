@@ -25,8 +25,12 @@ class SertifikatResource extends Resource
         return $form->schema([
             Forms\Components\TextInput::make('nama')
                 ->label('Nama Lengkap')
-                ->required()
-                ->columnSpanFull(),
+                ->required(),
+
+            Forms\Components\TextInput::make('gelar')
+                ->label('Gelar')
+                ->placeholder('S.T., M.T., dr., dll')
+                ->nullable(),
 
             Forms\Components\Select::make('skema')
                 ->label('Skema Sertifikasi')
@@ -81,6 +85,16 @@ class SertifikatResource extends Resource
                 ->unique(ignoreRecord: true)
                 ->placeholder('EDUKIA-XXX-2026-001'),
 
+            Forms\Components\TextInput::make('no_sk')
+                ->label('No. SK')
+                ->placeholder('SK/LSP-EGC/XXX/2026')
+                ->nullable(),
+
+            Forms\Components\TextInput::make('no_skema')
+                ->label('No. Skema')
+                ->placeholder('SKKNI No. XXX Tahun 2024')
+                ->nullable(),
+
             Forms\Components\DatePicker::make('tanggal_terbit')
                 ->label('Tanggal Terbit')
                 ->required()
@@ -110,8 +124,19 @@ class SertifikatResource extends Resource
 
             Tables\Columns\TextColumn::make('nama')
                 ->label('Nama Lengkap')
+                ->description(fn ($record) => $record->gelar)
                 ->searchable()
                 ->sortable(),
+
+            Tables\Columns\TextColumn::make('no_sk')
+                ->label('No. SK')
+                ->searchable()
+                ->toggleable(isToggledHiddenByDefault: true),
+
+            Tables\Columns\TextColumn::make('no_skema')
+                ->label('No. Skema')
+                ->searchable()
+                ->toggleable(isToggledHiddenByDefault: true),
 
             Tables\Columns\TextColumn::make('skema')
                 ->label('Skema')

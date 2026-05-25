@@ -14,9 +14,12 @@ class SertifikatImport implements ToModel, WithHeadingRow, WithUpserts
     {
         return new Sertifikat([
             'nama'               => $row['nama'],
+            'gelar'              => $row['gelar'] ?? null,
             'skema'              => $row['skema'],
             'kategori'           => $row['kategori'],
             'nomor_sertifikat'   => $row['nomor_sertifikat'],
+            'no_sk'              => $row['no_sk'] ?? null,
+            'no_skema'           => $row['no_skema'] ?? null,
             'tanggal_terbit'     => Carbon::parse($row['tanggal_terbit']),
             'tanggal_kadaluarsa' => Carbon::parse($row['tanggal_kadaluarsa']),
             'tampil'             => isset($row['tampil']) ? (bool) $row['tampil'] : true,

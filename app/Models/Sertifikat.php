@@ -8,9 +8,12 @@ class Sertifikat extends Model
 {
     protected $fillable = [
         'nama',
+        'gelar',
         'skema',
         'kategori',
         'nomor_sertifikat',
+        'no_sk',
+        'no_skema',
         'tanggal_terbit',
         'tanggal_kadaluarsa',
         'tampil',
