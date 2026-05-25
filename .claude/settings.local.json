@@ -13,7 +13,8 @@
       "Bash(dir \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lspedukia-prod\" /B)",
       "Bash(Test-Path \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\app\\\\Models\\\\Post.php\")",
       "Bash(dir \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lspedukia-prod\\\\assets\")",
-      "Bash(dir \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lspedukia-prod\")"
+      "Bash(dir \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lspedukia-prod\")",
+      "Bash(git push *)"
     ],
     "additionalDirectories": [
       "C:\\Users\\umurd\\Downloads\\lspedukia-prod\\assets"
