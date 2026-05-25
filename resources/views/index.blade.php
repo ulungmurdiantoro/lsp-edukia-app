@@ -5,7 +5,7 @@
 @section('schema-json')
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
+  "@@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "LSP Edukia",
   "alternateName": "LSP Edukasi Global Cendekia",

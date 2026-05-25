@@ -6,7 +6,7 @@
 @section('schema-json')
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
+  "@@context": "https://schema.org",
   "@type": "Article",
   "headline": "{{ addslashes($post->judul) }}",
   "description": "{{ addslashes(Str::limit(strip_tags($post->ringkasan ?: $post->konten), 160)) }}",
