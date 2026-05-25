@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kegiatan;
 use App\Models\Sertifikat;
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
@@ -291,14 +292,64 @@ class PageController extends Controller
 
     public function sertifikat()
     {
-        $sertifikats = Sertifikat::tampil()->orderByDesc('tanggal_terbit')->get();
+        $now = now();
         $stats = [
-            'total'      => $sertifikats->count(),
-            'aktif'      => $sertifikats->where('status', 'aktif')->count(),
-            'expiring'   => $sertifikats->where('status', 'expiring')->count(),
-            'kadaluarsa' => $sertifikats->where('status', 'kadaluarsa')->count(),
+            'total'      => Sertifikat::tampil()->count(),
+            'aktif'      => Sertifikat::tampil()->where(fn ($q) => $q->whereNull('tanggal_kadaluarsa')->orWhere('tanggal_kadaluarsa', '>', $now->copy()->addDays(90)))->count(),
+            'expiring'   => Sertifikat::tampil()->whereBetween('tanggal_kadaluarsa', [$now, $now->copy()->addDays(90)])->count(),
+            'kadaluarsa' => Sertifikat::tampil()->where('tanggal_kadaluarsa', '<', $now)->count(),
         ];
-        return view('sertifikat', compact('sertifikats', 'stats'))->with('activeNav', 'sertifikat');
+        $catCounts = Sertifikat::tampil()
+            ->selectRaw('kategori, count(*) as total')
+            ->groupBy('kategori')
+            ->pluck('total', 'kategori');
+
+        return view('sertifikat', compact('stats', 'catCounts'))->with('activeNav', 'sertifikat');
+    }
+
+    public function sertifikatSearch(Request $request)
+    {
+        $now   = now();
+        $query = Sertifikat::tampil()->orderByDesc('tanggal_terbit');
+
+        if ($q = trim($request->get('q', ''))) {
+            $query->where(fn ($sq) => $sq
+                ->where('nama', 'like', "%{$q}%")
+                ->orWhere('nomor_sertifikat', 'like', "%{$q}%")
+                ->orWhere('skema', 'like', "%{$q}%")
+            );
+        }
+
+        if ($kat = $request->get('kategori')) {
+            $query->where('kategori', $kat);
+        }
+
+        match ($request->get('status')) {
+            'aktif'      => $query->where(fn ($sq) => $sq->whereNull('tanggal_kadaluarsa')->orWhere('tanggal_kadaluarsa', '>', $now->copy()->addDays(90))),
+            'expiring'   => $query->whereBetween('tanggal_kadaluarsa', [$now, $now->copy()->addDays(90)]),
+            'kadaluarsa' => $query->where('tanggal_kadaluarsa', '<', $now),
+            default      => null,
+        };
+
+        $paginator = $query->paginate(25);
+
+        return response()->json([
+            'data'         => $paginator->getCollection()->map(fn ($c) => [
+                'nama'               => $c->nama,
+                'gelar'              => $c->gelar,
+                'skema'              => $c->skema,
+                'kategori'           => $c->kategori,
+                'nomor_sertifikat'   => $c->nomor_sertifikat,
+                'tanggal_kadaluarsa' => $c->tanggal_kadaluarsa?->translatedFormat('d M Y'),
+                'status'             => $c->status,
+            ]),
+            'total'        => $paginator->total(),
+            'current_page' => $paginator->currentPage(),
+            'last_page'    => $paginator->lastPage(),
+            'per_page'     => $paginator->perPage(),
+            'from'         => $paginator->firstItem(),
+            'to'           => $paginator->lastItem(),
+        ]);
     }
 
     public function kegiatan()

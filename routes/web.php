@@ -9,6 +9,7 @@ Route::get('/informasi-publik', [PageController::class, 'informasi'])->name('inf
 Route::get('/tentang-kami', [PageController::class, 'tentang'])->name('tentang');
 Route::get('/skema-sertifikasi', [PageController::class, 'skema'])->name('skema');
 Route::get('/daftar-penerima-sertifikat', [PageController::class, 'sertifikat'])->name('sertifikat');
+Route::get('/daftar-penerima-sertifikat/search', [PageController::class, 'sertifikatSearch'])->name('sertifikat.search');
 Route::get('/kegiatan', [PageController::class, 'kegiatan'])->name('kegiatan.index');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
