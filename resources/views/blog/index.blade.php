@@ -94,7 +94,7 @@
 
     @if($posts->hasPages())
     <div style="margin-top:48px;display:flex;justify-content:center">
-      {{ $posts->appends(request()->query())->links() }}
+      {{ $posts->appends(request()->query())->links('vendor.pagination.blog') }}
     </div>
     @endif
 

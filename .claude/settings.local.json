@@ -14,7 +14,16 @@
       "Bash(Test-Path \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\app\\\\Models\\\\Post.php\")",
       "Bash(dir \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lspedukia-prod\\\\assets\")",
       "Bash(dir \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lspedukia-prod\")",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(curl -s -I \"https://yellowgreen-dunlin-984191.hostingersite.com/blog/\")",
+      "Bash(curl -s \"https://yellowgreen-dunlin-984191.hostingersite.com/wp-json/wp/v2/posts?per_page=1\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Total posts tidak bisa dari sini, cek header'\\)\")",
+      "Bash(curl -sI \"https://yellowgreen-dunlin-984191.hostingersite.com/wp-json/wp/v2/posts?per_page=100\")",
+      "Bash(curl -s \"https://yellowgreen-dunlin-984191.hostingersite.com/wp-json/wp/v2/categories?per_page=100\")",
+      "Bash(python3 -c \"import sys,json; cats=json.load\\(sys.stdin\\); [print\\(c['id'], c['name']\\) for c in cats]\")",
+      "Bash(curl -s \"https://yellowgreen-dunlin-984191.hostingersite.com/wp-json/wp/v2/categories?per_page=100&_fields=id,name,slug\")",
+      "Bash(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\umurd\\\\Downloads\\\\lsp-edukia-app\\\\resources\\\\views\\\\vendor\\\\pagination\")",
+      "Bash(Write-Output \"done\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\umurd\\Downloads\\lspedukia-prod\\assets"
