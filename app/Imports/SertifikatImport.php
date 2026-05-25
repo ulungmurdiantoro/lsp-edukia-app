@@ -39,15 +39,41 @@ class SertifikatImport implements ToModel, WithHeadingRow, WithUpserts
         'Corporate Legal Officer'                                     => 'hukum',
     ];
 
+    private function resolveKategori(string $skema, ?string $kategoriFromRow): string
+    {
+        if (! empty($kategoriFromRow)) {
+            return trim($kategoriFromRow);
+        }
+
+        $skemaTrimmed = trim($skema);
+
+        // Exact match
+        if (isset(self::$skemaKategori[$skemaTrimmed])) {
+            return self::$skemaKategori[$skemaTrimmed];
+        }
+
+        // Case-insensitive match
+        foreach (self::$skemaKategori as $key => $kat) {
+            if (strcasecmp($skemaTrimmed, $key) === 0) {
+                return $kat;
+            }
+        }
+
+        // Partial / contains match
+        $skemaLower = mb_strtolower($skemaTrimmed);
+        foreach (self::$skemaKategori as $key => $kat) {
+            if (str_contains($skemaLower, mb_strtolower(substr($key, 0, 20)))) {
+                return $kat;
+            }
+        }
+
+        return 'spmi'; // default fallback
+    }
+
     public function model(array $row): Sertifikat
     {
-        $skema    = $row['skema'];
-        $kategori = $row['kategori'] ?? null;
-
-        // Auto-derive kategori dari skema jika tidak diisi
-        if (empty($kategori)) {
-            $kategori = self::$skemaKategori[$skema] ?? 'spmi';
-        }
+        $skema    = trim($row['skema'] ?? '');
+        $kategori = $this->resolveKategori($skema, $row['kategori'] ?? null);
 
         return new Sertifikat([
             'nama'               => $row['nama'],
