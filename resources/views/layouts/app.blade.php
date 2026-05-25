@@ -261,7 +261,6 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
       <div class="foot-col contact">
         <h4>Kontak</h4>
         <ul>
-          <li><svg class="icon ico"><use href="#i-pin"></use></svg> Jl. Sindoro III/14, Ungaran Barat, Kab. Semarang</li>
           <li><svg class="icon ico"><use href="#i-pin"></use></svg> Jl. Teras Bali No.12, Mijen, Kota Semarang</li>
           <li><svg class="icon ico"><use href="#i-mail"></use></svg> edukasi.cendekia@gmail.com</li>
         </ul>

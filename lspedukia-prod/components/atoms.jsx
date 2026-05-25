@@ -190,7 +190,6 @@ function Footer() {
                          color: '#fff', marginBottom: 18, margin: '0 0 18px' }}>Kontak</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12, fontSize: 14 }}>
               {[
-                ['pin', 'Jl. Sindoro III/14, Ungaran Barat, Kab. Semarang'],
                 ['pin', 'Jl. Teras Bali No.12, Mijen, Kota Semarang'],
                 ['mail', 'edukasi.cendekia@gmail.com'],
               ].map(([ic, txt], i) => (
