@@ -19,5 +19,5 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap')
 Route::get('/blog/{slug}', [BlogController::class, 'redirectLegacy'])->name('blog.show.legacy');
 
 Route::get('/{slug}', [BlogController::class, 'show'])
-    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|kegiatan$|livewire$|login$|logout$|register$|reset-password$|sanctum$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[A-Za-z0-9-]+')
+    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|kegiatan$|livewire$|login$|logout$|register$|reset-password$|sanctum$|sitemap\.xml$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[^/]+')
     ->name('blog.show');

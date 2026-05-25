@@ -43,6 +43,6 @@ class BlogController extends Controller
 
     public function redirectLegacy(string $slug): RedirectResponse
     {
-        return redirect()->route('blog.show', ['slug' => $slug], 301);
+        return redirect('/' . ltrim($slug, '/'), 301);
     }
 }
