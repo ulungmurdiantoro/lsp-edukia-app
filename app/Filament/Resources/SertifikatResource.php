@@ -6,6 +6,7 @@ use App\Filament\Resources\SertifikatResource\Pages;
 use App\Models\Sertifikat;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -36,39 +37,88 @@ class SertifikatResource extends Resource
                 ->label('Skema Sertifikasi')
                 ->required()
                 ->searchable()
+                ->live()
+                ->afterStateUpdated(function (Set $set, ?string $state): void {
+                    $map = [
+                        'Auditor Internal SPMI Terintegrasi ISO 21001:2018'          => 'spmi',
+                        'Lead Auditor Internal SPMI Terintegrasi ISO 21001:2018'     => 'spmi',
+                        'Lead Implementer SPMI Terintegrasi ISO 21001:2018'          => 'spmi',
+                        'Training of Trainer (ToT) Outcome Based Education (OBE)'    => 'pt',
+                        'Implementer Tata Kelola Organisasi Perguruan Tinggi'        => 'pt',
+                        'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017'   => 'lab17025',
+                        'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017'   => 'lab17025',
+                        'Lifting Engineer for Medium Lifting'                         => 'lifting',
+                        'Lifting Engineer for Heavy & Critical Lifting Operation'     => 'lifting',
+                        '2D Lifting Designer'                                        => 'lifting',
+                        '3D Lifting Designer'                                        => 'lifting',
+                        'Laboratory Quality System Officer ISO/IEC 17025'            => 'labtest',
+                        'Food Safety Management Officer'                              => 'labtest',
+                        'Panelis Terlatih Pengujian Sensori Pangan'                  => 'labtest',
+                        'GLP Laboratory Technician'                                   => 'labtest',
+                        'Laboratory HSE Officer'                                      => 'labtest',
+                        'Laboratory Operations Officer'                               => 'labtest',
+                        'QC Laboratory Analyst'                                       => 'labtest',
+                        'Quality Management System (ISO 9001) Officer'               => 'manajemen',
+                        'Quality Assurance Officer'                                   => 'manajemen',
+                        'Research and Development Officer'                            => 'manajemen',
+                        'Regulatory Affairs Officer'                                  => 'manajemen',
+                        'Sustainability Officer'                                      => 'manajemen',
+                        'ESG Officer'                                                 => 'manajemen',
+                        'Environmental Management System (ISO 14001) Officer'        => 'manajemen',
+                        'Corporate Legal Officer'                                     => 'hukum',
+                    ];
+                    $set('kategori', $map[$state] ?? null);
+                })
                 ->options([
-                    'Auditor Internal SPMI Terintegrasi ISO 21001:2018'               => 'Auditor Internal SPMI Terintegrasi ISO 21001:2018',
-                    'Lead Auditor Internal SPMI Terintegrasi ISO 21001:2018'          => 'Lead Auditor Internal SPMI Terintegrasi ISO 21001:2018',
-                    'Lead Implementer SPMI Terintegrasi ISO 21001:2018'               => 'Lead Implementer SPMI Terintegrasi ISO 21001:2018',
-                    'Training of Trainer (ToT) Outcome Based Education (OBE)'         => 'Training of Trainer (ToT) Outcome Based Education (OBE)',
-                    'Implementer Tata Kelola Organisasi Perguruan Tinggi'             => 'Implementer Tata Kelola Organisasi Perguruan Tinggi',
-                    'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017'        => 'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017',
-                    'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017'        => 'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
-                    'Lifting Engineer for Medium Lifting'                              => 'Lifting Engineer for Medium Lifting',
-                    'Lifting Engineer for Heavy & Critical Lifting Operation'          => 'Lifting Engineer for Heavy & Critical Lifting Operation',
-                    '2D Lifting Designer'                                             => '2D Lifting Designer',
-                    '3D Lifting Designer'                                             => '3D Lifting Designer',
-                    'Laboratory Quality System Officer ISO/IEC 17025'                 => 'Laboratory Quality System Officer ISO/IEC 17025',
-                    'Food Safety Management Officer'                                   => 'Food Safety Management Officer',
-                    'Panelis Terlatih Pengujian Sensori Pangan'                       => 'Panelis Terlatih Pengujian Sensori Pangan',
-                    'GLP Laboratory Technician'                                        => 'GLP Laboratory Technician',
-                    'Laboratory HSE Officer'                                           => 'Laboratory HSE Officer',
-                    'Laboratory Operations Officer'                                    => 'Laboratory Operations Officer',
-                    'Quality Management System (ISO 9001) Officer'                    => 'Quality Management System (ISO 9001) Officer',
-                    'QC Laboratory Analyst'                                            => 'QC Laboratory Analyst',
-                    'Quality Assurance Officer'                                        => 'Quality Assurance Officer',
-                    'Research and Development Officer'                                 => 'Research and Development Officer',
-                    'Regulatory Affairs Officer'                                       => 'Regulatory Affairs Officer',
-                    'Sustainability Officer'                                           => 'Sustainability Officer',
-                    'ESG Officer'                                                      => 'ESG Officer',
-                    'Environmental Management System (ISO 14001) Officer'             => 'Environmental Management System (ISO 14001) Officer',
-                    'Corporate Legal Officer'                                          => 'Corporate Legal Officer',
+                    'SPMI ISO 21001' => [
+                        'Auditor Internal SPMI Terintegrasi ISO 21001:2018'          => 'Auditor Internal SPMI Terintegrasi ISO 21001:2018',
+                        'Lead Auditor Internal SPMI Terintegrasi ISO 21001:2018'     => 'Lead Auditor Internal SPMI Terintegrasi ISO 21001:2018',
+                        'Lead Implementer SPMI Terintegrasi ISO 21001:2018'          => 'Lead Implementer SPMI Terintegrasi ISO 21001:2018',
+                    ],
+                    'Perguruan Tinggi' => [
+                        'Training of Trainer (ToT) Outcome Based Education (OBE)'    => 'Training of Trainer (ToT) Outcome Based Education (OBE)',
+                        'Implementer Tata Kelola Organisasi Perguruan Tinggi'        => 'Implementer Tata Kelola Organisasi Perguruan Tinggi',
+                    ],
+                    'Lab ISO 17025' => [
+                        'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017'   => 'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017',
+                        'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017'   => 'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
+                    ],
+                    'Lifting Engineering' => [
+                        'Lifting Engineer for Medium Lifting'                         => 'Lifting Engineer for Medium Lifting',
+                        'Lifting Engineer for Heavy & Critical Lifting Operation'     => 'Lifting Engineer for Heavy & Critical Lifting Operation',
+                        '2D Lifting Designer'                                        => '2D Lifting Designer',
+                        '3D Lifting Designer'                                        => '3D Lifting Designer',
+                    ],
+                    'Lab & Pengujian' => [
+                        'Laboratory Quality System Officer ISO/IEC 17025'            => 'Laboratory Quality System Officer ISO/IEC 17025',
+                        'Food Safety Management Officer'                              => 'Food Safety Management Officer',
+                        'Panelis Terlatih Pengujian Sensori Pangan'                  => 'Panelis Terlatih Pengujian Sensori Pangan',
+                        'GLP Laboratory Technician'                                   => 'GLP Laboratory Technician',
+                        'Laboratory HSE Officer'                                      => 'Laboratory HSE Officer',
+                        'Laboratory Operations Officer'                               => 'Laboratory Operations Officer',
+                        'QC Laboratory Analyst'                                       => 'QC Laboratory Analyst',
+                    ],
+                    'Sistem Manajemen' => [
+                        'Quality Management System (ISO 9001) Officer'               => 'Quality Management System (ISO 9001) Officer',
+                        'Quality Assurance Officer'                                   => 'Quality Assurance Officer',
+                        'Research and Development Officer'                            => 'Research and Development Officer',
+                        'Regulatory Affairs Officer'                                  => 'Regulatory Affairs Officer',
+                        'Sustainability Officer'                                      => 'Sustainability Officer',
+                        'ESG Officer'                                                 => 'ESG Officer',
+                        'Environmental Management System (ISO 14001) Officer'        => 'Environmental Management System (ISO 14001) Officer',
+                    ],
+                    'Hukum Korporasi' => [
+                        'Corporate Legal Officer'                                     => 'Corporate Legal Officer',
+                    ],
                 ])
                 ->columnSpanFull(),
 
             Forms\Components\Select::make('kategori')
                 ->label('Kategori / Bidang')
                 ->required()
+                ->disabled()
+                ->dehydrated()
+                ->hint('Terisi otomatis saat skema dipilih')
                 ->options([
                     'spmi'      => 'SPMI ISO 21001',
                     'pt'        => 'Perguruan Tinggi',
