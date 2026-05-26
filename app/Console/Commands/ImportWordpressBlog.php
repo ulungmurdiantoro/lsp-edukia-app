@@ -158,6 +158,9 @@ class ImportWordpressBlog extends Command
         // Bersihkan class WordPress
         $html = preg_replace('/\s*class="[^"]*"/i', '', $html);
 
+        // Wrap iframe agar responsive
+        $html = preg_replace('/<iframe([^>]*)><\/iframe>/i', '<div class="iframe-wrap"><iframe$1></iframe></div>', $html);
+
         return trim($html);
     }
 }
