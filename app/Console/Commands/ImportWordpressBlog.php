@@ -74,6 +74,9 @@ class ImportWordpressBlog extends Command
         $slug     = Str::slug($judul);
         $konten   = $this->cleanContent($wp['content']['rendered']);
         $ringkasan = trim(html_entity_decode(strip_tags($wp['excerpt']['rendered'])));
+        if (empty($ringkasan) || str_contains(strtolower($ringkasan), 'memuat')) {
+            $ringkasan = Str::limit(strip_tags($konten), 280);
+        }
         $kategori = $this->resolveKategori($wp['categories']);
         $thumbnail = $this->fetchThumbnail($wp['featured_media'], $base);
         $publishedAt = $wp['status'] === 'publish' ? $wp['date'] : null;

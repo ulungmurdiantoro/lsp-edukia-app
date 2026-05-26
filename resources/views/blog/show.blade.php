@@ -29,14 +29,14 @@
 @section('extra-css')
 <style>
 /* ── Article header ─────────────────────────────────────── */
-.art-header{background:#fff;border-bottom:1px solid var(--line);padding:28px 0 36px}
-.art-breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin-bottom:20px}
+.art-header{background:#fff;border-bottom:1px solid var(--line);padding:24px 0 28px}
+.art-breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin-bottom:16px}
 .art-breadcrumb a{color:var(--muted);text-decoration:none}
 .art-breadcrumb a:hover{color:var(--navy-800)}
-.art-cat-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:700;background:var(--orange-50);color:var(--orange-deep);letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
-.art-h1{font-size:clamp(22px,2.8vw,36px);line-height:1.15;letter-spacing:-.02em;font-weight:800;color:var(--ink);margin:0 0 16px;text-wrap:balance;max-width:820px}
-.art-lead{font-size:16px;color:var(--ink-2);line-height:1.6;margin:0;max-width:64ch}
-.art-meta{display:flex;align-items:center;gap:16px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);flex-wrap:wrap}
+.art-cat-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;background:var(--orange-50);color:var(--orange-deep);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px}
+.art-h1{font-size:clamp(18px,2.2vw,28px);line-height:1.2;letter-spacing:-.01em;font-weight:700;color:var(--ink);margin:0 0 12px;max-width:820px}
+.art-lead{font-size:15px;color:var(--ink-2);line-height:1.6;margin:0;max-width:72ch}
+.art-meta{display:flex;align-items:center;gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);flex-wrap:wrap}
 .art-author{display:flex;align-items:center;gap:10px}
 .art-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy-800),var(--navy-600));color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex:0 0 auto}
 .art-author-name{color:var(--ink);font-weight:700;font-size:14px}
@@ -49,11 +49,11 @@
 
 /* ── Hero image ─────────────────────────────────────────── */
 .art-hero-wrap{padding:0 32px}
-.art-hero-img{margin-top:-16px;aspect-ratio:16/7;overflow:hidden;border-radius:14px;border:1px solid var(--line)}
-.art-hero-img img{width:100%;height:100%;object-fit:cover;display:block}
+.art-hero-img{margin-top:-8px;max-height:320px;overflow:hidden;border-radius:14px;border:1px solid var(--line)}
+.art-hero-img img{width:100%;height:100%;object-fit:cover;display:block;max-height:320px}
 
 /* ── Article body ───────────────────────────────────────── */
-.art-body-section{padding:40px 0 72px;background:var(--cream)}
+.art-body-section{padding:32px 0 72px;background:var(--cream)}
 .art-body-grid{display:grid;grid-template-columns:1fr 200px;gap:48px;align-items:flex-start}
 .art-prose{max-width:720px;font-size:16px;line-height:1.8;color:var(--ink-2)}
 .art-prose>p:first-child{font-size:17px;line-height:1.7;font-weight:500;color:var(--ink);margin:0 0 20px}
@@ -157,7 +157,10 @@
         <h1 class="art-h1">{{ $post->judul }}</h1>
 
         {{-- Lead / ringkasan --}}
-        <p class="art-lead">{{ $post->ringkasan }}</p>
+        @php $lead = $post->ringkasan && !str_contains(strtolower($post->ringkasan), 'memuat') ? $post->ringkasan : null; @endphp
+        @if($lead)
+        <p class="art-lead">{{ $lead }}</p>
+        @endif
 
         {{-- Meta row --}}
         <div class="art-meta">
