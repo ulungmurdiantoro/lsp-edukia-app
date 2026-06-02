@@ -225,11 +225,12 @@
               <span>{{ $post->reading_time }} menit baca</span>
             </div>
             <div class="side-actions">
-              <a href="https://wa.me/6285175479385?text={{ urlencode('Saya tertarik dengan artikel: ' . $post->judul) }}"
-                 class="art-share-btn" target="_blank" rel="noopener">
+              <button type="button" class="art-share-btn" id="art-share-btn"
+                      data-url="{{ route('blog.short', $post->id) }}"
+                      data-title="{{ $post->judul }}">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                Bagikan
-              </a>
+                <span class="art-share-label">Bagikan</span>
+              </button>
               <a href="{{ route('skema') }}" class="art-share-btn art-share-primary">
                 Daftar Sertifikasi
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -350,6 +351,41 @@
   window.addEventListener('scroll', function () {
     if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
   }, { passive: true });
+})();
+
+// Tombol Bagikan: short link via Web Share API, fallback salin ke clipboard
+(function () {
+  const btn = document.getElementById('art-share-btn');
+  if (!btn) return;
+
+  const url   = new URL(btn.dataset.url, window.location.origin).href;
+  const title = btn.dataset.title || document.title;
+  const label = btn.querySelector('.art-share-label');
+  const original = label ? label.textContent : 'Bagikan';
+
+  function flash(text) {
+    if (!label) return;
+    label.textContent = text;
+    setTimeout(() => { label.textContent = original; }, 1800);
+  }
+
+  btn.addEventListener('click', async function () {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, url });
+        return;
+      } catch (e) {
+        if (e && e.name === 'AbortError') return; // user batal
+      }
+    }
+    // Fallback: salin link ke clipboard
+    try {
+      await navigator.clipboard.writeText(url);
+      flash('Link disalin ✓');
+    } catch (e) {
+      window.prompt('Salin link berikut:', url);
+    }
+  });
 })();
 </script>
 @endsection
