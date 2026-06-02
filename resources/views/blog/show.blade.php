@@ -34,9 +34,9 @@
 .art-breadcrumb a{color:var(--muted);text-decoration:none}
 .art-breadcrumb a:hover{color:var(--navy-800)}
 .art-cat-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;background:var(--orange-50);color:var(--orange-deep);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px}
-.art-h1{font-size:clamp(18px,2.2vw,28px);line-height:1.2;letter-spacing:-.01em;font-weight:700;color:var(--ink);margin:0 0 12px}
-.art-lead{font-size:15px;color:var(--ink-2);line-height:1.6;margin:0;max-width:72ch}
-.art-meta{display:flex;align-items:center;gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);flex-wrap:wrap}
+.art-h1{font-size:clamp(22px,3vw,40px);line-height:1.15;letter-spacing:-.02em;font-weight:800;color:var(--ink);margin:0 0 14px}
+.art-lead{font-size:16px;color:var(--ink-2);line-height:1.65;margin:0}
+.art-meta{display:flex;align-items:center;gap:14px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);flex-wrap:wrap}
 .art-author{display:flex;align-items:center;gap:10px}
 .art-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy-800),var(--navy-600));color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex:0 0 auto}
 .art-author-name{color:var(--ink);font-weight:700;font-size:14px}
@@ -174,7 +174,8 @@
           <span>{{ $post->published_at?->translatedFormat('d F Y') }}</span>
           <span class="meta-sep"></span>
           <span>{{ $post->reading_time }} menit baca</span>
-          <span style="flex:1"></span>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
           <a href="https://wa.me/6285175479385?text={{ urlencode('Saya tertarik dengan artikel: ' . $post->judul) }}"
              class="art-share-btn" target="_blank" rel="noopener">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
