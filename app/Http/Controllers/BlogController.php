@@ -46,10 +46,14 @@ class BlogController extends Controller
         return redirect('/' . ltrim($slug, '/'), 301);
     }
 
-    /** Short link: /b/{id} → redirect ke artikel lengkap */
-    public function short(int $id): RedirectResponse
+    /** Short link: /b/{code} → redirect ke artikel lengkap */
+    public function short(string $code): RedirectResponse
     {
-        $post = Post::where('id', $id)->where('published', true)->firstOrFail();
+        $post = Post::where('published', true)
+            ->where(fn ($q) => $q
+                ->where('short_code', $code)
+                ->when(is_numeric($code), fn ($sq) => $sq->orWhere('id', (int) $code)))
+            ->firstOrFail();
 
         return redirect()->route('blog.show', $post->slug, 301);
     }

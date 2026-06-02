@@ -16,7 +16,7 @@ Route::get('/kegiatan', [PageController::class, 'kegiatan'])->name('kegiatan.ind
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
-Route::get('/b/{id}', [BlogController::class, 'short'])->where('id', '[0-9]+')->name('blog.short');
+Route::get('/b/{code}', [BlogController::class, 'short'])->name('blog.short');
 
 Route::get('/blog/{slug}', [BlogController::class, 'redirectLegacy'])->name('blog.show.legacy');
 

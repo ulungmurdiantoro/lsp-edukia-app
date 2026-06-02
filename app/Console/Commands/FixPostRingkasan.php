@@ -39,6 +39,15 @@ class FixPostRingkasan extends Command
             $this->line("  ✓ iframe: {$post->judul}");
         }
 
+        // Buat short_code untuk artikel yang belum punya
+        $noCode = Post::whereNull('short_code')->orWhere('short_code', '')->get();
+        $this->info("Membuat short link: {$noCode->count()} artikel.");
+        foreach ($noCode as $post) {
+            $post->short_code = Post::generateShortCode($post->judul ?? '');
+            $post->saveQuietly();
+            $this->line("  ✓ /b/{$post->short_code} → {$post->judul}");
+        }
+
         $this->info('Selesai.');
     }
 }

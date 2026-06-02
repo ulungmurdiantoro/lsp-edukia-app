@@ -40,6 +40,16 @@ class PostResource extends Resource
                     ->prefix('/')
                     ->columnSpanFull(),
 
+                Forms\Components\TextInput::make('short_code')
+                    ->label('Short Link')
+                    ->unique(ignoreRecord: true)
+                    ->prefix(url('/b') . '/')
+                    ->placeholder('mis. auditor-2026')
+                    ->hint('Link pendek untuk dibagikan — kosongkan untuk dibuat otomatis')
+                    ->dehydrateStateUsing(fn (?string $state) => $state ? Str::slug($state) : null)
+                    ->helperText('Hanya huruf, angka, dan tanda hubung. Akan diarahkan ke artikel ini.')
+                    ->columnSpanFull(),
+
                 Forms\Components\Textarea::make('ringkasan')
                     ->label('Ringkasan / Excerpt')
                     ->required()
@@ -123,6 +133,15 @@ class PostResource extends Resource
                     'Kegiatan'         => 'gray',
                     default            => 'gray',
                 }),
+
+            Tables\Columns\TextColumn::make('short_code')
+                ->label('Short Link')
+                ->formatStateUsing(fn (?string $state) => $state ? '/b/' . $state : '—')
+                ->copyable()
+                ->copyableState(fn ($record) => $record->short_url)
+                ->copyMessage('Short link disalin')
+                ->tooltip('Klik untuk salin link lengkap')
+                ->toggleable(),
 
             Tables\Columns\TextColumn::make('penulis')
                 ->label('Penulis')
