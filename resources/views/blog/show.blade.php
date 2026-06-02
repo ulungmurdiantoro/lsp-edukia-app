@@ -90,7 +90,9 @@
 .tag-chip:hover{border-color:var(--navy-800);color:var(--navy-800)}
 
 /* ── Sidebar (meta + ToC) ───────────────────────────────── */
-.art-sidebar{position:sticky;top:100px;display:flex;flex-direction:column;gap:24px}
+.art-sidebar{position:sticky;top:96px;max-height:calc(100vh - 116px);overflow-y:auto;display:flex;flex-direction:column;gap:20px;scrollbar-width:thin}
+.art-sidebar::-webkit-scrollbar{width:6px}
+.art-sidebar::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:3px}
 .side-meta{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
 .side-meta .art-author{margin-bottom:14px}
 .side-meta-info{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:14px;flex-wrap:wrap}
@@ -121,7 +123,7 @@
 
 @media(max-width:960px){
   .art-body-grid{grid-template-columns:1fr}
-  .art-sidebar{position:static;order:-1;margin-bottom:8px}
+  .art-sidebar{position:static;order:-1;margin-bottom:8px;max-height:none;overflow:visible}
   .toc-aside{display:none}
   .side-actions{flex-direction:row}
   .related-grid{grid-template-columns:1fr 1fr}
