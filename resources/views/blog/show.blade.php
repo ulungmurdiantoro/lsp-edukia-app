@@ -72,7 +72,7 @@
 .art-prose table th{background:var(--navy-800);color:#fff;padding:10px 14px;text-align:left;font-weight:600}
 .art-prose table td{padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
 .art-prose table tr:nth-child(even) td{background:var(--navy-50)}
-.art-prose .art-featured-img{width:100%;max-height:380px;object-fit:cover;border-radius:12px;border:1px solid var(--line);margin-bottom:28px;display:block}
+.art-prose .art-featured-img{width:100%;height:auto;object-fit:contain;border-radius:12px;border:1px solid var(--line);margin-bottom:28px;display:block}
 /* Responsive iframe (YouTube embed dll) */
 .art-prose .iframe-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;margin:20px 0}
 .art-prose .iframe-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
