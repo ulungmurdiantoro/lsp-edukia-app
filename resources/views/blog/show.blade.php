@@ -34,8 +34,9 @@
 .art-breadcrumb a{color:var(--muted);text-decoration:none}
 .art-breadcrumb a:hover{color:var(--navy-800)}
 .art-cat-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;background:var(--orange-50);color:var(--orange-deep);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px}
-.art-h1{font-size:clamp(22px,3vw,40px);line-height:1.15;letter-spacing:-.02em;font-weight:800;color:var(--ink);margin:0 0 14px}
-.art-lead{font-size:16px;color:var(--ink-2);line-height:1.65;margin:0}
+.art-h1{font-size:clamp(16px,1.25vw,19px);line-height:1.3;letter-spacing:-.01em;font-weight:700;color:var(--ink);margin:0 0 10px}
+.art-lead{font-size:14.5px;color:var(--muted);line-height:1.6;margin:0;transition:opacity .25s ease,max-height .35s ease,margin .35s ease;overflow:hidden}
+.art-lead.is-hidden{opacity:0;max-height:0;margin:0;pointer-events:none}
 .art-meta{display:flex;align-items:center;gap:14px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);flex-wrap:wrap}
 .art-author{display:flex;align-items:center;gap:10px}
 .art-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy-800),var(--navy-600));color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex:0 0 auto}
@@ -49,7 +50,7 @@
 
 /* ── Article body ───────────────────────────────────────── */
 .art-body-section{padding:32px 0 72px;background:var(--cream)}
-.art-body-grid{display:grid;grid-template-columns:1fr 200px;gap:48px;align-items:flex-start}
+.art-body-grid{display:grid;grid-template-columns:1fr 250px;gap:48px;align-items:flex-start}
 .art-prose{max-width:720px;font-size:16px;line-height:1.8;color:var(--ink-2)}
 .art-prose>p:first-child{font-size:17px;line-height:1.7;font-weight:500;color:var(--ink);margin:0 0 20px}
 .art-prose p{margin:0 0 18px}
@@ -88,8 +89,15 @@
 .tag-chip{background:#fff;border:1px solid var(--line-2);padding:6px 12px;border-radius:999px;font-size:12.5px;color:var(--ink-2);font-weight:500;text-decoration:none}
 .tag-chip:hover{border-color:var(--navy-800);color:var(--navy-800)}
 
-/* ── ToC sidebar ─────────────────────────────────────────── */
-.toc-aside{position:sticky;top:100px}
+/* ── Sidebar (meta + ToC) ───────────────────────────────── */
+.art-sidebar{position:sticky;top:100px;display:flex;flex-direction:column;gap:24px}
+.side-meta{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.side-meta .art-author{margin-bottom:14px}
+.side-meta-info{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:14px;flex-wrap:wrap}
+.side-dot{color:var(--line-2)}
+.side-actions{display:flex;flex-direction:column;gap:8px}
+.side-actions .art-share-btn{width:100%;justify-content:center}
+/* ── ToC ─────────────────────────────────────────────────── */
 .toc-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
 .toc-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line)}
 .toc-item{padding-left:14px;margin-left:-2px;border-left:2px solid transparent;transition:border-color .15s}
@@ -113,20 +121,21 @@
 
 @media(max-width:960px){
   .art-body-grid{grid-template-columns:1fr}
+  .art-sidebar{position:static;order:-1;margin-bottom:8px}
   .toc-aside{display:none}
+  .side-actions{flex-direction:row}
   .related-grid{grid-template-columns:1fr 1fr}
   .art-hero-wrap{padding:0}
   .art-hero-img{border-radius:0;border-left:0;border-right:0;margin-top:0}
-  .art-h1{font-size:clamp(20px,4vw,30px)}
+  .art-h1{font-size:clamp(17px,3.5vw,20px)}
 }
 @media(max-width:600px){
   .related-grid{grid-template-columns:1fr}
-  .art-meta{gap:10px}
-  .meta-sep{display:none}
-  .art-h1{font-size:20px}
-  .art-lead{font-size:15px}
-  .art-header{padding:20px 0 28px}
-  .art-body-section{padding:28px 0 56px}
+  .side-actions{flex-direction:column}
+  .art-h1{font-size:17px}
+  .art-lead{font-size:14px}
+  .art-header{padding:20px 0 24px}
+  .art-body-section{padding:24px 0 56px}
   .art-prose{font-size:15px}
 }
 </style>
@@ -158,34 +167,8 @@
         {{-- Lead / ringkasan --}}
         @php $lead = $post->ringkasan && !str_contains(strtolower($post->ringkasan), 'memuat') ? $post->ringkasan : null; @endphp
         @if($lead)
-        <p class="art-lead">{{ $lead }}</p>
+        <p class="art-lead" id="art-lead">{{ $lead }}</p>
         @endif
-
-        {{-- Meta row --}}
-        <div class="art-meta">
-          <div class="art-author">
-            <div class="art-avatar">TL</div>
-            <div>
-              <div class="art-author-name">{{ $post->penulis }}</div>
-              <div class="art-author-role">Editorial Team</div>
-            </div>
-          </div>
-          <span class="meta-sep"></span>
-          <span>{{ $post->published_at?->translatedFormat('d F Y') }}</span>
-          <span class="meta-sep"></span>
-          <span>{{ $post->reading_time }} menit baca</span>
-        </div>
-        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
-          <a href="https://wa.me/6285175479385?text={{ urlencode('Saya tertarik dengan artikel: ' . $post->judul) }}"
-             class="art-share-btn" target="_blank" rel="noopener">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-            Bagikan
-          </a>
-          <a href="{{ route('skema') }}" class="art-share-btn art-share-primary">
-            Daftar Sertifikasi
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
       </div>
     </div>
   </header>
@@ -223,10 +206,40 @@
           </div>
         </div>
 
-        {{-- ToC sidebar (built by JS) --}}
-        <aside class="toc-aside" id="toc-aside">
-          <div class="toc-eyebrow">Daftar Isi</div>
-          <ol class="toc-list" id="toc-list"></ol>
+        {{-- Sidebar: meta + ToC --}}
+        <aside class="art-sidebar">
+          {{-- Author + meta + actions --}}
+          <div class="side-meta">
+            <div class="art-author">
+              <div class="art-avatar">TL</div>
+              <div>
+                <div class="art-author-name">{{ $post->penulis }}</div>
+                <div class="art-author-role">Editorial Team</div>
+              </div>
+            </div>
+            <div class="side-meta-info">
+              <span>{{ $post->published_at?->translatedFormat('d F Y') }}</span>
+              <span class="side-dot">·</span>
+              <span>{{ $post->reading_time }} menit baca</span>
+            </div>
+            <div class="side-actions">
+              <a href="https://wa.me/6285175479385?text={{ urlencode('Saya tertarik dengan artikel: ' . $post->judul) }}"
+                 class="art-share-btn" target="_blank" rel="noopener">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Bagikan
+              </a>
+              <a href="{{ route('skema') }}" class="art-share-btn art-share-primary">
+                Daftar Sertifikasi
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+
+          {{-- ToC (built by JS) --}}
+          <div class="toc-aside" id="toc-aside">
+            <div class="toc-eyebrow">Daftar Isi</div>
+            <ol class="toc-list" id="toc-list"></ol>
+          </div>
         </aside>
 
       </div>
@@ -321,6 +334,20 @@
   }, { rootMargin: '0px 0px -55% 0px', threshold: 0 });
 
   headings.forEach(h => observer.observe(h));
+})();
+
+// Sembunyikan deskripsi singkat saat scroll ke bawah
+(function () {
+  const lead = document.getElementById('art-lead');
+  if (!lead) return;
+  let ticking = false;
+  function update() {
+    lead.classList.toggle('is-hidden', window.scrollY > 80);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
 })();
 </script>
 @endsection
