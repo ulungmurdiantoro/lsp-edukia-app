@@ -34,7 +34,7 @@
 .art-breadcrumb a{color:var(--muted);text-decoration:none}
 .art-breadcrumb a:hover{color:var(--navy-800)}
 .art-cat-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;background:var(--orange-50);color:var(--orange-deep);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px}
-.art-h1{font-size:clamp(18px,2.2vw,28px);line-height:1.2;letter-spacing:-.01em;font-weight:700;color:var(--ink);margin:0 0 12px;max-width:820px}
+.art-h1{font-size:clamp(18px,2.2vw,28px);line-height:1.2;letter-spacing:-.01em;font-weight:700;color:var(--ink);margin:0 0 12px}
 .art-lead{font-size:15px;color:var(--ink-2);line-height:1.6;margin:0;max-width:72ch}
 .art-meta{display:flex;align-items:center;gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);flex-wrap:wrap}
 .art-author{display:flex;align-items:center;gap:10px}
@@ -145,7 +145,7 @@
         <span>{{ $post->kategori }}</span>
       </div>
 
-      <div style="max-width:820px">
+      <div>
         {{-- Category badge --}}
         <div class="art-cat-badge">
           <span style="width:6px;height:6px;border-radius:50%;background:var(--orange);flex:0 0 auto"></span>
