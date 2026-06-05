@@ -47,11 +47,11 @@ return [
         /**
          * Judul khusus homepage (tanpa suffix).
          */
-        'homepage_title' => 'LSP Edukia — Sertifikasi Kompetensi Profesional BNSP',
+        'homepage_title' => 'LSP Edukia — Lembaga Sertifikasi Person Terakreditasi KAN',
     ],
 
     'description' => [
-        'fallback' => 'LSP Edukia adalah lembaga sertifikasi profesi terakreditasi BNSP dengan 26 skema kompetensi di bidang pendidikan tinggi, manajemen mutu, laboratorium, lifting engineering, dan hukum korporasi.',
+        'fallback' => 'LSP Edukia adalah lembaga sertifikasi person terakreditasi KAN dengan 26 skema kompetensi di bidang pendidikan tinggi, manajemen mutu, laboratorium, lifting engineering, dan hukum korporasi.',
     ],
 
     'image' => [

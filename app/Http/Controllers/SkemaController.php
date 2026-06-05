@@ -23,7 +23,7 @@ class SkemaController extends Controller
         $related = Skemas::related($skema);
         $bidangs = Skemas::bidangs();
 
-        $deskripsi = "Sertifikasi {$skema['nama']} dari LSP Edukia, terakreditasi BNSP. "
+        $deskripsi = "Sertifikasi {$skema['nama']} dari LSP Edukia, terakreditasi KAN. "
             ."Skema {$skema['bidang_label']} dengan {$skema['jumlah_unit']} unit kompetensi. "
             .'Lihat persyaratan, unit kompetensi, dan cara mendaftar uji kompetensi.';
 
@@ -61,7 +61,7 @@ class SkemaController extends Controller
         $seo = new SEOData(
             title: 'Skema '.$info['label'],
             description: Str::limit(
-                "Daftar {$skemas->count()} skema sertifikasi kompetensi BNSP bidang {$info['label']} di LSP Edukia: {$info['judul']}. Lihat unit kompetensi dan persyaratan tiap skema.",
+                "Daftar {$skemas->count()} skema sertifikasi kompetensi person bidang {$info['label']} di LSP Edukia, terakreditasi KAN: {$info['judul']}. Lihat unit kompetensi dan persyaratan tiap skema.",
                 155
             ),
             image: 'images/hero-skema.jpg',
@@ -93,7 +93,7 @@ class SkemaController extends Controller
                 '@id' => config('app.url').'/#organization',
                 'url' => config('app.url'),
             ],
-            'educationalCredentialAwarded' => 'Sertifikat Kompetensi BNSP — '.$skema['nama'],
+            'educationalCredentialAwarded' => 'Sertifikat Kompetensi Terakreditasi KAN — '.$skema['nama'],
             'hasCourseInstance' => [
                 '@type' => 'CourseInstance',
                 'courseMode' => 'onsite',

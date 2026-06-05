@@ -42,7 +42,7 @@
       <span>{{ $info['label'] }}</span>
     </nav>
     <h1>Skema <em>{{ $info['label'] }}</em></h1>
-    <p>{{ $info['judul'] }} — {{ $skemas->count() }} skema sertifikasi kompetensi terakreditasi BNSP di LSP Edukia.</p>
+    <p>{{ $info['judul'] }} — {{ $skemas->count() }} skema sertifikasi kompetensi person terakreditasi KAN di LSP Edukia.</p>
   </div>
 </div>
 

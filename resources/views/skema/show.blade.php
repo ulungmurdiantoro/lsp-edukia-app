@@ -52,7 +52,7 @@
       <a href="{{ route('skema.bidang', $skema['bidang']) }}">{{ $skema['bidang_label'] }}</a> ›
       <span>{{ Str::limit($skema['nama'], 40) }}</span>
     </nav>
-    <span class="sk-tag">{{ $skema['bidang_label'] }} · Terakreditasi BNSP</span>
+    <span class="sk-tag">{{ $skema['bidang_label'] }} · Terakreditasi KAN</span>
     <h1>Sertifikasi {{ $skema['nama'] }}</h1>
     <div class="sk-meta">
       @if($skema['kode'])<span>Kode skema: <b>{{ $skema['kode'] }}</b></span>@endif
@@ -69,9 +69,9 @@
         <h2>Tentang Skema</h2>
         <p class="sk-lead">Skema sertifikasi <b>{{ $skema['nama'] }}</b> merupakan bagian dari bidang
           <a href="{{ route('skema.bidang', $skema['bidang']) }}" style="color:var(--blue-deep);font-weight:600">{{ $skema['bidang_judul'] }}</a>
-          yang diselenggarakan LSP Edukia (LSP Edukasi Global Cendekia), lembaga sertifikasi profesi
-          terakreditasi <b>BNSP</b>. Uji kompetensi mencakup <b>{{ $skema['jumlah_unit'] }} unit kompetensi</b>
-          dan menghasilkan Sertifikat Kompetensi BNSP yang diakui secara nasional.</p>
+          yang diselenggarakan LSP Edukia (LSP Edukasi Global Cendekia), lembaga sertifikasi person
+          terakreditasi <b>KAN (Komite Akreditasi Nasional)</b>. Uji kompetensi mencakup <b>{{ $skema['jumlah_unit'] }} unit kompetensi</b>
+          dan menghasilkan Sertifikat Kompetensi terakreditasi KAN yang diakui secara nasional.</p>
       </div>
 
       <div class="sk-card">

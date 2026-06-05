@@ -87,6 +87,9 @@
 .scheme--popular:hover{border-color:#d95f00;box-shadow:0 0 0 4px rgba(244,137,31,.20),0 12px 32px rgba(244,137,31,.15);transform:translateY(-2px)}
 .scheme--popular .scheme-header{background:linear-gradient(135deg,#b84c00,#d95f00 50%,#e8750a)}
 .scheme--popular .scheme-badge{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35)}
+/* Beri ruang agar judul tidak tertutup ribbon "Paling Diminati" */
+.scheme--popular .scheme-top{padding-right:140px}
+@media(max-width:640px){.scheme--popular .scheme-top{padding-right:120px}}
 .popular-ribbon{position:absolute;top:14px;right:-1px;background:#fff;color:#b84c00;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:4px 14px 4px 10px;border-radius:999px 0 0 999px;box-shadow:0 2px 8px rgba(0,0,0,.20);display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
 </style>
 @endsection

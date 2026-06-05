@@ -245,7 +245,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
         <a class="brand" href="{{ route('home') }}" style="margin:0">
           <img src="{{ asset('LOGO-EDUKIA-REV.002-UPD.14032024-001.png') }}" class="brand-logo" alt="LSP Edukia" style="filter:brightness(0) invert(1)">
         </a>
-        <p>Lembaga Sertifikasi Profesi terpercaya untuk SDM unggul di bidang pendidikan tinggi, laboratorium, lifting engineering, dan industri.</p>
+        <p>Lembaga Sertifikasi Person terpercaya untuk SDM unggul di bidang pendidikan tinggi, laboratorium, lifting engineering, dan industri.</p>
       </div>
       <div class="foot-col">
         <h4>Navigasi</h4>

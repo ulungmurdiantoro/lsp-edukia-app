@@ -19,7 +19,7 @@
                 ->addressCountry('ID')
         )
         ->areaServed('Indonesia')
-        ->description('Lembaga sertifikasi profesi terakreditasi BNSP dengan 26 skema kompetensi di bidang pendidikan tinggi, manajemen mutu, laboratorium, lifting engineering, dan hukum korporasi.')
+        ->description('Lembaga sertifikasi person terakreditasi KAN dengan 26 skema kompetensi di bidang pendidikan tinggi, manajemen mutu, laboratorium, lifting engineering, dan hukum korporasi.')
         // Profil sosial resmi diisi via .env (SOCIAL_PROFILES=url1,url2,...) — memperkuat entity di Knowledge Graph.
         ->sameAs(config('site.social', []));
 @endphp

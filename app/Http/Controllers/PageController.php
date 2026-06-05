@@ -280,7 +280,7 @@ class PageController extends Controller
         $seo = new SEOData(
             schema: SchemaCollection::initialize()
                 ->addFaqPage(fn ($faq) => $faq
-                    ->addQuestion('Apakah LSP Edukia terakreditasi BNSP?', 'Ya. LSP Edukia (LSP Edukasi Global Cendekia) adalah Lembaga Sertifikasi Profesi yang berlisensi dan terakreditasi BNSP (Badan Nasional Sertifikasi Profesi).')
+                    ->addQuestion('Apakah LSP Edukia terakreditasi KAN?', 'Ya. LSP Edukia (LSP Edukasi Global Cendekia) adalah Lembaga Sertifikasi Person yang terakreditasi Komite Akreditasi Nasional (KAN).')
                     ->addQuestion('Berapa skema sertifikasi yang tersedia di LSP Edukia?', 'Tersedia 26 skema sertifikasi kompetensi pada 7 bidang: SPMI ISO 21001, Perguruan Tinggi, Laboratorium ISO/IEC 17025, Lifting Engineering, Laboratorium & Pengujian, Sistem Manajemen & Governance, serta Research & Innovation.')
                     ->addQuestion('Bagaimana cara mendaftar uji kompetensi di LSP Edukia?', 'Pilih skema sertifikasi yang sesuai di halaman Skema Sertifikasi, periksa persyaratan pemohon, lalu hubungi tim kami melalui WhatsApp untuk informasi jadwal dan biaya uji kompetensi.')
                     ->addQuestion('Apakah sertifikat LSP Edukia bisa diverifikasi?', 'Ya. Seluruh penerima sertifikat dapat ditelusuri pada halaman Daftar Penerima Sertifikat berdasarkan nama, nomor sertifikat, atau skema kompetensi.')),
@@ -297,7 +297,7 @@ class PageController extends Controller
             ->with('activeNav', 'informasi')
             ->with('SEOData', new SEOData(
                 title: 'Informasi Publik',
-                description: 'Informasi publik LSP Edukia: profil lembaga, legalitas, skema sertifikasi, biaya, serta hak dan kewajiban peserta sertifikasi kompetensi BNSP.',
+                description: 'Informasi publik LSP Edukia: profil lembaga, legalitas, skema sertifikasi, biaya, serta hak dan kewajiban peserta sertifikasi kompetensi person terakreditasi KAN.',
                 image: 'images/hero-informasi.jpg',
             ));
     }
@@ -308,7 +308,7 @@ class PageController extends Controller
             ->with('activeNav', 'tentang')
             ->with('SEOData', new SEOData(
                 title: 'Tentang Kami',
-                description: 'Mengenal LSP Edukia (LSP Edukasi Global Cendekia) — lembaga sertifikasi profesi terakreditasi BNSP yang berkomitmen mencetak SDM unggul dan tersertifikasi.',
+                description: 'Mengenal LSP Edukia (LSP Edukasi Global Cendekia) — lembaga sertifikasi person terakreditasi KAN yang berkomitmen mencetak SDM unggul dan tersertifikasi.',
                 image: 'images/hero-tentang.jpg',
             ));
     }
@@ -321,8 +321,8 @@ class PageController extends Controller
         return view('skema-sertifikasi', compact('bidangs', 'skemas'))
             ->with('activeNav', 'skema')
             ->with('SEOData', new SEOData(
-                title: 'Skema Sertifikasi Kompetensi BNSP',
-                description: '26 skema sertifikasi kompetensi BNSP di LSP Edukia: SPMI ISO 21001, OBE, laboratorium ISO 17025, lifting engineering, sistem manajemen ISO 9001/14001, hingga hukum korporasi.',
+                title: 'Skema Sertifikasi Kompetensi Person',
+                description: '26 skema sertifikasi kompetensi person terakreditasi KAN di LSP Edukia: SPMI ISO 21001, OBE, laboratorium ISO 17025, lifting engineering, sistem manajemen ISO 9001/14001, hingga hukum korporasi.',
                 image: 'images/hero-skema.jpg',
             ));
     }
@@ -345,7 +345,7 @@ class PageController extends Controller
             ->with('activeNav', 'sertifikat')
             ->with('SEOData', new SEOData(
                 title: 'Daftar Penerima Sertifikat',
-                description: 'Verifikasi keaslian sertifikat kompetensi yang diterbitkan LSP Edukia. Cari berdasarkan nama, nomor sertifikat, atau skema sertifikasi BNSP.',
+                description: 'Verifikasi keaslian sertifikat kompetensi yang diterbitkan LSP Edukia. Cari berdasarkan nama, nomor sertifikat, atau skema sertifikasi kompetensi person.',
                 image: 'images/hero-sertifikat.jpg',
             ));
     }

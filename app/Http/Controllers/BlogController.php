@@ -24,7 +24,7 @@ class BlogController extends Controller
                 title: $kategori ? "Blog — {$kategori}" : 'Blog & Artikel Sertifikasi',
                 description: $kategori
                     ? "Kumpulan artikel kategori {$kategori} dari LSP Edukia seputar sertifikasi kompetensi dan pengembangan profesi."
-                    : 'Artikel, tips, dan informasi terbaru seputar sertifikasi kompetensi BNSP, skema profesi, dan pengembangan karier dari LSP Edukia.',
+                    : 'Artikel, tips, dan informasi terbaru seputar sertifikasi kompetensi person terakreditasi KAN, skema kompetensi, dan pengembangan karier dari LSP Edukia.',
             ));
     }
 
@@ -50,7 +50,7 @@ class BlogController extends Controller
             ->with('kategoriAktif', $kategori)
             ->with('SEOData', new SEOData(
                 title: "Artikel {$kategori}",
-                description: "Kumpulan artikel kategori {$kategori} dari LSP Edukia seputar sertifikasi kompetensi BNSP dan pengembangan profesi.",
+                description: "Kumpulan artikel kategori {$kategori} dari LSP Edukia seputar sertifikasi kompetensi person terakreditasi KAN dan pengembangan kompetensi.",
                 url: route('blog.kategori', $slug),
             ));
     }
