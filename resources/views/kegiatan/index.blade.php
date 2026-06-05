@@ -1,6 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Kegiatan & Dokumentasi — LSP Edukia')
-@section('description', 'Dokumentasi kegiatan LSP Edukia: uji kompetensi, pelatihan, workshop sertifikasi, dan berbagai program pengembangan kompetensi profesional di seluruh Indonesia.')
+{{-- Meta dikelola via $SEOData dari PageController@kegiatan (ralphjsmit/laravel-seo). --}}
 
 @section('content')
 <section class="hero" style="border-top:0;padding:0">

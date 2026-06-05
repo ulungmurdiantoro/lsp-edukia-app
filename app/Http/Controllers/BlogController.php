@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
+use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 class BlogController extends Controller
 {
@@ -13,7 +15,44 @@ class BlogController extends Controller
             ->when(request('kategori'), fn ($q, $cat) => $q->where('kategori', $cat))
             ->latest('published_at')
             ->paginate(9);
-        return view('blog.index', compact('posts'))->with('activeNav', 'blog');
+
+        $kategori = request('kategori');
+
+        return view('blog.index', compact('posts'))
+            ->with('activeNav', 'blog')
+            ->with('SEOData', new SEOData(
+                title: $kategori ? "Blog — {$kategori}" : 'Blog & Artikel Sertifikasi',
+                description: $kategori
+                    ? "Kumpulan artikel kategori {$kategori} dari LSP Edukia seputar sertifikasi kompetensi dan pengembangan profesi."
+                    : 'Artikel, tips, dan informasi terbaru seputar sertifikasi kompetensi BNSP, skema profesi, dan pengembangan karier dari LSP Edukia.',
+            ));
+    }
+
+    /** Halaman kategori ber-path & terindeks: /blog/kategori/{slug} */
+    public function kategori(string $slug)
+    {
+        // Cari kategori yang slug-nya cocok (mis. "tips-sertifikasi" -> "Tips Sertifikasi").
+        $kategori = Post::published()
+            ->get('kategori')
+            ->pluck('kategori')
+            ->unique()
+            ->first(fn ($k) => Str::slug($k) === $slug);
+
+        abort_if(! $kategori, 404);
+
+        $posts = Post::published()
+            ->where('kategori', $kategori)
+            ->latest('published_at')
+            ->paginate(9);
+
+        return view('blog.index', compact('posts'))
+            ->with('activeNav', 'blog')
+            ->with('kategoriAktif', $kategori)
+            ->with('SEOData', new SEOData(
+                title: "Artikel {$kategori}",
+                description: "Kumpulan artikel kategori {$kategori} dari LSP Edukia seputar sertifikasi kompetensi BNSP dan pengembangan profesi.",
+                url: route('blog.kategori', $slug),
+            ));
     }
 
     public function show(string $slug)
@@ -38,12 +77,16 @@ class BlogController extends Controller
             $related = $related->merge($more);
         }
 
-        return view('blog.show', compact('post', 'related'))->with('activeNav', 'blog');
+        return view('blog.show', compact('post', 'related'))
+            ->with('activeNav', 'blog')
+            // Pakai SEOData hasil getDynamicSEOData() (bukan model) agar aman walau
+            // artikel belum punya baris override `seo`, dan tetap menghormati override editor.
+            ->with('SEOData', $post->getDynamicSEOData());
     }
 
     public function redirectLegacy(string $slug): RedirectResponse
     {
-        return redirect('/' . ltrim($slug, '/'), 301);
+        return redirect('/'.ltrim($slug, '/'), 301);
     }
 
     /** Short link: /b/{code} → redirect ke artikel lengkap */

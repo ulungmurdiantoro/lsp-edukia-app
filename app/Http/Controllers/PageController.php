@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Kegiatan;
 use App\Models\Sertifikat;
+use App\Support\Skemas;
 use Illuminate\Http\Request;
+use RalphJSmit\Laravel\SEO\Schema\BreadcrumbListSchema;
+use RalphJSmit\Laravel\SEO\SchemaCollection;
+use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 class PageController extends Controller
 {
@@ -272,31 +276,64 @@ class PageController extends Controller
     {
         $schemes = $this->schemes();
         $kegiatan = Kegiatan::aktif()->take(9)->get();
-        return view('index', compact('schemes', 'kegiatan'))->with('activeNav', 'home');
+
+        $seo = new SEOData(
+            schema: SchemaCollection::initialize()
+                ->addFaqPage(fn ($faq) => $faq
+                    ->addQuestion('Apakah LSP Edukia terakreditasi BNSP?', 'Ya. LSP Edukia (LSP Edukasi Global Cendekia) adalah Lembaga Sertifikasi Profesi yang berlisensi dan terakreditasi BNSP (Badan Nasional Sertifikasi Profesi).')
+                    ->addQuestion('Berapa skema sertifikasi yang tersedia di LSP Edukia?', 'Tersedia 26 skema sertifikasi kompetensi pada 7 bidang: SPMI ISO 21001, Perguruan Tinggi, Laboratorium ISO/IEC 17025, Lifting Engineering, Laboratorium & Pengujian, Sistem Manajemen & Governance, serta Research & Innovation.')
+                    ->addQuestion('Bagaimana cara mendaftar uji kompetensi di LSP Edukia?', 'Pilih skema sertifikasi yang sesuai di halaman Skema Sertifikasi, periksa persyaratan pemohon, lalu hubungi tim kami melalui WhatsApp untuk informasi jadwal dan biaya uji kompetensi.')
+                    ->addQuestion('Apakah sertifikat LSP Edukia bisa diverifikasi?', 'Ya. Seluruh penerima sertifikat dapat ditelusuri pada halaman Daftar Penerima Sertifikat berdasarkan nama, nomor sertifikat, atau skema kompetensi.')),
+        );
+
+        return view('index', compact('schemes', 'kegiatan'))
+            ->with('activeNav', 'home')
+            ->with('SEOData', $seo);
     }
 
     public function informasi()
     {
-        return view('informasi-publik')->with('activeNav', 'informasi');
+        return view('informasi-publik')
+            ->with('activeNav', 'informasi')
+            ->with('SEOData', new SEOData(
+                title: 'Informasi Publik',
+                description: 'Informasi publik LSP Edukia: profil lembaga, legalitas, skema sertifikasi, biaya, serta hak dan kewajiban peserta sertifikasi kompetensi BNSP.',
+                image: 'images/hero-informasi.jpg',
+            ));
     }
 
     public function tentang()
     {
-        return view('tantang-kami')->with('activeNav', 'tentang');
+        return view('tantang-kami')
+            ->with('activeNav', 'tentang')
+            ->with('SEOData', new SEOData(
+                title: 'Tentang Kami',
+                description: 'Mengenal LSP Edukia (LSP Edukasi Global Cendekia) — lembaga sertifikasi profesi terakreditasi BNSP yang berkomitmen mencetak SDM unggul dan tersertifikasi.',
+                image: 'images/hero-tentang.jpg',
+            ));
     }
 
     public function skema()
     {
-        return view('skema-sertifikasi')->with('activeNav', 'skema');
+        $bidangs = Skemas::bidangs();
+        $skemas = Skemas::all()->groupBy('bidang');
+
+        return view('skema-sertifikasi', compact('bidangs', 'skemas'))
+            ->with('activeNav', 'skema')
+            ->with('SEOData', new SEOData(
+                title: 'Skema Sertifikasi Kompetensi BNSP',
+                description: '26 skema sertifikasi kompetensi BNSP di LSP Edukia: SPMI ISO 21001, OBE, laboratorium ISO 17025, lifting engineering, sistem manajemen ISO 9001/14001, hingga hukum korporasi.',
+                image: 'images/hero-skema.jpg',
+            ));
     }
 
     public function sertifikat()
     {
         $now = now();
         $stats = [
-            'total'      => Sertifikat::tampil()->count(),
-            'aktif'      => Sertifikat::tampil()->where(fn ($q) => $q->whereNull('tanggal_kadaluarsa')->orWhere('tanggal_kadaluarsa', '>', $now->copy()->addDays(90)))->count(),
-            'expiring'   => Sertifikat::tampil()->whereBetween('tanggal_kadaluarsa', [$now, $now->copy()->addDays(90)])->count(),
+            'total' => Sertifikat::tampil()->count(),
+            'aktif' => Sertifikat::tampil()->where(fn ($q) => $q->whereNull('tanggal_kadaluarsa')->orWhere('tanggal_kadaluarsa', '>', $now->copy()->addDays(90)))->count(),
+            'expiring' => Sertifikat::tampil()->whereBetween('tanggal_kadaluarsa', [$now, $now->copy()->addDays(90)])->count(),
             'kadaluarsa' => Sertifikat::tampil()->where('tanggal_kadaluarsa', '<', $now)->count(),
         ];
         $catCounts = Sertifikat::tampil()
@@ -304,12 +341,18 @@ class PageController extends Controller
             ->groupBy('kategori')
             ->pluck('total', 'kategori');
 
-        return view('sertifikat', compact('stats', 'catCounts'))->with('activeNav', 'sertifikat');
+        return view('sertifikat', compact('stats', 'catCounts'))
+            ->with('activeNav', 'sertifikat')
+            ->with('SEOData', new SEOData(
+                title: 'Daftar Penerima Sertifikat',
+                description: 'Verifikasi keaslian sertifikat kompetensi yang diterbitkan LSP Edukia. Cari berdasarkan nama, nomor sertifikat, atau skema sertifikasi BNSP.',
+                image: 'images/hero-sertifikat.jpg',
+            ));
     }
 
     public function sertifikatSearch(Request $request)
     {
-        $now   = now();
+        $now = now();
         $query = Sertifikat::tampil()->orderByDesc('tanggal_terbit');
 
         if ($q = trim($request->get('q', ''))) {
@@ -325,36 +368,46 @@ class PageController extends Controller
         }
 
         match ($request->get('status')) {
-            'aktif'      => $query->where(fn ($sq) => $sq->whereNull('tanggal_kadaluarsa')->orWhere('tanggal_kadaluarsa', '>', $now->copy()->addDays(90))),
-            'expiring'   => $query->whereBetween('tanggal_kadaluarsa', [$now, $now->copy()->addDays(90)]),
+            'aktif' => $query->where(fn ($sq) => $sq->whereNull('tanggal_kadaluarsa')->orWhere('tanggal_kadaluarsa', '>', $now->copy()->addDays(90))),
+            'expiring' => $query->whereBetween('tanggal_kadaluarsa', [$now, $now->copy()->addDays(90)]),
             'kadaluarsa' => $query->where('tanggal_kadaluarsa', '<', $now),
-            default      => null,
+            default => null,
         };
 
         $paginator = $query->paginate(25);
 
         return response()->json([
-            'data'         => $paginator->getCollection()->map(fn ($c) => [
-                'nama'               => $c->nama,
-                'gelar'              => $c->gelar,
-                'skema'              => $c->skema,
-                'kategori'           => $c->kategori,
-                'nomor_sertifikat'   => $c->nomor_sertifikat,
+            'data' => $paginator->getCollection()->map(fn ($c) => [
+                'nama' => $c->nama,
+                'gelar' => $c->gelar,
+                'skema' => $c->skema,
+                'kategori' => $c->kategori,
+                'nomor_sertifikat' => $c->nomor_sertifikat,
                 'tanggal_kadaluarsa' => $c->tanggal_kadaluarsa?->translatedFormat('d M Y'),
-                'status'             => $c->status,
+                'status' => $c->status,
             ]),
-            'total'        => $paginator->total(),
+            'total' => $paginator->total(),
             'current_page' => $paginator->currentPage(),
-            'last_page'    => $paginator->lastPage(),
-            'per_page'     => $paginator->perPage(),
-            'from'         => $paginator->firstItem(),
-            'to'           => $paginator->lastItem(),
+            'last_page' => $paginator->lastPage(),
+            'per_page' => $paginator->perPage(),
+            'from' => $paginator->firstItem(),
+            'to' => $paginator->lastItem(),
         ]);
     }
 
     public function kegiatan()
     {
         $kegiatan = Kegiatan::aktif()->paginate(12);
-        return view('kegiatan.index', compact('kegiatan'))->with('activeNav', '');
+
+        return view('kegiatan.index', compact('kegiatan'))
+            ->with('activeNav', '')
+            ->with('SEOData', new SEOData(
+                title: 'Kegiatan & Pelatihan',
+                description: 'Dokumentasi kegiatan sertifikasi, pelatihan, dan asesmen kompetensi yang diselenggarakan LSP Edukia bersama mitra industri dan perguruan tinggi.',
+                schema: SchemaCollection::initialize()
+                    ->addBreadcrumbs(fn (BreadcrumbListSchema $b) => $b->prependBreadcrumbs([
+                        'Beranda' => url('/'),
+                    ])),
+            ));
     }
 }

@@ -1,7 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Informasi Publik — LSP Edukia')
-@section('description', 'Informasi publik LSP Edukia: visi misi, struktur organisasi, dokumen akreditasi BNSP, skema sertifikasi, biaya uji kompetensi, dan laporan kegiatan lembaga.')
-@section('og-image', asset('images/hero-informasi.jpg'))
+{{-- Meta dikelola via $SEOData dari PageController@informasi (ralphjsmit/laravel-seo). --}}
 
 @section('extra-css')
 <style>

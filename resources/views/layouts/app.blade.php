@@ -3,24 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>@yield('title', 'LSP Edukia — Sertifikasi Profesi')</title>
-<meta name="description" content="@yield('description', 'LSP Edukia adalah lembaga sertifikasi profesi terakreditasi BNSP dengan 26 skema kompetensi di bidang pendidikan, manajemen, laboratorium, dan hukum korporasi.')">
-<link rel="canonical" href="{{ url()->current() }}">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<!-- Open Graph -->
-<meta property="og:type" content="@yield('og-type', 'website')">
-<meta property="og:title" content="@yield('title', 'LSP Edukia — Sertifikasi Profesi')">
-<meta property="og:description" content="@yield('description', 'LSP Edukia adalah lembaga sertifikasi profesi terakreditasi BNSP dengan 26 skema kompetensi di bidang pendidikan, manajemen, laboratorium, dan hukum korporasi.')">
-<meta property="og:url" content="{{ url()->current() }}">
-<meta property="og:image" content="@yield('og-image', asset('images/hero-index.jpg'))">
-<meta property="og:site_name" content="LSP Edukia">
-<meta property="og:locale" content="id_ID">
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="@yield('title', 'LSP Edukia — Sertifikasi Profesi')">
-<meta name="twitter:description" content="@yield('description', 'LSP Edukia adalah lembaga sertifikasi profesi terakreditasi BNSP dengan 26 skema kompetensi.')">
-<meta name="twitter:image" content="@yield('og-image', asset('images/hero-index.jpg'))">
-@yield('schema-json')
+{{-- SEO: title, description, canonical, robots, favicon, Open Graph, Twitter Card, & schema per-halaman --}}
+{{-- Dikelola paket ralphjsmit/laravel-seo. $SEOData = Model (mis. Post) atau objek SEOData dari controller. --}}
+{!! seo($SEOData ?? null) !!}
+{{-- Schema Organization global (spatie/schema-org) — identitas lembaga di setiap halaman --}}
+@include('partials.schema-organization')
+{{-- Verifikasi Search Console/Bing + Google Analytics 4 (gated via .env) --}}
+@include('partials.analytics')
+@stack('head')
+<meta name="theme-color" content="#0a2547">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">

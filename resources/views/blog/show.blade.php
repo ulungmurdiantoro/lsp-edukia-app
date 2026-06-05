@@ -1,30 +1,6 @@
 @extends('layouts.app')
-@section('title', $post->judul . ' — LSP Edukia')
-@section('description', Str::limit(strip_tags($post->ringkasan ?: $post->konten), 160))
-@section('og-type', 'article')
-@section('og-image', $post->thumbnail ? $post->thumbnail_url : asset('images/hero-index.jpg'))
-@section('schema-json')
-<script type="application/ld+json">
-{
-  "@@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "{{ addslashes($post->judul) }}",
-  "description": "{{ addslashes(Str::limit(strip_tags($post->ringkasan ?: $post->konten), 160)) }}",
-  @if($post->thumbnail)
-  "image": "{{ $post->thumbnail_url }}",
-  @endif
-  "datePublished": "{{ $post->published_at?->toIso8601String() }}",
-  "dateModified": "{{ $post->updated_at->toIso8601String() }}",
-  "author": { "@type": "Organization", "name": "LSP Edukia" },
-  "publisher": {
-    "@type": "Organization",
-    "name": "LSP Edukia",
-    "logo": { "@type": "ImageObject", "url": "{{ asset('images/logo-edukia.png') }}" }
-  },
-  "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ url()->current() }}" }
-}
-</script>
-@endsection
+{{-- Meta (title/description/OG/Twitter) + schema BlogPosting & BreadcrumbList dirender oleh --}}
+{{-- ralphjsmit/laravel-seo via $SEOData = $post (lihat Post::getDynamicSEOData()). --}}
 
 @section('extra-css')
 <style>

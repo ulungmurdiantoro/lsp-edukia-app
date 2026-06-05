@@ -15,10 +15,15 @@ use Illuminate\Support\Str;
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
     protected static ?string $navigationLabel = 'Blog & Artikel';
+
     protected static ?string $modelLabel = 'Artikel';
+
     protected static ?string $pluralModelLabel = 'Blog & Artikel';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -43,7 +48,7 @@ class PostResource extends Resource
                 Forms\Components\TextInput::make('short_code')
                     ->label('Short Link')
                     ->unique(ignoreRecord: true)
-                    ->prefix(url('/b') . '/')
+                    ->prefix(url('/b').'/')
                     ->placeholder('mis. auditor-2026')
                     ->hint('Link pendek untuk dibagikan — kosongkan untuk dibuat otomatis')
                     ->dehydrateStateUsing(fn (?string $state) => $state ? Str::slug($state) : null)
@@ -84,10 +89,10 @@ class PostResource extends Resource
                     ->required()
                     ->options([
                         'Tips Sertifikasi' => 'Tips Sertifikasi',
-                        'Info Skema'       => 'Info Skema',
-                        'Industri'         => 'Industri',
-                        'Pelatihan'        => 'Pelatihan',
-                        'Kegiatan'         => 'Kegiatan',
+                        'Info Skema' => 'Info Skema',
+                        'Industri' => 'Industri',
+                        'Pelatihan' => 'Pelatihan',
+                        'Kegiatan' => 'Kegiatan',
                     ]),
 
                 Forms\Components\TextInput::make('penulis')
@@ -103,6 +108,56 @@ class PostResource extends Resource
                     ->default(false)
                     ->columnSpanFull(),
             ])->columns(2),
+
+            Forms\Components\Section::make('SEO (Mesin Pencari)')
+                ->description('Override opsional ala Yoast. Kosongkan untuk memakai judul, ringkasan, dan gambar artikel secara otomatis.')
+                ->icon('heroicon-o-magnifying-glass')
+                ->relationship('seo')
+                ->schema([
+                    Forms\Components\TextInput::make('title')
+                        ->label('Meta Title')
+                        ->maxLength(70)
+                        ->live(debounce: 400)
+                        ->placeholder('Default: judul artikel + " — LSP Edukia"')
+                        ->helperText(fn (?string $state): string => 'Ideal ≤ 60 karakter. Saat ini: '.mb_strlen($state ?? '').' karakter.')
+                        ->columnSpanFull(),
+
+                    Forms\Components\Textarea::make('description')
+                        ->label('Meta Description')
+                        ->rows(3)
+                        ->maxLength(180)
+                        ->live(debounce: 400)
+                        ->placeholder('Default: ringkasan artikel')
+                        ->helperText(fn (?string $state): string => 'Ideal 140–155 karakter. Saat ini: '.mb_strlen($state ?? '').' karakter.')
+                        ->columnSpanFull(),
+
+                    Forms\Components\FileUpload::make('image')
+                        ->label('Gambar Social Share (OG Image)')
+                        ->image()
+                        ->disk('public')
+                        ->directory('seo')
+                        ->imageCropAspectRatio('1200:630')
+                        ->helperText('Rasio 1200×630 px optimal untuk WhatsApp, Facebook, X/Twitter. Kosongkan untuk memakai thumbnail artikel.'),
+
+                    Forms\Components\TextInput::make('canonical_url')
+                        ->label('Canonical URL')
+                        ->url()
+                        ->placeholder('Otomatis ke URL artikel ini')
+                        ->helperText('Isi hanya bila konten ini menduplikasi/menggabungkan halaman lain.'),
+
+                    Forms\Components\Select::make('robots')
+                        ->label('Indexing (robots)')
+                        ->options([
+                            'index,follow' => 'Index, Follow (default — tampil di Google)',
+                            'noindex,follow' => 'Noindex, Follow (sembunyikan dari hasil pencarian)',
+                            'noindex,nofollow' => 'Noindex, Nofollow',
+                        ])
+                        ->placeholder('Default (index, follow)')
+                        ->helperText('Kosongkan untuk pengaturan default situs.'),
+                ])
+                ->columns(2)
+                ->collapsed()
+                ->collapsible(),
         ]);
     }
 
@@ -125,18 +180,18 @@ class PostResource extends Resource
             Tables\Columns\TextColumn::make('kategori')
                 ->label('Kategori')
                 ->badge()
-                ->color(fn (string $state): string => match($state) {
+                ->color(fn (string $state): string => match ($state) {
                     'Tips Sertifikasi' => 'success',
-                    'Info Skema'       => 'primary',
-                    'Industri'         => 'warning',
-                    'Pelatihan'        => 'info',
-                    'Kegiatan'         => 'gray',
-                    default            => 'gray',
+                    'Info Skema' => 'primary',
+                    'Industri' => 'warning',
+                    'Pelatihan' => 'info',
+                    'Kegiatan' => 'gray',
+                    default => 'gray',
                 }),
 
             Tables\Columns\TextColumn::make('short_code')
                 ->label('Short Link')
-                ->formatStateUsing(fn (?string $state) => $state ? '/b/' . $state : '—')
+                ->formatStateUsing(fn (?string $state) => $state ? '/b/'.$state : '—')
                 ->copyable()
                 ->copyableState(fn ($record) => $record->short_url)
                 ->copyMessage('Short link disalin')
@@ -156,35 +211,35 @@ class PostResource extends Resource
                 ->label('Live')
                 ->boolean(),
         ])
-        ->defaultSort('published_at', 'desc')
-        ->filters([
-            Tables\Filters\SelectFilter::make('kategori')
-                ->options([
-                    'Tips Sertifikasi' => 'Tips Sertifikasi',
-                    'Info Skema'       => 'Info Skema',
-                    'Industri'         => 'Industri',
-                    'Pelatihan'        => 'Pelatihan',
-                    'Kegiatan'         => 'Kegiatan',
+            ->defaultSort('published_at', 'desc')
+            ->filters([
+                Tables\Filters\SelectFilter::make('kategori')
+                    ->options([
+                        'Tips Sertifikasi' => 'Tips Sertifikasi',
+                        'Info Skema' => 'Info Skema',
+                        'Industri' => 'Industri',
+                        'Pelatihan' => 'Pelatihan',
+                        'Kegiatan' => 'Kegiatan',
+                    ]),
+                Tables\Filters\TernaryFilter::make('published')->label('Status Publikasi'),
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            Tables\Filters\TernaryFilter::make('published')->label('Status Publikasi'),
-        ])
-        ->actions([
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-        ])
-        ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+            ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListPosts::route('/'),
+            'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
-            'edit'   => Pages\EditPost::route('/{record}/edit'),
+            'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
     }
 }
