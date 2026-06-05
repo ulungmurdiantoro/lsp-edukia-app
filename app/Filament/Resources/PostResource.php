@@ -4,8 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
+use App\Support\SeoAnalyzer;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -60,12 +62,14 @@ class PostResource extends Resource
                     ->required()
                     ->rows(3)
                     ->maxLength(300)
+                    ->live(onBlur: true)
                     ->hint('Tampil di kartu artikel dan meta description')
                     ->columnSpanFull(),
 
                 Forms\Components\RichEditor::make('konten')
                     ->label('Konten Artikel')
                     ->required()
+                    ->live(onBlur: true)
                     ->toolbarButtons([
                         'bold', 'italic', 'underline',
                         'h2', 'h3',
@@ -82,6 +86,7 @@ class PostResource extends Resource
                     ->image()
                     ->directory('posts')
                     ->imageCropAspectRatio('16:9')
+                    ->live()
                     ->hint('Rasio 16:9 direkomendasikan'),
 
                 Forms\Components\Select::make('kategori')
@@ -157,6 +162,33 @@ class PostResource extends Resource
                 ])
                 ->columns(2)
                 ->collapsed()
+                ->collapsible(),
+
+            Forms\Components\Section::make('Analisis SEO')
+                ->description('Skor & checklist SEO real-time (ala Yoast). Perbarui saat Anda mengetik.')
+                ->icon('heroicon-o-chart-bar')
+                ->schema([
+                    Forms\Components\TextInput::make('focus_keyword')
+                        ->label('Keyword Fokus')
+                        ->live(debounce: 500)
+                        ->placeholder('mis. sertifikasi auditor SPMI')
+                        ->helperText('Kata kunci utama yang ingin Anda targetkan untuk artikel ini.')
+                        ->columnSpanFull(),
+
+                    Forms\Components\Placeholder::make('seo_analysis')
+                        ->hiddenLabel()
+                        ->content(fn (Get $get) => view('filament.seo-analysis', [
+                            'analysis' => SeoAnalyzer::analyze([
+                                'judul' => $get('judul'),
+                                'ringkasan' => $get('ringkasan'),
+                                'konten' => $get('konten'),
+                                'slug' => $get('slug'),
+                                'thumbnail' => $get('thumbnail'),
+                                'focus_keyword' => $get('focus_keyword'),
+                            ]),
+                        ]))
+                        ->columnSpanFull(),
+                ])
                 ->collapsible(),
         ]);
     }

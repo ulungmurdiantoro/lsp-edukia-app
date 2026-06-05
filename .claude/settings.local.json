@@ -52,7 +52,9 @@
       "Bash(./vendor/bin/pint app/Http/Controllers/)",
       "Bash(curl -s \"http://127.0.0.1:8946/\")",
       "Bash(curl -s \"http://127.0.0.1:8946/skema-sertifikasi/training-of-trainer-tot-obe\")",
-      "Bash(curl -s \"http://127.0.0.1:8946/skema-sertifikasi\")"
+      "Bash(curl -s \"http://127.0.0.1:8946/skema-sertifikasi\")",
+      "Bash(php -l app/Support/SeoAnalyzer.php)",
+      "Bash(grep -nA18 \"function fetchVisitorsAndPageViews\\\\b\\\\|function fetchMostVisitedPages\\\\|function fetchTotalVisitorsAndPageViews\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\umurd\\Downloads\\lspedukia-prod\\assets"

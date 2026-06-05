@@ -29,7 +29,7 @@ class Post extends Model
 
     protected $fillable = [
         'judul', 'slug', 'short_code', 'ringkasan', 'konten',
-        'thumbnail', 'kategori', 'penulis', 'published', 'published_at',
+        'thumbnail', 'kategori', 'focus_keyword', 'penulis', 'published', 'published_at',
     ];
 
     protected $casts = [
