@@ -21,6 +21,7 @@ class SitemapController extends Controller
                 ['url' => route('sertifikat'),     'priority' => '0.7', 'changefreq' => 'weekly'],
                 ['url' => route('informasi'),      'priority' => '0.7', 'changefreq' => 'monthly'],
                 ['url' => route('kegiatan.index'), 'priority' => '0.6', 'changefreq' => 'monthly'],
+                ['url' => route('webinar.gerakan-nasional'), 'priority' => '0.6', 'changefreq' => 'monthly'],
             ];
 
             // Hub per bidang skema.

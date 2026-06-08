@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kegiatan;
+use App\Models\Post;
 use App\Models\Sertifikat;
 use App\Support\Skemas;
 use Illuminate\Http\Request;
@@ -407,6 +408,51 @@ class PageController extends Controller
                 schema: SchemaCollection::initialize()
                     ->addBreadcrumbs(fn (BreadcrumbListSchema $b) => $b->prependBreadcrumbs([
                         'Beranda' => url('/'),
+                    ])),
+            ));
+    }
+
+    public function webinarGerakanNasional()
+    {
+        $assets = [
+            [
+                'label' => 'Materi',
+                'desc' => 'Slide & bahan presentasi narasumber selama sesi webinar.',
+                'url' => 'https://drive.google.com/drive/folders/1BYtEAeFicJQTjLGL-YfIiVcQedyIpO5v?usp=sharing',
+                'icon' => 'i-doc', 'tone' => 'blue',
+            ],
+            [
+                'label' => 'Dokumentasi',
+                'desc' => 'Galeri foto dan dokumentasi pelaksanaan kegiatan.',
+                'url' => 'https://drive.google.com/drive/folders/1kJEE6tuW55pT9Z5AdGWTOk6NdLCsSDVi?usp=sharing',
+                'icon' => 'i-image', 'tone' => 'orange',
+            ],
+            [
+                'label' => 'Rekaman',
+                'desc' => 'Video rekaman penuh seluruh sesi webinar.',
+                'url' => 'https://drive.google.com/drive/folders/1gJOC0eqDLL_sHQBsOIlYo6a2HJa3WNng?usp=sharing',
+                'icon' => 'i-monitor', 'tone' => 'blue',
+            ],
+            [
+                'label' => 'Sertifikat',
+                'desc' => 'Unduh e-sertifikat partisipasi peserta webinar.',
+                'url' => 'https://drive.google.com/drive/folders/1ezngfDFaBpEgnEWleEwT8S7qLuKWu6r2?usp=sharing',
+                'icon' => 'i-award', 'tone' => 'orange',
+            ],
+        ];
+
+        $posts = Post::published()->latest('published_at')->take(6)->get();
+
+        return view('webinar.gerakan-nasional', compact('assets', 'posts'))
+            ->with('activeNav', '')
+            ->with('SEOData', new SEOData(
+                title: 'Hasil Webinar Gerakan Nasional Sertifikasi Kompetensi SDM Perguruan Tinggi & Laboratorium ISO/IEC 17025',
+                description: 'Materi, dokumentasi, rekaman, dan sertifikat Webinar Gerakan Nasional Sertifikasi Kompetensi SDM Perguruan Tinggi & Laboratorium ISO/IEC 17025 Berstandar Internasional bersama LSP Edukia.',
+                image: 'images/hero-informasi.jpg',
+                schema: SchemaCollection::initialize()
+                    ->addBreadcrumbs(fn (BreadcrumbListSchema $b) => $b->prependBreadcrumbs([
+                        'Beranda' => url('/'),
+                        'Kegiatan' => route('kegiatan.index'),
                     ])),
             ));
     }
