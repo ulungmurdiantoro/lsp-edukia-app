@@ -25,8 +25,9 @@ if [ ! -d "$APP_DIR/.git" ]; then
     php artisan config:cache
     php artisan route:cache
     php artisan view:cache
-    sudo chown -R www-data:www-data "$APP_DIR"
-    sudo chmod -R 755 "$APP_DIR/storage" "$APP_DIR/bootstrap/cache"
+    # Owner = user deploy (bisa jalankan artisan), grup = www-data (web server bisa tulis).
+    sudo chown -R $USER:www-data "$APP_DIR"
+    sudo chmod -R 2775 "$APP_DIR/storage" "$APP_DIR/bootstrap/cache"
     echo "✓ Setup pertama selesai!"
     exit 0
 fi
@@ -52,8 +53,10 @@ php artisan route:cache
 php artisan view:cache
 
 echo "→ Set permissions..."
-sudo chown -R www-data:www-data storage bootstrap/cache
-sudo chmod -R 755 storage bootstrap/cache
+# Owner = user deploy (bisa jalankan artisan down/up), grup = www-data (web server bisa tulis).
+# 2775 = setgid + izin tulis grup, agar file baru tetap milik grup www-data.
+sudo chown -R $USER:www-data storage bootstrap/cache
+sudo chmod -R 2775 storage bootstrap/cache
 
 echo "→ Keluar maintenance mode..."
 php artisan up
