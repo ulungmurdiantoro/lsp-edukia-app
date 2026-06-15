@@ -34,4 +34,6 @@ Disallow: /admin/
 
 Sitemap: https://lspedukia.id/sitemap.xml
 
-# Panduan konten terstruktur untuk LLM: https://lspedukia.id/llms.txt
+# Panduan konten terstruktur untuk LLM:
+#   ringkas       : https://lspedukia.id/llms.txt
+#   detail lengkap: https://lspedukia.id/llms-full.txt

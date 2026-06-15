@@ -22,11 +22,12 @@ Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/kategori/{slug}', [BlogController::class, 'kategori'])->name('blog.kategori');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::get('/llms.txt', [LlmsController::class, 'index'])->name('llms');
+Route::get('/llms-full.txt', [LlmsController::class, 'full'])->name('llms.full');
 
 Route::get('/b/{code}', [BlogController::class, 'short'])->name('blog.short');
 
 Route::get('/blog/{slug}', [BlogController::class, 'redirectLegacy'])->name('blog.show.legacy');
 
 Route::get('/{slug}', [BlogController::class, 'show'])
-    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|kegiatan$|livewire$|llms\.txt$|login$|logout$|register$|reset-password$|sanctum$|sitemap\.xml$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[^/]+')
+    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|kegiatan$|livewire$|llms\.txt$|llms-full\.txt$|login$|logout$|register$|reset-password$|sanctum$|sitemap\.xml$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[^/]+')
     ->name('blog.show');

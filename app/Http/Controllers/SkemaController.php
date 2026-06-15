@@ -87,6 +87,7 @@ class SkemaController extends Controller
             'name' => $skema['nama'],
             'description' => $deskripsi,
             'url' => $d->url,
+            'courseCode' => $skema['kode'],
             'provider' => [
                 '@type' => 'Organization',
                 'name' => 'LSP Edukia',
@@ -94,6 +95,9 @@ class SkemaController extends Controller
                 'url' => config('app.url'),
             ],
             'educationalCredentialAwarded' => 'Sertifikat Kompetensi Terakreditasi KAN — '.$skema['nama'],
+            // Persyaratan pemohon & unit kompetensi — agar mesin pencari memahami isi skema.
+            'coursePrerequisites' => array_values($skema['persyaratan']),
+            'teaches' => array_values(array_map(fn (array $u): string => $u['judul'], $skema['units'])),
             'hasCourseInstance' => [
                 '@type' => 'CourseInstance',
                 'courseMode' => 'onsite',
