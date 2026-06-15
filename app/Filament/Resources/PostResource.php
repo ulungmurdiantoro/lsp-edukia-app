@@ -12,6 +12,7 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class PostResource extends Resource
@@ -221,6 +222,39 @@ class PostResource extends Resource
                     default => 'gray',
                 }),
 
+            Tables\Columns\TextColumn::make('seo_score')
+                ->label('Skor SEO')
+                ->badge()
+                ->state(fn (Post $record): int => SeoAnalyzer::analyze([
+                    'judul' => $record->judul,
+                    'ringkasan' => $record->ringkasan,
+                    'konten' => $record->konten,
+                    'slug' => $record->slug,
+                    'thumbnail' => $record->thumbnail,
+                    'focus_keyword' => $record->focus_keyword,
+                ])['score'])
+                ->formatStateUsing(fn ($state): string => (int) $state.'/100')
+                ->color(fn ($state): string => match (true) {
+                    (int) $state >= 80 => 'success',
+                    (int) $state >= 60 => 'info',
+                    (int) $state >= 40 => 'warning',
+                    default => 'danger',
+                })
+                ->tooltip('Skor SEO on-page (ala Yoast). Buka artikel untuk checklist lengkap.'),
+
+            Tables\Columns\IconColumn::make('seo_indexed')
+                ->label('Index')
+                ->boolean()
+                ->state(fn (Post $record): bool => ! str_contains((string) ($record->seo->robots ?? ''), 'noindex'))
+                ->trueIcon('heroicon-o-eye')
+                ->falseIcon('heroicon-o-eye-slash')
+                ->trueColor('success')
+                ->falseColor('danger')
+                ->tooltip(fn (Post $record): string => str_contains((string) ($record->seo->robots ?? ''), 'noindex')
+                    ? 'Disembunyikan dari mesin pencari (noindex)'
+                    : 'Terindeks mesin pencari (index)')
+                ->toggleable(),
+
             Tables\Columns\TextColumn::make('short_code')
                 ->label('Short Link')
                 ->formatStateUsing(fn (?string $state) => $state ? '/b/'.$state : '—')
@@ -264,6 +298,12 @@ class PostResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Eager-load relasi SEO agar kolom "Index" tidak memicu query N+1.
+        return parent::getEloquentQuery()->with('seo');
     }
 
     public static function getPages(): array
