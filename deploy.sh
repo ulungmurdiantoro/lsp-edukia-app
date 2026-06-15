@@ -47,17 +47,18 @@ composer install --no-dev --optimize-autoloader
 echo "→ Jalankan migrasi..."
 php artisan migrate --force
 
+echo "→ Set permissions (ambil-alih kepemilikan sebelum kelola cache)..."
+# Owner = user deploy (bisa jalankan artisan & hapus cache), grup = www-data (web server bisa tulis).
+# 2775 = setgid + izin tulis grup, agar file baru tetap milik grup www-data.
+# WAJIB sebelum cache:clear agar file cache buatan www-data bisa dihapus oleh user deploy.
+sudo chown -R $USER:www-data storage bootstrap/cache
+sudo chmod -R 2775 storage bootstrap/cache
+
 echo "→ Clear & rebuild cache..."
 php artisan cache:clear
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-
-echo "→ Set permissions..."
-# Owner = user deploy (bisa jalankan artisan down/up), grup = www-data (web server bisa tulis).
-# 2775 = setgid + izin tulis grup, agar file baru tetap milik grup www-data.
-sudo chown -R $USER:www-data storage bootstrap/cache
-sudo chmod -R 2775 storage bootstrap/cache
 
 echo "→ Keluar maintenance mode..."
 php artisan up
