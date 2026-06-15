@@ -147,8 +147,14 @@ class Post extends Model
             }
         });
 
-        // Segarkan cache sitemap saat artikel berubah agar URL baru langsung terindeks.
-        static::saved(fn () => Cache::forget('sitemap.xml'));
-        static::deleted(fn () => Cache::forget('sitemap.xml'));
+        // Segarkan cache sitemap & llms.txt saat artikel berubah agar URL baru langsung terindeks.
+        static::saved(function () {
+            Cache::forget('sitemap.xml');
+            Cache::forget('llms.txt');
+        });
+        static::deleted(function () {
+            Cache::forget('sitemap.xml');
+            Cache::forget('llms.txt');
+        });
     }
 }

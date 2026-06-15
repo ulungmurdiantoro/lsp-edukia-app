@@ -317,7 +317,8 @@ class PageController extends Controller
     public function skema()
     {
         $bidangs = Skemas::bidangs();
-        $skemas = Skemas::all()->groupBy('bidang');
+        $allSkema = Skemas::all();
+        $skemas = $allSkema->groupBy('bidang');
 
         return view('skema-sertifikasi', compact('bidangs', 'skemas'))
             ->with('activeNav', 'skema')
@@ -325,6 +326,26 @@ class PageController extends Controller
                 title: 'Skema Sertifikasi Kompetensi Person',
                 description: '26 skema sertifikasi kompetensi person terakreditasi KAN di LSP Edukia: SPMI ISO 21001, OBE, laboratorium ISO 17025, lifting engineering, sistem manajemen ISO 9001/14001, hingga hukum korporasi.',
                 image: 'images/hero-skema.jpg',
+                // ItemList: enumerasi seluruh 26 judul skema agar mesin pencari & model AI
+                // mengenali tiap judul + URL detailnya dari satu halaman daftar (rich result).
+                schema: SchemaCollection::initialize()
+                    ->push(fn (SEOData $d): array => [
+                        '@context' => 'https://schema.org',
+                        '@type' => 'ItemList',
+                        'name' => 'Skema Sertifikasi Kompetensi LSP Edukia',
+                        'description' => 'Daftar 26 skema sertifikasi kompetensi person terakreditasi KAN di LSP Edukia.',
+                        'numberOfItems' => $allSkema->count(),
+                        'itemListElement' => $allSkema->values()
+                            ->map(fn (array $s, int $i): array => [
+                                '@type' => 'ListItem',
+                                'position' => $i + 1,
+                                'name' => 'Sertifikasi '.$s['nama'],
+                                'url' => route('skema.show', $s['slug']),
+                            ])->all(),
+                    ])
+                    ->addBreadcrumbs(fn (BreadcrumbListSchema $b): BreadcrumbListSchema => $b->prependBreadcrumbs([
+                        'Beranda' => url('/'),
+                    ])),
             ));
     }
 

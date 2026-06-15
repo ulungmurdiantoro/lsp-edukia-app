@@ -54,7 +54,11 @@
       "Bash(curl -s \"http://127.0.0.1:8946/skema-sertifikasi/training-of-trainer-tot-obe\")",
       "Bash(curl -s \"http://127.0.0.1:8946/skema-sertifikasi\")",
       "Bash(php -l app/Support/SeoAnalyzer.php)",
-      "Bash(grep -nA18 \"function fetchVisitorsAndPageViews\\\\b\\\\|function fetchMostVisitedPages\\\\|function fetchTotalVisitorsAndPageViews\")"
+      "Bash(grep -nA18 \"function fetchVisitorsAndPageViews\\\\b\\\\|function fetchMostVisitedPages\\\\|function fetchTotalVisitorsAndPageViews\")",
+      "PowerShell(php artisan route:list --path=llms 2>&1)",
+      "PowerShell(php artisan route:list --path=skema 2>&1)",
+      "PowerShell(php tmp_check_llms.php 2>&1)",
+      "PowerShell(php tmp_check_skema.php 2>&1)"
     ],
     "additionalDirectories": [
       "C:\\Users\\umurd\\Downloads\\lspedukia-prod\\assets"

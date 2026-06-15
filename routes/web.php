@@ -5,6 +5,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\SkemaController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\LlmsController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/informasi-publik', [PageController::class, 'informasi'])->name('informasi');
@@ -20,11 +21,12 @@ Route::get('/webinar-gerakan-nasional-sertifikasi-kompetensi', [PageController::
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/kategori/{slug}', [BlogController::class, 'kategori'])->name('blog.kategori');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/llms.txt', [LlmsController::class, 'index'])->name('llms');
 
 Route::get('/b/{code}', [BlogController::class, 'short'])->name('blog.short');
 
 Route::get('/blog/{slug}', [BlogController::class, 'redirectLegacy'])->name('blog.show.legacy');
 
 Route::get('/{slug}', [BlogController::class, 'show'])
-    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|kegiatan$|livewire$|login$|logout$|register$|reset-password$|sanctum$|sitemap\.xml$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[^/]+')
+    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|kegiatan$|livewire$|llms\.txt$|login$|logout$|register$|reset-password$|sanctum$|sitemap\.xml$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[^/]+')
     ->name('blog.show');
