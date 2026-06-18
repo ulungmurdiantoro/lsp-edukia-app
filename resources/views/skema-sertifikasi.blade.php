@@ -53,6 +53,12 @@
 .scheme[data-cat="labtest"] .tag{background:#e3f5ea;color:#1a5c35}
 .scheme[data-cat="manajemen"] .tag{background:#fde8e8;color:#922b2b}
 .scheme[data-cat="riset"] .tag{background:#f0ecfa;color:#5a3aa6}
+.lisensi-pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:5px;letter-spacing:.02em}
+.lisensi-pill.yes{background:rgba(126,224,163,.18);color:#9ff0c0;border:1px solid rgba(126,224,163,.4)}
+.lisensi-pill.no{background:rgba(255,255,255,.07);color:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.22)}
+.lisensi-pill svg{width:12px;height:12px}
+.scheme-tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:4px}
+.scheme-tags .tag{margin-top:0}
 
 /* Unit table */
 .scheme-body{padding:18px 20px}
@@ -101,7 +107,7 @@
   <div class="wrap page-hero-inner">
     <div class="badge">DP.AK.05 Rev. 02 · 26 Skema Sertifikasi</div>
     <h1>Skema <em>Kompetensi</em></h1>
-    <p class="lead">Rincian unit kompetensi lengkap pada seluruh 26 skema sertifikasi LSP Edukasi Global Cendekia — 7 kategori bidang keahlian. Klik tiap skema untuk persyaratan & detail.</p>
+    <p class="lead">Rincian unit kompetensi lengkap pada seluruh 26 skema sertifikasi LSP Edukasi Global Cendekia — 7 di antaranya telah berlisensi KAN, tersebar dalam 7 kategori bidang keahlian. Klik tiap skema untuk persyaratan & detail.</p>
   </div>
 </div>
 
@@ -143,7 +149,14 @@
                     <span class="scheme-badge">{{ $s['badge'] }}</span>
                     <div>
                       <div class="scheme-name">{{ $s['nama'] }}</div>
-                      <span class="tag">{{ $s['bidang_label'] }}</span>
+                      <div class="scheme-tags">
+                        <span class="tag">{{ $s['bidang_label'] }}</span>
+                        @if($s['lisensi_kan'])
+                          <span class="lisensi-pill yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg> Berlisensi KAN</span>
+                        @else
+                          <span class="lisensi-pill no">Belum Berlisensi KAN</span>
+                        @endif
+                      </div>
                     </div>
                   </div>
                   <div class="scheme-type">Jenis kemasan: <strong>{{ $s['jenis_kemasan'] }}</strong>@if($s['kode']) · {{ $s['kode'] }}@endif</div>

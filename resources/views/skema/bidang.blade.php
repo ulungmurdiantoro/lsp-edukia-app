@@ -27,6 +27,10 @@
 .sk-item .units{font-size:12.5px;color:var(--muted);font-weight:600}
 .sk-item .go{font-size:13px;font-weight:700;color:var(--blue-deep);display:inline-flex;align-items:center;gap:5px}
 .sk-pill{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:var(--orange-50);color:var(--orange-deep);margin-left:8px}
+.sk-lisensi{align-self:flex-start;display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;letter-spacing:.03em;padding:4px 9px;border-radius:6px;margin-bottom:14px}
+.sk-lisensi.yes{background:#e3f5ea;color:#1a5c35}
+.sk-lisensi.no{background:#f0f1f4;color:#5a6a85}
+.sk-lisensi svg{width:12px;height:12px}
 .sk-back{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--navy-700);margin-top:32px}
 .sk-back:hover{color:var(--orange-deep)}
 @media(max-width:640px){.sk-cards{grid-template-columns:1fr}}
@@ -42,7 +46,7 @@
       <span>{{ $info['label'] }}</span>
     </nav>
     <h1>Skema <em>{{ $info['label'] }}</em></h1>
-    <p>{{ $info['judul'] }} — {{ $skemas->count() }} skema sertifikasi kompetensi person terakreditasi KAN di LSP Edukia.</p>
+    <p>{{ $info['judul'] }} — {{ $skemas->count() }} skema sertifikasi kompetensi person di LSP Edukia, lembaga sertifikasi person terakreditasi KAN.</p>
   </div>
 </div>
 
@@ -56,6 +60,11 @@
             <h3>{{ $s['nama'] }}@if($s['popular'])<span class="sk-pill">Populer</span>@endif</h3>
           </div>
           @if($s['kode'])<div class="kode">{{ $s['kode'] }}</div>@endif
+          @if($s['lisensi_kan'])
+            <span class="sk-lisensi yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg> Berlisensi KAN</span>
+          @else
+            <span class="sk-lisensi no">Belum Berlisensi KAN</span>
+          @endif
           <div class="foot">
             <span class="units">{{ $s['jumlah_unit'] }} unit kompetensi</span>
             <span class="go">Detail <svg class="icon"><use href="#i-arrow-r"></use></svg></span>

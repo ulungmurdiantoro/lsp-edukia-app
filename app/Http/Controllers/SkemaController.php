@@ -23,7 +23,8 @@ class SkemaController extends Controller
         $related = Skemas::related($skema);
         $bidangs = Skemas::bidangs();
 
-        $deskripsi = "Sertifikasi {$skema['nama']} dari LSP Edukia, terakreditasi KAN. "
+        $lisensiFrasa = $skema['lisensi_kan'] ? 'berlisensi KAN' : 'belum berlisensi KAN';
+        $deskripsi = "Sertifikasi {$skema['nama']} dari LSP Edukia ({$lisensiFrasa}). "
             ."Skema {$skema['bidang_label']} dengan {$skema['jumlah_unit']} unit kompetensi. "
             .'Lihat persyaratan, unit kompetensi, dan cara mendaftar uji kompetensi.';
 
@@ -94,7 +95,7 @@ class SkemaController extends Controller
                 '@id' => config('app.url').'/#organization',
                 'url' => config('app.url'),
             ],
-            'educationalCredentialAwarded' => 'Sertifikat Kompetensi Terakreditasi KAN — '.$skema['nama'],
+            'educationalCredentialAwarded' => ($skema['lisensi_kan'] ? 'Sertifikat Kompetensi Berlisensi KAN — ' : 'Sertifikat Kompetensi LSP Edukia — ').$skema['nama'],
             // Persyaratan pemohon & unit kompetensi — agar mesin pencari memahami isi skema.
             'coursePrerequisites' => array_values($skema['persyaratan']),
             'teaches' => array_values(array_map(fn (array $u): string => $u['judul'], $skema['units'])),

@@ -27,7 +27,8 @@ class LlmsController extends Controller
             $lines[] = '';
             $lines[] = '> LSP Edukia (LSP Edukasi Global Cendekia) adalah Lembaga Sertifikasi Person '
                 .'terakreditasi Komite Akreditasi Nasional (KAN) di Indonesia, dengan 26 skema sertifikasi '
-                .'kompetensi pada 7 bidang: SPMI ISO 21001, Perguruan Tinggi, Laboratorium ISO/IEC 17025, '
+                .'kompetensi pada 7 bidang ('.Skemas::lisensiCount().' skema di antaranya telah berlisensi KAN): '
+                .'SPMI ISO 21001, Perguruan Tinggi, Laboratorium ISO/IEC 17025, '
                 .'Lifting Engineering, Laboratorium & Pengujian, Sistem Manajemen & Governance, serta '
                 .'Research & Innovation. Berkedudukan di Mijen, Kota Semarang, Jawa Tengah.';
             $lines[] = '';
@@ -47,8 +48,9 @@ class LlmsController extends Controller
                 $lines[] = '### '.$bidang['label'].' — '.$bidang['judul'];
                 foreach ($skemas as $s) {
                     $url = route('skema.show', $s['slug']);
+                    $lisensi = $s['lisensi_kan'] ? 'berlisensi KAN' : 'belum berlisensi KAN';
                     $lines[] = "- [Sertifikasi {$s['nama']}]({$url}): kode skema {$s['kode']}, "
-                        ."{$s['jumlah_unit']} unit kompetensi, terakreditasi KAN.";
+                        ."{$s['jumlah_unit']} unit kompetensi, {$lisensi}.";
                 }
                 $lines[] = '';
             }
@@ -97,7 +99,8 @@ class LlmsController extends Controller
             $lines[] = '> Dokumen lengkap berisi deskripsi, persyaratan pemohon, dan seluruh unit '
                 .'kompetensi untuk tiap skema sertifikasi LSP Edukia (LSP Edukasi Global Cendekia), '
                 .'Lembaga Sertifikasi Person terakreditasi Komite Akreditasi Nasional (KAN) di Indonesia. '
-                .'Total 26 skema pada 7 bidang. Versi ringkas: '.route('llms').'.';
+                .'Total 26 skema pada 7 bidang; '.Skemas::lisensiCount().' skema di antaranya telah berlisensi KAN. '
+                .'Versi ringkas: '.route('llms').'.';
             $lines[] = '';
             $lines[] = 'Kontak: WhatsApp '.config('site.whatsapp').' — email '.config('site.email')
                 .'. Pendaftaran uji kompetensi melalui WhatsApp. Verifikasi sertifikat: '.route('sertifikat').'.';
@@ -119,10 +122,13 @@ class LlmsController extends Controller
                     $lines[] = '- Kode skema: '.$s['kode'];
                     $lines[] = '- Bidang: '.$s['bidang_label'].' ('.$s['bidang_judul'].')';
                     $lines[] = '- Jumlah unit kompetensi: '.$s['jumlah_unit'];
-                    $lines[] = '- Akreditasi: Komite Akreditasi Nasional (KAN)';
+                    $lines[] = '- Status lisensi KAN: '.($s['lisensi_kan'] ? 'Berlisensi KAN' : 'Belum berlisensi KAN');
                     $lines[] = '';
+                    $statusLisensi = $s['lisensi_kan']
+                        ? 'Skema ini telah berlisensi KAN.'
+                        : 'Skema ini belum berlisensi KAN.';
                     $lines[] = '**Deskripsi:** Sertifikasi '.$s['nama'].' adalah skema sertifikasi kompetensi '
-                        .'person bidang '.$s['bidang_label'].' di LSP Edukia, terakreditasi KAN. Skema dengan '
+                        .'person bidang '.$s['bidang_label'].' di LSP Edukia. '.$statusLisensi.' Skema dengan '
                         .'kode '.$s['kode'].' ini terdiri dari '.$s['jumlah_unit'].' unit kompetensi yang '
                         .'menguji kemampuan pemohon sesuai standar yang berlaku.';
                     $lines[] = '';

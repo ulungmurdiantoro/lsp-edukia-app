@@ -20,7 +20,7 @@ class PageController extends Controller
             [
                 'nomor' => '01', 'kode' => 'EDUKIA-AIL-2024-001',
                 'judul' => 'Auditor Internal SPMI Terintegrasi ISO 21001:2018',
-                'kategori' => 'spmi', 'jumlah_unit' => 7,
+                'kategori' => 'spmi', 'jumlah_unit' => 7, 'lisensi_kan' => true,
                 'reqs' => [
                     'Pendidikan minimal S2',
                     'Pengalaman kerja di bidang Perguruan Tinggi',
@@ -30,7 +30,7 @@ class PageController extends Controller
             [
                 'nomor' => '02', 'kode' => 'EDUKIA-LAD-2024-002',
                 'judul' => 'Lead Auditor Internal SPMI Terintegrasi ISO 21001:2018',
-                'kategori' => 'spmi', 'jumlah_unit' => 8,
+                'kategori' => 'spmi', 'jumlah_unit' => 8, 'lisensi_kan' => true,
                 'reqs' => [
                     'Pendidikan minimal S2',
                     'Pengalaman kerja di bidang Perguruan Tinggi',
@@ -41,7 +41,7 @@ class PageController extends Controller
             [
                 'nomor' => '03', 'kode' => 'EDUKIA-IMR-2024-003',
                 'judul' => 'Lead Implementer SPMI Terintegrasi ISO 21001:2018',
-                'kategori' => 'spmi', 'jumlah_unit' => 7,
+                'kategori' => 'spmi', 'jumlah_unit' => 7, 'lisensi_kan' => true,
                 'reqs' => [
                     'Pendidikan minimal S2',
                     'Pengalaman kerja di bidang Perguruan Tinggi',
@@ -52,7 +52,7 @@ class PageController extends Controller
             [
                 'nomor' => '04', 'kode' => 'EDUKIA-ToT-2024-004',
                 'judul' => 'Training of Trainer (ToT) Outcome Based Education (OBE)',
-                'kategori' => 'pt', 'jumlah_unit' => 6, 'popular' => true,
+                'kategori' => 'pt', 'jumlah_unit' => 6, 'popular' => true, 'lisensi_kan' => true,
                 'reqs' => [
                     'Pendidikan minimal S2',
                     'Pengalaman kerja di bidang Perguruan Tinggi',
@@ -62,7 +62,7 @@ class PageController extends Controller
             [
                 'nomor' => '05', 'kode' => 'EDUKIA-TKO-2024-005',
                 'judul' => 'Implementer Tata Kelola Organisasi Perguruan Tinggi',
-                'kategori' => 'pt', 'jumlah_unit' => 6,
+                'kategori' => 'pt', 'jumlah_unit' => 6, 'lisensi_kan' => true,
                 'reqs' => [
                     'Pendidikan minimal S2',
                     'Pengalaman kerja di bidang Perguruan Tinggi',
@@ -73,7 +73,7 @@ class PageController extends Controller
             [
                 'nomor' => '06', 'kode' => 'EDUKIA-AUI-2024-006',
                 'judul' => 'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017',
-                'kategori' => 'lab17025', 'jumlah_unit' => 8,
+                'kategori' => 'lab17025', 'jumlah_unit' => 8, 'lisensi_kan' => true,
                 'reqs' => [
                     'Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate',
                     'Memiliki Sertifikat Pelatihan Auditor Internal & ISO 17025:2017',
@@ -82,7 +82,7 @@ class PageController extends Controller
             [
                 'nomor' => '07', 'kode' => 'EDUKIA-LIM-2024-007',
                 'judul' => 'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
-                'kategori' => 'lab17025', 'jumlah_unit' => 7, 'popular' => true,
+                'kategori' => 'lab17025', 'jumlah_unit' => 7, 'popular' => true, 'lisensi_kan' => true,
                 'reqs' => [
                     'Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate',
                     'Memiliki Sertifikat Pelatihan Auditor Internal & ISO 17025:2017',
@@ -281,8 +281,8 @@ class PageController extends Controller
         $seo = new SEOData(
             schema: SchemaCollection::initialize()
                 ->addFaqPage(fn ($faq) => $faq
-                    ->addQuestion('Apakah LSP Edukia terakreditasi KAN?', 'Ya. LSP Edukia (LSP Edukasi Global Cendekia) adalah Lembaga Sertifikasi Person yang terakreditasi Komite Akreditasi Nasional (KAN).')
-                    ->addQuestion('Berapa skema sertifikasi yang tersedia di LSP Edukia?', 'Tersedia 26 skema sertifikasi kompetensi pada 7 bidang: SPMI ISO 21001, Perguruan Tinggi, Laboratorium ISO/IEC 17025, Lifting Engineering, Laboratorium & Pengujian, Sistem Manajemen & Governance, serta Research & Innovation.')
+                    ->addQuestion('Apakah LSP Edukia terakreditasi KAN?', 'Ya. LSP Edukia (LSP Edukasi Global Cendekia) adalah Lembaga Sertifikasi Person yang terakreditasi Komite Akreditasi Nasional (KAN). Saat ini 7 dari 26 skema kompetensi telah berlisensi KAN, sisanya merupakan skema LSP Edukia yang belum berlisensi KAN.')
+                    ->addQuestion('Berapa skema sertifikasi yang tersedia di LSP Edukia?', 'Tersedia 26 skema sertifikasi kompetensi pada 7 bidang: SPMI ISO 21001, Perguruan Tinggi, Laboratorium ISO/IEC 17025, Lifting Engineering, Laboratorium & Pengujian, Sistem Manajemen & Governance, serta Research & Innovation. Sebanyak 7 skema di antaranya telah berlisensi KAN.')
                     ->addQuestion('Bagaimana cara mendaftar uji kompetensi di LSP Edukia?', 'Pilih skema sertifikasi yang sesuai di halaman Skema Sertifikasi, periksa persyaratan pemohon, lalu hubungi tim kami melalui WhatsApp untuk informasi jadwal dan biaya uji kompetensi.')
                     ->addQuestion('Apakah sertifikat LSP Edukia bisa diverifikasi?', 'Ya. Seluruh penerima sertifikat dapat ditelusuri pada halaman Daftar Penerima Sertifikat berdasarkan nama, nomor sertifikat, atau skema kompetensi.')),
         );
@@ -324,7 +324,7 @@ class PageController extends Controller
             ->with('activeNav', 'skema')
             ->with('SEOData', new SEOData(
                 title: 'Skema Sertifikasi Kompetensi Person',
-                description: '26 skema sertifikasi kompetensi person terakreditasi KAN di LSP Edukia: SPMI ISO 21001, OBE, laboratorium ISO 17025, lifting engineering, sistem manajemen ISO 9001/14001, hingga hukum korporasi.',
+                description: '26 skema sertifikasi kompetensi person di LSP Edukia (7 skema telah berlisensi KAN): SPMI ISO 21001, OBE, laboratorium ISO 17025, lifting engineering, sistem manajemen ISO 9001/14001, hingga hukum korporasi.',
                 image: 'images/hero-skema.jpg',
                 // ItemList: enumerasi seluruh 26 judul skema agar mesin pencari & model AI
                 // mengenali tiap judul + URL detailnya dari satu halaman daftar (rich result).
@@ -333,7 +333,7 @@ class PageController extends Controller
                         '@context' => 'https://schema.org',
                         '@type' => 'ItemList',
                         'name' => 'Skema Sertifikasi Kompetensi LSP Edukia',
-                        'description' => 'Daftar 26 skema sertifikasi kompetensi person terakreditasi KAN di LSP Edukia.',
+                        'description' => 'Daftar 26 skema sertifikasi kompetensi person di LSP Edukia; 7 skema telah berlisensi KAN.',
                         'numberOfItems' => $allSkema->count(),
                         'itemListElement' => $allSkema->values()
                             ->map(fn (array $s, int $i): array => [

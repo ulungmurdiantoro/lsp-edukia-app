@@ -131,7 +131,7 @@
           </ul>
         </div>
       </div>
-      <div class="komitmen-card tujuan-card">
+      <div class="komitmen-card tujuan-card full">
         <div class="komitmen-header tujuan"><div class="ico"><svg width="16" height="16"><use href="#i-award"></use></svg></div><h3>Tujuan</h3></div>
         <div class="komitmen-body">
           <ul class="komitmen-num-list">
@@ -140,7 +140,7 @@
           </ul>
         </div>
       </div>
-      <div class="komitmen-card kebijakan-card">
+      {{-- <div class="komitmen-card kebijakan-card">
         <div class="komitmen-header kebijakan"><div class="ico"><svg width="16" height="16"><use href="#i-shield"></use></svg></div><h3>Kebijakan Mutu</h3></div>
         <div class="komitmen-body">
           <ul class="komitmen-num-list">
@@ -148,8 +148,8 @@
             <li><span class="n">2</span><span>Seluruh personel berkomitmen untuk menyelenggarakan uji kompetensi sertifikasi secara profesional.</span></li>
           </ul>
         </div>
-      </div>
-      <div class="komitmen-card sasaran-card full">
+      </div> --}}
+      {{-- <div class="komitmen-card sasaran-card full">
         <div class="komitmen-header sasaran"><div class="ico"><svg width="16" height="16"><use href="#i-award"></use></svg></div><h3>Sasaran Mutu</h3></div>
         <div class="komitmen-body">
           <ul class="komitmen-num-list">
@@ -160,7 +160,7 @@
             <li><span class="n">5</span><span>Mengembangkan atau melakukan survei pasar untuk menambah <strong>minimal 5 skema sertifikasi baru</strong>.</span></li>
           </ul>
         </div>
-      </div>
+      </div> --}}
     </div>
   </div>
 </section>
@@ -176,12 +176,18 @@
       <ol class="num-list navy">
         <li><span class="n">1</span><p>Menjamin bahwa kegiatan sertifikasi dilaksanakan secara objektif dan tidak berpihak.</p></li>
         <li><span class="n">2</span><p>Menjamin bahwa kebijakan dan prosedur sertifikasi dilaksanakan secara adil untuk semua pemohon sertifikasi, calon peserta sertifikasi dan pemegang sertifikat sesuai dengan segala ketentuan, regulasi dan pedoman yang terkait.</p></li>
-        <li><span class="n">3</span><p>Menjamin proses sertifikasi dibatasi atas dasar keterbatasan keuangan atau keterbatasan lainnya, seperti keanggotaan asosiasi atau kelompok. Tidak satupun dalam mekanisme operasional sertifikasi ini yang dapat menghambat atau menghalangi akses pemohon atau calon peserta sertifikasi.</p></li>
+        <li><span class="n">3</span><p>Menjamin proses sertifikasi tidak dibatasi atas dasar keterbatasan keuangan atau keterbatasan lainnya, seperti keanggotaan asosiasi atau kelompok. Tidak satupun dalam mekanisme operasional sertifikasi ini yang dapat menghambat atau menghalangi akses pemohon atau calon peserta sertifikasi.</p></li>
         <li><span class="n">4</span><p>Menjamin proses sertifikasi tidak akan mengijinkan tekanan komersial, keuangan atau tekanan lain untuk mengkompromikan ketidakberpihakan.</p></li>
         <li><span class="n">5</span><p>Menjamin ketersediaan dan kemudahan akses untuk publik tanpa permintaan yang menyatakan dan memberikan pemahaman tentang pentingnya ketidakberpihakan dalam pelaksanaan sertifikasi, pengelolaan konflik kepentingan dan jaminan objektivitas sertifikasi.</p></li>
         <li><span class="n">6</span><p>Berkomitmen untuk selalu mengidentifikasi, menghilangkan, mengurangi atau mengelola seluruh risiko dan ancaman terhadap ketidakberpihakan secara berkelanjutan, yang mencakup dari internal operasional sertifikasi, lembaga lain atau hubungan dengan pihak lain yang terkait, dan hubungan dari personil di dalam lembaga sertifikasi kepada pihak lain terkait dan yang berkepentingan.</p></li>
         <li><span class="n">7</span><p>Menjamin keamanan informasi dalam pengelolaan seluruh proses sertifikasi termasuk materi ujian, sesuai dengan hukum dan regulasi yang berlaku dan mengambil langkah-langkah tindakan korektif bila terjadi pelanggaran keamanan informasi.</p></li>
         <li><span class="n">8</span><p>Menangani semua keluhan dan banding secara konstruktif, netral, dan tepat waktu sesuai dengan prosedur yang telah ditentukan.</p></li>
+        <li><span class="n">9</span>
+          <p> Berkomitmen untuk memisahkan secara tegas fungsi sertifikasi person dengan aktivitas pelatihan, pendampingan, konsultansi, dan kegiatan pengembangan kompetensi lainnya yang dilakukan oleh pihak manapun, termasuk personel yang terlibat dalam manajemen dan operasional sertifikasi. LSP Edukia menerapkan pengendalian risiko ketidakberpihakan terhadap seluruh personel sesuai peran dan jabatannya sebagaimana ditetapkan dalam kebijakan dan/atau keputusan yang berlaku di LSP Edukia.
+          <br><br> Pengendalian tersebut mencakup pembatasan aktivitas tertentu bagi personel yang berdasarkan hasil kajian risiko ditetapkan memiliki tingkat risiko tinggi terhadap ketidakberpihakan, sesuai dengan kebijakan dan/atau keputusan yang berlaku di LSP Edukia.
+          <br><br> Khusus bagi Ketua LSP Edukia, selama menjabat tidak diperkenankan menjadi trainer, konsultan, pendamping, maupun melakukan aktivitas promosi yang berkaitan secara langsung dengan skema sertifikasi, layanan sertifikasi, atau kegiatan persiapan sertifikasi yang diselenggarakan oleh LSP Edukia. Ketua LSP Edukia hanya diperkenankan melakukan publikasi yang bersifat edukatif, informatif, akademik, dan kelembagaan sepanjang tidak menimbulkan persepsi ketidakberpihakan maupun konflik kepentingan terhadap proses sertifikasi person.</p>
+        </li>
+        <li><span class="n">10</span><p>Dalam hal skema sertifikasi mensyaratkan bukti pelatihan atau pengembangan kompetensi sebagai bagian dari persyaratan sertifikasi, LSP Edukia menerima bukti pelatihan yang relevan tanpa membatasi atau mewajibkan peserta untuk mengikuti pelatihan dari penyelenggara tertentu, termasuk dari lembaga pelatihan yang bermitra dengan LSP Edukia. Kepemilikan sertifikat pelatihan tidak menjamin kelulusan sertifikasi dan tidak mempengaruhi objektivitas proses asesmen maupun keputusan sertifikasi. LSP Edukia tidak memberikan perlakuan khusus, kemudahan proses, maupun keuntungan dalam proses sertifikasi kepada peserta yang mengikuti pelatihan dari penyelenggara tertentu.</p></li>
       </ol>
     </div>
   </div>

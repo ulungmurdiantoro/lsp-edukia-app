@@ -58,7 +58,18 @@
       "PowerShell(php artisan route:list --path=llms 2>&1)",
       "PowerShell(php artisan route:list --path=skema 2>&1)",
       "PowerShell(php tmp_check_llms.php 2>&1)",
-      "PowerShell(php tmp_check_skema.php 2>&1)"
+      "PowerShell(php tmp_check_skema.php 2>&1)",
+      "Bash(curl -sS -o /dev/null -w \"HTTP %{http_code}\\\\n\" https://lspedukia.id/robots.txt)",
+      "Bash(curl -sS -o /dev/null -w \"HTTP %{http_code}  type=%{content_type}\\\\n\" https://lspedukia.id/llms.txt)",
+      "Bash(curl -sS https://lspedukia.id/llms.txt)",
+      "Bash(curl -sS -o /dev/null -w \"HTTP %{http_code}\\\\n\" https://lspedukia.id/)",
+      "Bash(curl -sS -o /dev/null -w \"HTTP %{http_code}\\\\n\" https://lspedukia.id/skema-sertifikasi)",
+      "Bash(curl -sS https://lspedukia.id/skema-sertifikasi)",
+      "Bash(curl -sS -o /dev/null -w \"HTTP %{http_code}\\\\n\" https://lspedukia.id/skema-sertifikasi/auditor-internal-spmi-iso-21001)",
+      "Bash(curl -sS -o /dev/null -w \"HTTP %{http_code}\\\\n\" https://lspedukia.id/sitemap.xml)",
+      "PowerShell(php tmp_check_full.php 2>&1)",
+      "PowerShell(php -l app/Filament/Resources/PostResource.php)",
+      "PowerShell(php tmp_check_admin_seo.php 2>&1)"
     ],
     "additionalDirectories": [
       "C:\\Users\\umurd\\Downloads\\lspedukia-prod\\assets"

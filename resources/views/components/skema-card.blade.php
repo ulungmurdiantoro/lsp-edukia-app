@@ -2,6 +2,7 @@
 
 @php
 $popular = $scheme['popular'] ?? false;
+$lisensiKan = $scheme['lisensi_kan'] ?? false;
 $iconPaths = [
   'building' => 'M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M13 9h.01M9 13h.01M13 13h.01M9 17h6',
   'beaker'   => 'M9 3v6L4 19a2 2 0 002 3h12a2 2 0 002-3l-5-10V3M9 3h6M7 14h10',
@@ -81,13 +82,29 @@ $iconPath = $iconPaths[$cat['icon']] ?? '';
       {{ $scheme['judul'] }}
     </h3>
 
-    {{-- Category chip --}}
-    <span style="display:inline-flex;align-items:center;gap:6px;
-                 padding:5px 10px;border-radius:6px;font-size:11px;font-weight:700;
-                 background:{{ $cat['bg'] }};color:{{ $cat['color'] }};">
-      <span style="width:8px;height:8px;border-radius:50%;background:{{ $cat['color'] }};flex-shrink:0;"></span>
-      {{ $cat['label'] }}
-    </span>
+    {{-- Category chip + status lisensi KAN --}}
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+      <span style="display:inline-flex;align-items:center;gap:6px;
+                   padding:5px 10px;border-radius:6px;font-size:11px;font-weight:700;
+                   background:{{ $cat['bg'] }};color:{{ $cat['color'] }};">
+        <span style="width:8px;height:8px;border-radius:50%;background:{{ $cat['color'] }};flex-shrink:0;"></span>
+        {{ $cat['label'] }}
+      </span>
+      @if($lisensiKan)
+      <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;
+                   font-size:11px;font-weight:700;background:rgba(126,224,163,.16);color:#7ee0a3;
+                   border:1px solid rgba(126,224,163,.35);">
+        <svg style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
+        Berlisensi KAN
+      </span>
+      @else
+      <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;
+                   font-size:11px;font-weight:700;background:rgba(255,255,255,.06);color:rgba(255,255,255,.65);
+                   border:1px solid rgba(255,255,255,.2);">
+        Belum Berlisensi KAN
+      </span>
+      @endif
+    </div>
   </div>
 
   {{-- BODY --}}

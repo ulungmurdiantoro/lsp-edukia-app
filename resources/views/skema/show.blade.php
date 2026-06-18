@@ -12,6 +12,11 @@
 .sk-crumb a{color:rgba(255,255,255,.7)}
 .sk-crumb a:hover{color:#fff}
 .sk-tag{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);font-size:12px;font-weight:600;letter-spacing:.03em;margin-bottom:14px}
+.sk-tag svg{width:13px;height:13px}
+.sk-tag--kan{background:rgba(126,224,163,.16);border-color:rgba(126,224,163,.4);color:#9ff0c0}
+.sk-tag--nokan{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.72)}
+.sk-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.sk-tags .sk-tag{margin-bottom:0}
 .sk-hero h1{color:#fff;font-size:clamp(26px,3.4vw,40px);line-height:1.1;margin-bottom:12px}
 .sk-meta{display:flex;flex-wrap:wrap;gap:18px;margin-top:18px;font-size:13.5px;color:rgba(255,255,255,.72)}
 .sk-meta b{color:#fff;font-weight:700}
@@ -52,7 +57,14 @@
       <a href="{{ route('skema.bidang', $skema['bidang']) }}">{{ $skema['bidang_label'] }}</a> ›
       <span>{{ Str::limit($skema['nama'], 40) }}</span>
     </nav>
-    <span class="sk-tag">{{ $skema['bidang_label'] }} · Terakreditasi KAN</span>
+    <div class="sk-tags">
+      <span class="sk-tag">{{ $skema['bidang_label'] }}</span>
+      @if($skema['lisensi_kan'])
+      <span class="sk-tag sk-tag--kan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg> Berlisensi KAN</span>
+      @else
+      <span class="sk-tag sk-tag--nokan">Belum Berlisensi KAN</span>
+      @endif
+    </div>
     <h1>Sertifikasi {{ $skema['nama'] }}</h1>
     <div class="sk-meta">
       @if($skema['kode'])<span>Kode skema: <b>{{ $skema['kode'] }}</b></span>@endif
@@ -70,8 +82,9 @@
         <p class="sk-lead">Skema sertifikasi <b>{{ $skema['nama'] }}</b> merupakan bagian dari bidang
           <a href="{{ route('skema.bidang', $skema['bidang']) }}" style="color:var(--blue-deep);font-weight:600">{{ $skema['bidang_judul'] }}</a>
           yang diselenggarakan LSP Edukia (LSP Edukasi Global Cendekia), lembaga sertifikasi person
-          terakreditasi <b>KAN (Komite Akreditasi Nasional)</b>. Uji kompetensi mencakup <b>{{ $skema['jumlah_unit'] }} unit kompetensi</b>
-          dan menghasilkan Sertifikat Kompetensi terakreditasi KAN yang diakui secara nasional.</p>
+          terakreditasi <b>KAN (Komite Akreditasi Nasional)</b>. Uji kompetensi mencakup <b>{{ $skema['jumlah_unit'] }} unit kompetensi</b>@if($skema['lisensi_kan'])
+          dan menghasilkan Sertifikat Kompetensi <b>berlisensi KAN</b> yang diakui secara nasional.@else.
+          Skema ini merupakan skema sertifikasi LSP Edukia yang <b>belum berlisensi KAN</b>.@endif</p>
       </div>
 
       <div class="sk-card">

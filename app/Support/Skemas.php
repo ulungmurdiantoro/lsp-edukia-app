@@ -11,6 +11,26 @@ use Illuminate\Support\Collection;
  */
 class Skemas
 {
+    /**
+     * Slug skema yang telah berlisensi KAN (7 dari 26 skema).
+     * Skema di luar daftar ini ditandai "Belum Berlisensi KAN".
+     */
+    public const LISENSI_KAN = [
+        'auditor-internal-spmi-iso-21001',
+        'lead-auditor-spmi-iso-21001',
+        'lead-implementer-spmi-iso-21001',
+        'training-of-trainer-tot-obe',
+        'implementer-tata-kelola-perguruan-tinggi',
+        'auditor-internal-laboratorium-iso-17025',
+        'lead-implementer-laboratorium-iso-17025',
+    ];
+
+    /** Jumlah skema yang sudah berlisensi KAN. */
+    public static function lisensiCount(): int
+    {
+        return count(self::LISENSI_KAN);
+    }
+
     /** Definisi bidang (kategori tampilan) + judul kelompok. */
     public static function bidangs(): array
     {
@@ -32,6 +52,7 @@ class Skemas
             $s['bidang_label'] = $bidang['label'];
             $s['bidang_judul'] = $bidang['judul'];
             $s['jumlah_unit'] = count($s['units']);
+            $s['lisensi_kan'] = in_array($s['slug'], self::LISENSI_KAN, true);
 
             return $s;
         });
