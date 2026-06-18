@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('lamaran_karirs', function (Blueprint $table) {
             $table->id();
-            $table->string('posisi'); // job slug like 'management-representative-mr'
+            $table->string('posisi'); // job slug like 'management-representative'
             $table->string('nama_lengkap');
             $table->string('tempat_tanggal_lahir');
             $table->string('nomor_whatsapp');

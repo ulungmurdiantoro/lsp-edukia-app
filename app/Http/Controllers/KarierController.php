@@ -15,7 +15,7 @@ class KarierController extends Controller
     {
         return [
             [
-                'slug' => 'management-representative-mr',
+                'slug' => 'management-representative',
                 'judul' => 'Management Representative (MR) - LSP Edukia',
                 'deskripsi' => 'Kami mencari Management Representative yang berpengalaman untuk bergabung dengan tim LSP Edukia. Posisi ini bertanggung jawab atas pengelolaan sistem mutu dan audit internal.',
                 'kategori' => 'Management',
