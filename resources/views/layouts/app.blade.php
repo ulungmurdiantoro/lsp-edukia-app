@@ -228,6 +228,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
       <a href="{{ route('skema') }}" @class(['active' => ($activeNav ?? '') === 'skema'])>Skema Kompetensi</a>
       <a href="{{ route('informasi') }}" @class(['active' => ($activeNav ?? '') === 'informasi'])>Informasi Publik</a>
       <a href="{{ route('sertifikat') }}" @class(['active' => ($activeNav ?? '') === 'sertifikat'])>Daftar Penerima Sertifikat</a>
+      <a href="{{ route('karier.index') }}" @class(['active' => ($activeNav ?? '') === 'karier'])>Karier</a>
       <a href="{{ route('blog.index') }}" @class(['active' => ($activeNav ?? '') === 'blog'])>Blog</a>
     </nav>
     <a href="https://wa.me/6285175479385" target="_blank" rel="noopener" class="btn btn-primary">Daftar Sekarang
