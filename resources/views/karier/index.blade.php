@@ -1,56 +1,19 @@
 @extends('layouts.app')
 
+@section('extra-css')
+<style>
+.page-hero{background:radial-gradient(700px 400px at 80% -10%,rgba(68,159,229,.25),transparent 60%),radial-gradient(600px 300px at 10% 110%,rgba(244,137,31,.15),transparent 60%),linear-gradient(180deg,rgba(10,37,71,.82) 0%,rgba(6,23,46,.92) 100%),url('/images/hero-informasi.jpg');background-size:auto,auto,auto,cover;background-position:center;color:#fff;position:relative;overflow:hidden;border-top:0;padding:0}
+.page-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(80% 70% at 50% 30%,#000 30%,transparent 80%)}
+.page-hero-inner{padding:80px 0 88px;position:relative}
+.badge{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px 0 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);font-size:12.5px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:20px}
+.page-hero h1{color:#fff;margin-bottom:16px}
+.page-hero h1 em{font-family:"Fraunces",serif;font-style:italic;font-weight:500;color:var(--blue)}
+.page-hero p.lead{color:rgba(255,255,255,.78);font-size:17px;max-width:56ch;line-height:1.55}
+</style>
+@endsection
+
 @section('content')
 <style>
-  .job-header {
-    background: linear-gradient(135deg, var(--navy-800), var(--navy-700) 70%, var(--navy-900));
-    color: #fff;
-    padding: 72px 0;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .job-header::before {
-    content: "";
-    position: absolute;
-    right: -80px;
-    top: -80px;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(244, 137, 31, .3), transparent 70%);
-    pointer-events: none;
-  }
-
-  .job-header::after {
-    content: "";
-    position: absolute;
-    left: -80px;
-    bottom: -80px;
-    width: 240px;
-    height: 240px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(68, 159, 229, .28), transparent 70%);
-    pointer-events: none;
-  }
-
-  .job-header-content {
-    position: relative;
-    z-index: 1;
-  }
-
-  .job-header h1 {
-    font-size: 42px;
-    margin-bottom: 12px;
-    letter-spacing: -0.02em;
-  }
-
-  .job-header p {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.78);
-    max-width: 600px;
-  }
-
   .jobs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -149,10 +112,11 @@
   }
 </style>
 
-<div class="job-header">
-  <div class="wrap job-header-content">
-    <h1>Bergabunglah dengan Tim LSP Edukia</h1>
-    <p>Kami mencari talenta terbaik untuk memperkuat tim kami dalam misi meningkatkan kualitas sertifikasi kompetensi di Indonesia.</p>
+<div class="page-hero">
+  <div class="wrap page-hero-inner">
+    <div class="badge">Karier · LSP Edukia</div>
+    <h1>Bergabung dengan <em>Tim Kami</em></h1>
+    <p class="lead">Kami mencari talenta terbaik untuk memperkuat tim kami dalam misi meningkatkan kualitas sertifikasi kompetensi di Indonesia.</p>
   </div>
 </div>
 

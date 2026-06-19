@@ -1,50 +1,21 @@
 @extends('layouts.app')
 
+@section('extra-css')
+<style>
+.page-hero{background:radial-gradient(700px 400px at 80% -10%,rgba(68,159,229,.25),transparent 60%),radial-gradient(600px 300px at 10% 110%,rgba(244,137,31,.15),transparent 60%),linear-gradient(180deg,rgba(10,37,71,.82) 0%,rgba(6,23,46,.92) 100%),url('/images/hero-informasi.jpg');background-size:auto,auto,auto,cover;background-position:center;color:#fff;position:relative;overflow:hidden;border-top:0;padding:0}
+.page-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(80% 70% at 50% 30%,#000 30%,transparent 80%)}
+.page-hero-inner{padding:80px 0 88px;position:relative}
+.badge{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px 0 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);font-size:12.5px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:20px}
+.page-hero h1{color:#fff;margin-bottom:16px}
+.page-hero h1 em{font-family:"Fraunces",serif;font-style:italic;font-weight:500;color:var(--blue)}
+.page-hero p.lead{color:rgba(255,255,255,.78);font-size:17px;max-width:56ch;line-height:1.55}
+.hero-back{color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;display:block;width:fit-content;margin-bottom:16px}
+.hero-back:hover{color:#fff}
+</style>
+@endsection
+
 @section('content')
 <style>
-  .job-detail-header {
-    background: linear-gradient(135deg, var(--navy-800), var(--navy-700) 70%, var(--navy-900));
-    color: #fff;
-    padding: 56px 0;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .job-detail-header::before {
-    content: "";
-    position: absolute;
-    right: -80px;
-    top: -80px;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(244, 137, 31, .3), transparent 70%);
-    pointer-events: none;
-  }
-
-  .job-detail-header::after {
-    content: "";
-    position: absolute;
-    left: -80px;
-    bottom: -80px;
-    width: 240px;
-    height: 240px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(68, 159, 229, .28), transparent 70%);
-    pointer-events: none;
-  }
-
-  .job-detail-content {
-    position: relative;
-    z-index: 1;
-  }
-
-  .job-detail-header h1 {
-    font-size: 38px;
-    margin-bottom: 12px;
-    letter-spacing: -0.02em;
-  }
-
   .job-detail-metas {
     display: flex;
     gap: 24px;
@@ -66,8 +37,8 @@
   }
 
   .detail-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 40px;
     padding: 56px 0;
   }
@@ -104,10 +75,7 @@
   }
 
   .apply-sidebar {
-    display: sticky;
-    position: sticky;
-    top: 100px;
-    height: fit-content;
+    width: 100%;
   }
 
   .apply-form {
@@ -115,6 +83,20 @@
     border: 1px solid var(--line);
     border-radius: 16px;
     padding: 32px;
+  }
+
+  /* Wider form: lay the fields out in two columns */
+  #applicationForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+    align-items: start;
+  }
+
+  #applicationForm > .form-group--full,
+  #applicationForm > .submit-btn,
+  #applicationForm > .info-box {
+    grid-column: 1 / -1;
   }
 
   .form-group {
@@ -261,21 +243,30 @@
       position: static;
     }
 
+    #applicationForm {
+      grid-template-columns: 1fr;
+    }
+
     .form-row {
       grid-template-columns: 1fr;
     }
 
-    .job-detail-header h1 {
+    .page-hero-inner {
+      padding: 56px 0 60px;
+    }
+
+    .page-hero h1 {
       font-size: 28px;
     }
   }
 </style>
 
-<div class="job-detail-header">
-  <div class="wrap job-detail-content">
-    <a href="{{ route('karier.index') }}" style="color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; display: inline-block; margin-bottom: 12px;">
+<div class="page-hero">
+  <div class="wrap page-hero-inner">
+    <a href="{{ route('karier.index') }}" class="hero-back">
       ← Kembali ke Lowongan
     </a>
+    <div class="badge">Karier · {{ $opening['kategori'] }}</div>
     <h1>{{ $opening['judul'] }}</h1>
     <div class="job-detail-metas">
       <div class="job-detail-meta">
@@ -431,7 +422,7 @@
           </div>
 
           <!-- Daftar Sertifikat -->
-          <div class="form-group">
+          <div class="form-group form-group--full">
             <label for="sertifikat_list">Sebutkan Sertifikat yang Anda Miliki <span class="required">*</span></label>
             <textarea id="sertifikat_list" name="sertifikat_list" placeholder="Tuliskan daftar sertifikat yang Anda miliki (jika ada)">{{ old('sertifikat_list') }}</textarea>
             @error('sertifikat_list')
@@ -440,7 +431,7 @@
           </div>
 
           <!-- Pengalaman Audit -->
-          <div class="form-group">
+          <div class="form-group form-group--full">
             <label for="pengalaman_audit">Jelaskan Secara Singkat Pengalaman Anda dalam Mengelola Audit Internal atau Sistem Mutu <span class="required">*</span></label>
             <textarea id="pengalaman_audit" name="pengalaman_audit" required>{{ old('pengalaman_audit') }}</textarea>
             @error('pengalaman_audit')
@@ -509,7 +500,7 @@
           </div>
 
           <!-- Bersedia Full-time -->
-          <div class="form-group">
+          <div class="form-group form-group--full">
             <label>
               <div class="checkbox-group">
                 <input type="checkbox" id="bersedia_fulltime" name="bersedia_fulltime" value="1" {{ old('bersedia_fulltime') ? 'checked' : '' }} required>
@@ -522,7 +513,7 @@
           </div>
 
           <!-- Pernyataan Kebenaran -->
-          <div class="form-group" style="background: var(--cream-2); padding: 14px; border-radius: 8px;">
+          <div class="form-group form-group--full" style="background: var(--cream-2); padding: 14px; border-radius: 8px;">
             <label>
               <div class="checkbox-group">
                 <input type="checkbox" id="pernyataan" name="pernyataan" value="1" required>
