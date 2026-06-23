@@ -24,14 +24,7 @@ class SyncLamaranToSheets implements ShouldQueue
 
     public function handle(GoogleSheetsService $sheets): void
     {
-        $headers = [
-            'ID', 'Tanggal', 'Posisi', 'Nama Lengkap', 'TTL', 'WhatsApp',
-            'Domisili', 'Pendidikan', 'Jurusan', 'Pengalaman Mutu',
-            'Sertifikat ISO?', 'Daftar Sertifikat', 'Pengalaman Audit',
-            'Full-time?', 'Status',
-        ];
-
-        $sheets->ensureHeader($headers);
+        $sheets->ensureHeader([]);
 
         $sheets->appendRow([
             $this->lamaran->id,
@@ -49,6 +42,10 @@ class SyncLamaranToSheets implements ShouldQueue
             $this->lamaran->pengalaman_audit,
             $this->lamaran->bersedia_fulltime ? 'YA' : 'TIDAK',
             $this->lamaran->status,
+            $this->lamaran->cv ? url('storage/'.$this->lamaran->cv) : '',
+            $this->lamaran->portofolio ? url('storage/'.$this->lamaran->portofolio) : '',
+            $this->lamaran->ijazah ? url('storage/'.$this->lamaran->ijazah) : '',
+            $this->lamaran->sertifikat_pelatihan ? url('storage/'.$this->lamaran->sertifikat_pelatihan) : '',
         ]);
     }
 

@@ -12,16 +12,32 @@
  * 5. Klik Deploy → copy URL yang muncul
  * 6. Isi di .env server:  GOOGLE_SHEETS_WEBHOOK_URL=<URL yang dicopy>
  * 7. Di server: php artisan config:cache
- *
- * HEADER baris pertama diisi otomatis saat data pertama masuk.
  */
 
 var HEADERS = [
   'ID', 'Tanggal', 'Posisi', 'Nama Lengkap', 'TTL', 'WhatsApp',
   'Domisili', 'Pendidikan', 'Jurusan', 'Pengalaman Mutu',
   'Sertifikat ISO?', 'Daftar Sertifikat', 'Pengalaman Audit',
-  'Full-time?', 'Status'
+  'Full-time?', 'Status',
+  'Link CV', 'Link Portofolio', 'Link Ijazah', 'Link Sertifikat Pelatihan'
 ];
+
+function ensureHeader(sheet) {
+  var firstCell = sheet.getRange(1, 1).getValue();
+
+  // Jika baris pertama bukan header (kosong atau bukan 'ID'), tulis header
+  if (firstCell !== 'ID') {
+    sheet.insertRowBefore(1);
+    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+
+    var headerRange = sheet.getRange(1, 1, 1, HEADERS.length);
+    headerRange.setFontWeight('bold')
+               .setBackground('#0a2547')
+               .setFontColor('#ffffff')
+               .setHorizontalAlignment('center');
+    sheet.setFrozenRows(1);
+  }
+}
 
 function doPost(e) {
   try {
@@ -31,18 +47,7 @@ function doPost(e) {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1')
       || SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
 
-    // Pastikan header ada di baris pertama
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow(HEADERS);
-
-      // Format header: bold, background biru tua, teks putih
-      var headerRange = sheet.getRange(1, 1, 1, HEADERS.length);
-      headerRange.setFontWeight('bold')
-                 .setBackground('#0a2547')
-                 .setFontColor('#ffffff')
-                 .setHorizontalAlignment('center');
-      sheet.setFrozenRows(1);
-    }
+    ensureHeader(sheet);
 
     sheet.appendRow(values);
 
@@ -65,4 +70,24 @@ function doGet(e) {
   return ContentService
     .createTextOutput('LSP Edukia Sheets Webhook aktif.')
     .setMimeType(ContentService.MimeType.TEXT);
+}
+
+// Jalankan manual dari editor untuk reset header + clear data lama
+function resetSheet() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1')
+    || SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+
+  sheet.clearContents();
+
+  sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+
+  var headerRange = sheet.getRange(1, 1, 1, HEADERS.length);
+  headerRange.setFontWeight('bold')
+             .setBackground('#0a2547')
+             .setFontColor('#ffffff')
+             .setHorizontalAlignment('center');
+  sheet.setFrozenRows(1);
+  sheet.autoResizeColumns(1, HEADERS.length);
+
+  SpreadsheetApp.getUi().alert('Sheet berhasil direset. Silakan sync ulang data dari server.');
 }
