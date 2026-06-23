@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SyncLamaranToSheets;
 use App\Models\LamaranKarir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -108,7 +109,12 @@ class KarierController extends Controller
             $validated['sertifikat_pelatihan'] = $request->file('sertifikat_pelatihan')->store('lamaran-karir/sertifikat', 'public');
         }
 
-        LamaranKarir::create($validated);
+        $lamaran = LamaranKarir::create($validated);
+
+        // Kirim ke Google Sheets di background (tidak blokir response user)
+        if (config('google-sheets.spreadsheet_id')) {
+            SyncLamaranToSheets::dispatch($lamaran)->onQueue('default');
+        }
 
         return redirect()->route('karier.index')
             ->with('success', 'Lamaran Anda telah berhasil dikirimkan. Tim kami akan meninjau lamaran Anda dalam waktu singkat.');
