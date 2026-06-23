@@ -3,23 +3,19 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Google Sheets — Lamaran Karir Sync
+    | Google Sheets — Lamaran Karir Sync via Apps Script Webhook
     |--------------------------------------------------------------------------
     |
-    | credentials_path : Path absolut ke file JSON service account Google.
-    |   Gunakan service account yang sama dengan Analytics, atau buat baru.
-    |   Pastikan service account di-share ke Spreadsheet dengan role Editor.
-    |
-    | spreadsheet_id   : ID spreadsheet dari URL Google Sheets.
-    |   Contoh URL: docs.google.com/spreadsheets/d/1aBcD.../edit
-    |   ID-nya adalah bagian "1aBcD..." di antara /d/ dan /edit.
+    | webhook_url : URL dari Google Apps Script Web App deployment.
+    |   Cara setup:
+    |   1. Buka spreadsheet → Extensions → Apps Script
+    |   2. Paste kode dari instruksi di bawah
+    |   3. Deploy → New deployment → Web app
+    |      - Execute as  : Me (akun Google Anda)
+    |      - Who has access: Anyone
+    |   4. Copy URL → isi di GOOGLE_SHEETS_WEBHOOK_URL (.env)
     |
     */
 
-    'credentials_path' => env(
-        'GOOGLE_SHEETS_CREDENTIALS',
-        storage_path('app/analytics/service-account-credentials.json')
-    ),
-
-    'spreadsheet_id' => env('GOOGLE_SHEETS_SPREADSHEET_ID', ''),
+    'webhook_url' => env('GOOGLE_SHEETS_WEBHOOK_URL', ''),
 ];

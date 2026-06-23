@@ -2,64 +2,48 @@
 
 namespace App\Services;
 
-use Google\Client;
-use Google\Service\Sheets;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
+/**
+ * Kirim data ke Google Sheets via Google Apps Script Web App.
+ * Tidak membutuhkan service account key — cukup Web App URL dari Apps Script.
+ *
+ * Setup:
+ * 1. Buka spreadsheet → Extensions → Apps Script
+ * 2. Paste script dari GOOGLE_APPS_SCRIPT.md
+ * 3. Deploy → New deployment → Web app → Execute as: Me, Who has access: Anyone
+ * 4. Copy Web App URL → isi GOOGLE_SHEETS_WEBHOOK_URL di .env
+ */
 class GoogleSheetsService
 {
-    private Sheets $sheets;
-    private string $spreadsheetId;
+    private string $webhookUrl;
 
     public function __construct()
     {
-        $credentialsPath = config('google-sheets.credentials_path');
-
-        $client = new Client();
-        $client->setApplicationName('LSP Edukia');
-        $client->setScopes([Sheets::SPREADSHEETS]);
-        $client->setAuthConfig($credentialsPath);
-
-        $this->sheets        = new Sheets($client);
-        $this->spreadsheetId = config('google-sheets.spreadsheet_id');
+        $this->webhookUrl = config('google-sheets.webhook_url', '');
     }
 
-    /**
-     * Tambahkan satu baris ke sheet pertama spreadsheet.
-     */
     public function appendRow(array $values): void
     {
-        $body = new \Google\Service\Sheets\ValueRange(['values' => [$values]]);
+        if (empty($this->webhookUrl)) {
+            Log::warning('GoogleSheetsService: GOOGLE_SHEETS_WEBHOOK_URL belum diisi.');
+            return;
+        }
 
-        $this->sheets->spreadsheets_values->append(
-            $this->spreadsheetId,
-            'Sheet1!A1',
-            $body,
-            ['valueInputOption' => 'RAW', 'insertDataOption' => 'INSERT_ROWS']
-        );
-    }
+        $response = Http::timeout(10)->post($this->webhookUrl, [
+            'values' => $values,
+        ]);
 
-    /**
-     * Pastikan baris header ada di baris pertama spreadsheet.
-     * Dipanggil sekali saat row pertama masuk.
-     */
-    public function ensureHeader(array $headers): void
-    {
-        $response = $this->sheets->spreadsheets_values->get(
-            $this->spreadsheetId,
-            'Sheet1!A1:A1'
-        );
-
-        $existing = $response->getValues();
-
-        if (empty($existing)) {
-            $body = new \Google\Service\Sheets\ValueRange(['values' => [$headers]]);
-            $this->sheets->spreadsheets_values->update(
-                $this->spreadsheetId,
-                'Sheet1!A1',
-                $body,
-                ['valueInputOption' => 'RAW']
+        if (! $response->successful()) {
+            throw new \RuntimeException(
+                'Google Sheets webhook error: '.$response->status().' '.$response->body()
             );
         }
+    }
+
+    public function ensureHeader(array $headers): void
+    {
+        // Header dikelola langsung di Apps Script (baris pertama tetap).
     }
 }
