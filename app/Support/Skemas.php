@@ -90,6 +90,7 @@ class Skemas
                 'slug' => 'auditor-internal-spmi-iso-21001', 'badge' => 'A', 'bidang' => 'spmi', 'popular' => false,
                 'nama' => 'Auditor Internal SPMI Terintegrasi ISO 21001:2018',
                 'kode' => 'EDUKIA-AIL-2024-001', 'jenis_kemasan' => 'Auditor Internal SPMI terintegrasi ISO 21001:2018',
+                'gelar' => 'CEA (Certified Educational Auditor)',
                 'persyaratan' => ['Pendidikan minimal S2', 'Pengalaman kerja di bidang Perguruan Tinggi', 'Memiliki Sertifikat Pelatihan Auditor Internal'],
                 'units' => [
                     self::u('SP.AIL.001.01', 'Memahami Pengetahuan Dasar Terkait Audit'),
@@ -105,6 +106,7 @@ class Skemas
                 'slug' => 'lead-auditor-spmi-iso-21001', 'badge' => 'B', 'bidang' => 'spmi', 'popular' => false,
                 'nama' => 'Lead Auditor SPMI Terintegrasi ISO 21001:2018',
                 'kode' => 'EDUKIA-LAD-2024-002', 'jenis_kemasan' => 'Lead Auditor SPMI terintegrasi ISO 21001:2018',
+                'gelar' => 'CELA (Certified Educational Lead Auditor)',
                 'persyaratan' => ['Pendidikan minimal S2', 'Pengalaman kerja di bidang Perguruan Tinggi', 'Memiliki Sertifikat Pelatihan Auditor Internal', 'Pengalaman sebagai Ketua Auditor'],
                 'units' => [
                     self::u('SP.LAD.001.01', 'Memahami Pengetahuan Dasar Terkait Audit'),
@@ -121,6 +123,7 @@ class Skemas
                 'slug' => 'lead-implementer-spmi-iso-21001', 'badge' => 'C', 'bidang' => 'spmi', 'popular' => false,
                 'nama' => 'Lead Implementer SPMI Terintegrasi ISO 21001:2018',
                 'kode' => 'EDUKIA-IMR-2024-003', 'jenis_kemasan' => 'Lead Implementer SPMI Terintegrasi ISO 21001:2018',
+                'gelar' => 'CQAI (Certified Quality Assurance Implementer)',
                 'persyaratan' => ['Pendidikan minimal S2', 'Pengalaman kerja di bidang Perguruan Tinggi', 'Memiliki Sertifikat Pelatihan SPMI / ISO 21001:2018'],
                 'units' => [
                     self::u('SP.IMR.001.01', 'Mengelola Implementasi Standar'),
@@ -136,6 +139,7 @@ class Skemas
                 'slug' => 'training-of-trainer-tot-obe', 'badge' => 'D', 'bidang' => 'pt', 'popular' => true,
                 'nama' => 'Training of Trainer (ToT) Outcome Based Education (OBE)',
                 'kode' => 'EDUKIA-ToT-2024-004', 'jenis_kemasan' => 'Training of Trainer (ToT) Outcome Based Education (OBE)',
+                'gelar' => 'CLOT (Certified Learning Outcome Trainer)',
                 'persyaratan' => ['Pendidikan minimal S2', 'Pengalaman kerja di bidang Perguruan Tinggi', 'Memiliki Sertifikat Pelatihan Kurikulum OBE / Pelatihan yang relevan'],
                 'units' => [
                     self::u('SP.ToT.001.01', 'Mendesain Program Pembelajaran Outcome Based Education (OBE)'),
@@ -150,6 +154,7 @@ class Skemas
                 'slug' => 'implementer-tata-kelola-perguruan-tinggi', 'badge' => 'E', 'bidang' => 'pt', 'popular' => false,
                 'nama' => 'Implementer Tata Kelola Organisasi Perguruan Tinggi',
                 'kode' => 'EDUKIA-TKO-2024-005', 'jenis_kemasan' => 'Implementer Tata Kelola Organisasi Perguruan Tinggi',
+                'gelar' => 'CEGI (Certified Educational Governance Implementer)',
                 'persyaratan' => ['Pendidikan minimal S2', 'Pengalaman kerja di bidang Perguruan Tinggi', 'Memiliki Sertifikat Pelatihan relevan dengan Tata Kelola PT'],
                 'units' => [
                     self::u('SP.TKO.001.01', 'Menyusun Rencana Bisnis Organisasi Perguruan Tinggi'),
@@ -164,6 +169,7 @@ class Skemas
                 'slug' => 'auditor-internal-laboratorium-iso-17025', 'badge' => 'F', 'bidang' => 'lab17025', 'popular' => false,
                 'nama' => 'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017',
                 'kode' => 'EDUKIA-AUI-2024-006', 'jenis_kemasan' => 'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017',
+                'gelar' => 'CLIA (Certified Laboratory Internal Auditor)',
                 'persyaratan' => ['Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate', 'Memiliki Sertifikat Pelatihan Auditor Internal & ISO 17025:2017'],
                 'units' => [
                     self::u('SP.AUI.001.01', 'Memahami Pengetahuan Dasar terkait Audit Internal'),
@@ -180,6 +186,7 @@ class Skemas
                 'slug' => 'lead-implementer-laboratorium-iso-17025', 'badge' => 'G', 'bidang' => 'lab17025', 'popular' => true,
                 'nama' => 'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
                 'kode' => 'EDUKIA-LIM-2024-007', 'jenis_kemasan' => 'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
+                'gelar' => 'CLLI (Certified Laboratory Lead Implementer)',
                 'persyaratan' => ['Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate', 'Memiliki Sertifikat Pelatihan Auditor Internal & ISO 17025:2017'],
                 'units' => [
                     self::u('SP.LIM.001.01', 'Memahami Implementasi dan Interpretasi Standar ISO/IEC 17025:2017'),

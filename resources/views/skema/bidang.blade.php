@@ -31,6 +31,8 @@
 .sk-lisensi.yes{background:#e3f5ea;color:#1a5c35}
 .sk-lisensi.no{background:#f0f1f4;color:#5a6a85}
 .sk-lisensi svg{width:12px;height:12px}
+.sk-gelar{align-self:flex-start;display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:6px;background:var(--navy-50);color:var(--navy-700);margin-bottom:14px;margin-top:6px}
+.sk-gelar svg{width:12px;height:12px}
 .sk-back{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--navy-700);margin-top:32px}
 .sk-back:hover{color:var(--orange-deep)}
 @media(max-width:640px){.sk-cards{grid-template-columns:1fr}}
@@ -59,11 +61,14 @@
             <span class="num">{{ $s['badge'] }}</span>
             <h3>{{ $s['nama'] }}@if($s['popular'])<span class="sk-pill">Populer</span>@endif</h3>
           </div>
-          @if($s['kode'])<div class="kode">{{ $s['kode'] }}</div>@endif
+          @if($s['kode'])<div class="kode">Kode Skema: {{ $s['kode'] }}</div>@endif
           @if($s['lisensi_kan'])
             <span class="sk-lisensi yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg> Berlisensi KAN</span>
           @else
             <span class="sk-lisensi no">Belum Berlisensi KAN</span>
+          @endif
+          @if(!empty($s['gelar']))
+            <span class="sk-gelar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg> Gelar Akademik: {{ $s['gelar'] }}</span>
           @endif
           <div class="foot">
             <span class="units">{{ $s['jumlah_unit'] }} unit kompetensi</span>

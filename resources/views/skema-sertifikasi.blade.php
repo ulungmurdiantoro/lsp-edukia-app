@@ -59,6 +59,8 @@
 .lisensi-pill svg{width:12px;height:12px}
 .scheme-tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:4px}
 .scheme-tags .tag{margin-top:0}
+.gelar-pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;margin-top:8px}
+.gelar-pill svg{width:12px;height:12px}
 
 /* Unit table */
 .scheme-body{padding:18px 20px}
@@ -159,7 +161,10 @@
                       </div>
                     </div>
                   </div>
-                  <div class="scheme-type">Jenis kemasan: <strong>{{ $s['jenis_kemasan'] }}</strong>@if($s['kode']) · {{ $s['kode'] }}@endif</div>
+                  @if($s['kode'])<div class="scheme-type">Kode Skema: <strong>{{ $s['kode'] }}</strong></div>@endif
+                  @if(!empty($s['gelar']))
+                  <div class="gelar-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg> Gelar Akademik: {{ $s['gelar'] }}</div>
+                  @endif
                 </div>
                 <div class="scheme-body">
                   <table class="unit-table">

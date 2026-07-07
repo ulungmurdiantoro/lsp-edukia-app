@@ -67,9 +67,9 @@
     </div>
     <h1>Sertifikasi {{ $skema['nama'] }}</h1>
     <div class="sk-meta">
-      @if($skema['kode'])<span>Kode skema: <b>{{ $skema['kode'] }}</b></span>@endif
+      @if($skema['kode'])<span>Kode Skema: <b>{{ $skema['kode'] }}</b></span>@endif
       <span>Jumlah unit kompetensi: <b>{{ $skema['jumlah_unit'] }}</b></span>
-      <span>Jenis kemasan: <b>{{ $skema['jenis_kemasan'] }}</b></span>
+      @if(!empty($skema['gelar']))<span>Gelar akademik: <b>{{ $skema['gelar'] }}</b></span>@endif
     </div>
   </div>
 </div>
@@ -86,6 +86,13 @@
           dan menghasilkan Sertifikat Kompetensi <b>berlisensi KAN</b> yang diakui secara nasional.@else.
           Skema ini merupakan skema sertifikasi LSP Edukia yang <b>belum berlisensi KAN</b>.@endif</p>
       </div>
+
+      @if(!empty($skema['gelar']))
+      <div class="sk-card">
+        <h2>Gelar Akademik</h2>
+        <p class="sk-lead">Pemegang sertifikat kompetensi skema ini berhak menyandang gelar akademik <b>{{ $skema['gelar'] }}</b> di belakang nama.</p>
+      </div>
+      @endif
 
       <div class="sk-card">
         <h2>Persyaratan Pemohon</h2>
