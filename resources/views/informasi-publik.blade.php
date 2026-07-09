@@ -107,6 +107,9 @@
     <div class="badge">DP.AK.05 Rev. 02 · Informasi Publik</div>
     <h1>Informasi <em>Publik</em></h1>
     <p class="lead">Hak pemohon, kewajiban pemegang sertifikat, proses sertifikasi, pembekuan, resertifikasi, dan penanganan keluhan — LSP Edukasi Global Cendekia.</p>
+    <a class="btn btn-primary btn-lg" href="{{ asset('downloads/DP.AK.05 Panduan Uji Kompetensi R2.pdf') }}" target="_blank" rel="noopener" style="margin-top:26px">
+      <svg class="icon" width="20" height="20"><use href="#i-download"></use></svg> Unduh Dokumen DP.AK.05
+    </a>
   </div>
 </div>
 
