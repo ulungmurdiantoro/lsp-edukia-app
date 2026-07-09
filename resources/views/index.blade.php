@@ -127,16 +127,9 @@
         <div class="slider-track" id="sliderTrack">
           @foreach($kegiatan as $item)
           <div class="slide">
-            <div class="slide-img">
-              <img src="{{ $item->foto_url }}" alt="{{ $item->judul }}" loading="lazy">
-            </div>
-            <div class="slide-body">
-              <div class="slide-cat">{{ $item->tanggal->translatedFormat('d M Y') }}</div>
-              <h4>{{ $item->judul }}</h4>
-              @if($item->deskripsi)
-              <p>{{ Str::limit($item->deskripsi, 100) }}</p>
-              @endif
-            </div>
+            <a class="slide-img" href="{{ route('blog.show', $item->slug) }}">
+              <img src="{{ $item->thumbnail_url }}" alt="{{ $item->judul }}" loading="lazy">
+            </a>
           </div>
           @endforeach
         </div>
@@ -148,10 +141,10 @@
       </div>
     </div>
     @else
-    <p style="color:var(--muted);text-align:center;padding:48px 0">Belum ada kegiatan. Tambahkan di <a href="/admin/kegiatans" style="color:var(--blue)">panel admin</a>.</p>
+    <p style="color:var(--muted);text-align:center;padding:48px 0">Belum ada kegiatan. Tambahkan di <a href="/admin/posts" style="color:var(--blue)">panel admin</a>.</p>
     @endif
     <div style="text-align:center;margin-top:32px">
-      <a href="{{ route('kegiatan.index') }}" class="btn btn-outline">Lihat semua kegiatan <svg class="icon"><use href="#i-arrow-r"></use></svg></a>
+      <a href="{{ route('blog.kategori', 'kegiatan') }}" class="btn btn-outline">Lihat semua kegiatan <svg class="icon"><use href="#i-arrow-r"></use></svg></a>
     </div>
   </div>
 </section>

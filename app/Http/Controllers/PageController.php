@@ -289,7 +289,7 @@ class PageController extends Controller
 
                 return $scheme;
             })->all();
-        $kegiatan = Kegiatan::aktif()->take(9)->get();
+        $kegiatan = Post::published()->where('kategori', 'Kegiatan')->latest('published_at')->take(9)->get();
 
         $seo = new SEOData(
             schema: SchemaCollection::initialize()
