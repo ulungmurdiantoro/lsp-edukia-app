@@ -129,6 +129,11 @@ class SertifikatResource extends Resource
                     'hukum'     => 'Hukum Korporasi',
                 ]),
 
+            Forms\Components\Toggle::make('lisensi')
+                ->label('Berlisensi KAN')
+                ->default(false)
+                ->columnSpanFull(),
+
             Forms\Components\TextInput::make('nomor_sertifikat')
                 ->label('Nomor Sertifikat')
                 ->required()
@@ -249,6 +254,10 @@ class SertifikatResource extends Resource
                     default      => $state,
                 }),
 
+            Tables\Columns\IconColumn::make('lisensi')
+                ->label('Lisensi KAN')
+                ->boolean(),
+
             Tables\Columns\IconColumn::make('tampil')
                 ->label('Tampil')
                 ->boolean(),
@@ -298,6 +307,7 @@ class SertifikatResource extends Resource
                 }),
 
             Tables\Filters\TernaryFilter::make('tampil')->label('Ditampilkan'),
+            Tables\Filters\TernaryFilter::make('lisensi')->label('Lisensi KAN'),
         ])
         ->actions([
             Tables\Actions\EditAction::make(),

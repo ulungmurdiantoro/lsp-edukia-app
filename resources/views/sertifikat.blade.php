@@ -34,8 +34,8 @@
 .f-chip.active,.f-chip:hover{border-color:var(--navy-800);background:var(--navy-800);color:#fff}
 .f-chip .cnt{font-size:11px;opacity:.65}
 
-.cert-table-head{display:grid;grid-template-columns:52px 2fr 2.4fr 1.4fr 1fr 120px;padding:14px 24px;border-bottom:1px solid var(--line);font-size:10.5px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-family:ui-monospace,monospace}
-.cert-row{display:grid;grid-template-columns:52px 2fr 2.4fr 1.4fr 1fr 120px;padding:16px 24px;border-bottom:1px solid var(--line);align-items:center;font-size:13.5px;color:var(--ink-2);transition:background .12s}
+.cert-table-head{display:grid;grid-template-columns:52px 2fr 2.2fr 1.3fr 120px 1fr 120px;padding:14px 24px;border-bottom:1px solid var(--line);font-size:10.5px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-family:ui-monospace,monospace}
+.cert-row{display:grid;grid-template-columns:52px 2fr 2.2fr 1.3fr 120px 1fr 120px;padding:16px 24px;border-bottom:1px solid var(--line);align-items:center;font-size:13.5px;color:var(--ink-2);transition:background .12s}
 .cert-row:last-child{border-bottom:0}
 .cert-row:hover{background:var(--cream)}
 .cert-row-num{font-size:12px;font-weight:700;color:var(--muted);font-family:ui-monospace,monospace}
@@ -118,7 +118,13 @@
           </button>
           @endforeach
           <span style="flex:1"></span>
-          <span class="filter-label" style="margin-right:4px">Status</span>
+          <span class="filter-label" style="margin-right:4px">Lisensi</span>
+          <button class="f-chip active" data-lisensi="all">Semua</button>
+          <button class="f-chip" data-lisensi="ya">Berlisensi KAN</button>
+          <button class="f-chip" data-lisensi="tidak">Belum Berlisensi</button>
+        </div>
+        <div class="filter-bar" style="border-bottom:1px solid var(--line)">
+          <span class="filter-label">Status</span>
           <button class="f-chip active" data-status="all">Semua</button>
           <button class="f-chip" data-status="aktif">Aktif</button>
           <button class="f-chip" data-status="expiring">Akan kadaluarsa</button>
@@ -129,7 +135,7 @@
       <div>
         <div class="cert-table-head">
           <div>#</div><div>Nama Lengkap</div><div>Skema Sertifikasi</div>
-          <div>Nomor Sertifikat</div><div>Kadaluarsa</div><div style="text-align:center">Status</div>
+          <div>Nomor Sertifikat</div><div style="text-align:center">Lisensi</div><div>Kadaluarsa</div><div style="text-align:center">Status</div>
         </div>
         <div id="certTableBody">
           <div class="cert-loading">Memuat data…</div>
@@ -192,7 +198,7 @@
     kadaluarsa: { label: 'Kadaluarsa',     dot: '#dc2626', textColor: '#991b1b', bg: '#fee2e2' },
   };
 
-  let activeCat = 'all', activeStatus = 'all', currentPage = 1, debounceTimer;
+  let activeCat = 'all', activeStatus = 'all', activeLisensi = 'all', currentPage = 1, debounceTimer;
 
   const bodyEl   = document.getElementById('certTableBody');
   const infoEl   = document.getElementById('certInfo');
@@ -206,6 +212,7 @@
     if (q)                        params.set('q', q);
     if (activeCat !== 'all')      params.set('kategori', activeCat);
     if (activeStatus !== 'all')   params.set('status', activeStatus);
+    if (activeLisensi !== 'all')  params.set('lisensi', activeLisensi);
 
     bodyEl.innerHTML = '<div class="cert-loading">Memuat data…</div>';
 
@@ -244,6 +251,11 @@
             </span>
           </div>
           <div class="cert-no">${esc(c.nomor_sertifikat)}</div>
+          <div style="text-align:center">
+            ${c.lisensi
+              ? '<span class="status-pill" style="background:#dcfce7;color:#15803d"><span class="status-dot" style="background:#16a34a"></span>KAN</span>'
+              : '<span class="status-pill" style="background:#f1f5f9;color:#64748b"><span class="status-dot" style="background:#94a3b8"></span>Belum</span>'}
+          </div>
           <div style="font-size:13px;color:${stat.dot};font-weight:600">${c.tanggal_kadaluarsa || '—'}</div>
           <div style="text-align:center">
             <span class="status-pill" style="background:${stat.bg};color:${stat.textColor}">
@@ -286,6 +298,10 @@
   document.querySelectorAll('.f-chip[data-status]').forEach(c => c.addEventListener('click', () => {
     document.querySelectorAll('.f-chip[data-status]').forEach(x => x.classList.remove('active'));
     c.classList.add('active'); activeStatus = c.dataset.status; fetchData(1);
+  }));
+  document.querySelectorAll('.f-chip[data-lisensi]').forEach(c => c.addEventListener('click', () => {
+    document.querySelectorAll('.f-chip[data-lisensi]').forEach(x => x.classList.remove('active'));
+    c.classList.add('active'); activeLisensi = c.dataset.lisensi; fetchData(1);
   }));
   searchEl.addEventListener('input', () => {
     clearTimeout(debounceTimer);

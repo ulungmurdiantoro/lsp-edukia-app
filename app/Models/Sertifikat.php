@@ -11,6 +11,7 @@ class Sertifikat extends Model
         'gelar',
         'skema',
         'kategori',
+        'lisensi',
         'nomor_sertifikat',
         'no_sk',
         'no_skema',
@@ -23,6 +24,7 @@ class Sertifikat extends Model
         'tanggal_terbit'     => 'date',
         'tanggal_kadaluarsa' => 'date',
         'tampil'             => 'boolean',
+        'lisensi'            => 'boolean',
     ];
 
     protected $appends = ['status'];

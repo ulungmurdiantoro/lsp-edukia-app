@@ -402,6 +402,12 @@ class PageController extends Controller
             $query->where('kategori', $kat);
         }
 
+        match ($request->get('lisensi')) {
+            'ya' => $query->where('lisensi', true),
+            'tidak' => $query->where('lisensi', false),
+            default => null,
+        };
+
         match ($request->get('status')) {
             'aktif' => $query->where(fn ($sq) => $sq->whereNull('tanggal_kadaluarsa')->orWhere('tanggal_kadaluarsa', '>', $now->copy()->addDays(90))),
             'expiring' => $query->whereBetween('tanggal_kadaluarsa', [$now, $now->copy()->addDays(90)]),
@@ -417,6 +423,7 @@ class PageController extends Controller
                 'gelar' => $c->gelar,
                 'skema' => $c->skema,
                 'kategori' => $c->kategori,
+                'lisensi' => $c->lisensi,
                 'nomor_sertifikat' => $c->nomor_sertifikat,
                 'tanggal_kadaluarsa' => $c->tanggal_kadaluarsa?->translatedFormat('d M Y'),
                 'status' => $c->status,
