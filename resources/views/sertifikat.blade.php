@@ -121,7 +121,7 @@
           <span class="filter-label" style="margin-right:4px">Lisensi</span>
           <button class="f-chip active" data-lisensi="all">Semua</button>
           <button class="f-chip" data-lisensi="ya">Berlisensi KAN</button>
-          <button class="f-chip" data-lisensi="tidak">Belum Berlisensi</button>
+          <button class="f-chip" data-lisensi="tidak">Tidak Berlisensi</button>
         </div>
         <div class="filter-bar" style="border-bottom:1px solid var(--line)">
           <span class="filter-label">Status</span>
@@ -254,7 +254,7 @@
           <div style="text-align:center">
             ${c.lisensi
               ? '<span class="status-pill" style="background:#dcfce7;color:#15803d"><span class="status-dot" style="background:#16a34a"></span>KAN</span>'
-              : '<span class="status-pill" style="background:#f1f5f9;color:#64748b"><span class="status-dot" style="background:#94a3b8"></span>Belum</span>'}
+              : '<span class="status-pill" style="background:#f1f5f9;color:#64748b"><span class="status-dot" style="background:#94a3b8"></span>Tidak</span>'}
           </div>
           <div style="font-size:13px;color:${stat.dot};font-weight:600">${c.tanggal_kadaluarsa || '—'}</div>
           <div style="text-align:center">
