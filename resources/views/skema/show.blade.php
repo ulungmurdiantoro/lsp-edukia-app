@@ -69,7 +69,7 @@
     <div class="sk-meta">
       @if($skema['kode'])<span>Kode Skema: <b>{{ $skema['kode'] }}</b></span>@endif
       <span>Jumlah unit kompetensi: <b>{{ $skema['jumlah_unit'] }}</b></span>
-      @if(!empty($skema['gelar']))<span>Gelar akademik: <b>{{ $skema['gelar'] }}</b></span>@endif
+      @if(!empty($skema['gelar']))<span>Gelar Profesional: <b>{{ $skema['gelar'] }}</b></span>@endif
     </div>
   </div>
 </div>
@@ -89,8 +89,8 @@
 
       @if(!empty($skema['gelar']))
       <div class="sk-card">
-        <h2>Gelar Akademik</h2>
-        <p class="sk-lead">Pemegang sertifikat kompetensi skema ini berhak menyandang gelar akademik <b>{{ $skema['gelar'] }}</b> di belakang nama.</p>
+        <h2>Gelar Profesional</h2>
+        <p class="sk-lead">Pemegang sertifikat kompetensi skema ini berhak menyandang Gelar Profesional <b>{{ $skema['gelar'] }}</b> di belakang nama.</p>
       </div>
       @endif
 

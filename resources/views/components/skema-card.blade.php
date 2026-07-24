@@ -132,7 +132,7 @@ $iconPath = $iconPaths[$cat['icon']] ?? '';
     <div style="margin-top:16px;padding-top:14px;border-top:1px dashed #e6e9f0;">
       <div style="font-size:10.5px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;
                   color:#5a6a85;margin-bottom:8px;">
-        Gelar Akademik
+        Gelar Profesional
       </div>
       <span style="display:inline-flex;align-items:center;gap:6px;
                    padding:6px 12px;border-radius:6px;font-size:12.5px;font-weight:700;
