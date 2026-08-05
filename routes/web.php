@@ -16,6 +16,7 @@ Route::get('/skema-sertifikasi/bidang/{bidang}', [SkemaController::class, 'bidan
 Route::get('/skema-sertifikasi/{slug}', [SkemaController::class, 'show'])->name('skema.show');
 Route::get('/daftar-penerima-sertifikat', [PageController::class, 'sertifikat'])->name('sertifikat');
 Route::get('/daftar-penerima-sertifikat/search', [PageController::class, 'sertifikatSearch'])->name('sertifikat.search');
+Route::get('/jadwal-sertifikasi-kompetensi', [PageController::class, 'jadwalSertifikasi'])->name('jadwal-sertifikasi');
 Route::get('/kegiatan', [PageController::class, 'kegiatan'])->name('kegiatan.index');
 Route::get('/webinar-gerakan-nasional-sertifikasi-kompetensi', [PageController::class, 'webinarGerakanNasional'])->name('webinar.gerakan-nasional');
 
@@ -34,5 +35,5 @@ Route::get('/karier/{slug}', [KarierController::class, 'show'])->name('karier.sh
 Route::post('/karier/apply', [KarierController::class, 'store'])->name('karier.apply');
 
 Route::get('/{slug}', [BlogController::class, 'show'])
-    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|karier$|kegiatan$|livewire$|llms\.txt$|llms-full\.txt$|login$|logout$|register$|reset-password$|sanctum$|sitemap\.xml$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[^/]+')
+    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|jadwal-sertifikasi-kompetensi$|karier$|kegiatan$|livewire$|llms\.txt$|llms-full\.txt$|login$|logout$|register$|reset-password$|sanctum$|sitemap\.xml$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[^/]+')
     ->name('blog.show');

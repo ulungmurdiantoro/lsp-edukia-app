@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JadwalSertifikasi;
 use App\Models\Kegiatan;
 use App\Models\Post;
 use App\Models\Sertifikat;
@@ -435,6 +436,36 @@ class PageController extends Controller
             'from' => $paginator->firstItem(),
             'to' => $paginator->lastItem(),
         ]);
+    }
+
+    public function jadwalSertifikasi()
+    {
+        $bidangs = Skemas::bidangs();
+
+        $sektor = JadwalSertifikasi::tampil()
+            ->orderBy('tanggal_sertifikasi')
+            ->get()
+            ->groupBy('bidang')
+            ->filter(fn ($items, $bidang) => isset($bidangs[$bidang]))
+            ->sortBy(fn ($items, $bidang) => array_search($bidang, array_keys($bidangs)))
+            ->mapWithKeys(fn ($items, $bidang) => [
+                $bidang => [
+                    'label' => $bidangs[$bidang]['label'],
+                    'items' => $items->values(),
+                ],
+            ]);
+
+        return view('jadwal-sertifikasi', compact('sektor'))
+            ->with('activeNav', 'jadwal')
+            ->with('SEOData', new SEOData(
+                title: 'Jadwal Sertifikasi Kompetensi',
+                description: 'Jadwal pelaksanaan sertifikasi kompetensi LSP Edukia per sektor: Perguruan Tinggi, Laboratorium ISO/IEC 17025, Lifting Engineering, Sistem Manajemen, dan lainnya.',
+                image: 'images/hero-skema.jpg',
+                schema: SchemaCollection::initialize()
+                    ->addBreadcrumbs(fn (BreadcrumbListSchema $b): BreadcrumbListSchema => $b->prependBreadcrumbs([
+                        'Beranda' => url('/'),
+                    ])),
+            ));
     }
 
     public function kegiatan()

@@ -228,6 +228,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
       <a href="{{ route('skema') }}" @class(['active' => ($activeNav ?? '') === 'skema'])>Skema Kompetensi</a>
       <a href="{{ route('informasi') }}" @class(['active' => ($activeNav ?? '') === 'informasi'])>Informasi Publik</a>
       <a href="{{ route('sertifikat') }}" @class(['active' => ($activeNav ?? '') === 'sertifikat'])>Daftar Penerima Sertifikat</a>
+      <a href="{{ route('jadwal-sertifikasi') }}" @class(['active' => ($activeNav ?? '') === 'jadwal'])>Jadwal Sertifikasi</a>
       <a href="{{ route('karier.index') }}" @class(['active' => ($activeNav ?? '') === 'karier'])>Karier</a>
       <a href="{{ route('blog.index') }}" @class(['active' => ($activeNav ?? '') === 'blog'])>Blog</a>
     </nav>
@@ -254,6 +255,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
           <li><a href="{{ route('home') }}">Beranda</a></li>
           <li><a href="{{ route('tentang') }}">Tentang Kami</a></li>
           <li><a href="{{ route('skema') }}">Skema Kompetensi</a></li>
+          <li><a href="{{ route('jadwal-sertifikasi') }}">Jadwal Sertifikasi</a></li>
           <li><a href="{{ route('informasi') }}">Informasi Publik</a></li>
         </ul>
       </div>
