@@ -34,6 +34,7 @@ class LlmsController extends Controller
             $lines[] = '';
             $lines[] = 'Kontak resmi: WhatsApp '.config('site.whatsapp').' — email '.config('site.email').'.';
             $lines[] = 'Sertifikat yang diterbitkan dapat diverifikasi di '.route('sertifikat').'.';
+            $lines[] = 'Jadwal pelaksanaan sertifikasi terbaru per sektor: '.route('jadwal-sertifikasi').'.';
             $lines[] = 'Detail lengkap tiap skema (deskripsi, persyaratan, unit kompetensi): '.route('llms.full').'.';
             $lines[] = '';
 
@@ -62,6 +63,7 @@ class LlmsController extends Controller
             $lines[] = '- [Tentang Kami]('.route('tentang').'): profil & legalitas lembaga.';
             $lines[] = '- [Informasi Publik]('.route('informasi').'): biaya, alur, hak & kewajiban peserta.';
             $lines[] = '- [Daftar Penerima Sertifikat]('.route('sertifikat').'): verifikasi keaslian sertifikat kompetensi.';
+            $lines[] = '- [Jadwal Sertifikasi Kompetensi]('.route('jadwal-sertifikasi').'): jadwal pelaksanaan sertifikasi per sektor.';
             $lines[] = '- [Kegiatan & Pelatihan]('.route('kegiatan.index').'): dokumentasi kegiatan, pelatihan, dan asesmen.';
             $lines[] = '';
 
@@ -103,7 +105,8 @@ class LlmsController extends Controller
                 .'Versi ringkas: '.route('llms').'.';
             $lines[] = '';
             $lines[] = 'Kontak: WhatsApp '.config('site.whatsapp').' — email '.config('site.email')
-                .'. Pendaftaran uji kompetensi melalui WhatsApp. Verifikasi sertifikat: '.route('sertifikat').'.';
+                .'. Pendaftaran uji kompetensi melalui WhatsApp. Verifikasi sertifikat: '.route('sertifikat')
+                .'. Jadwal pelaksanaan sertifikasi terbaru: '.route('jadwal-sertifikasi').'.';
             $lines[] = '';
 
             foreach (Skemas::bidangs() as $key => $bidang) {
