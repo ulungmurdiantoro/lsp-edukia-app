@@ -24,8 +24,30 @@ class JadwalSertifikasiSmokeTest extends TestCase
 
         $this->get(route('jadwal-sertifikasi'))
             ->assertOk()
-            ->assertSee('Sektor SPMI ISO 21001')
+            ->assertSee('Juni 2026')
             ->assertSee('Auditor Internal SPMI Terintegrasi ISO 21001:2018');
+    }
+
+    public function test_active_jadwal_links_to_matching_skema_page_but_past_one_does_not(): void
+    {
+        JadwalSertifikasi::create([
+            'skema' => 'Corporate Legal Officer',
+            'bidang' => 'manajemen',
+            'tanggal_sertifikasi' => now()->addMonth()->toDateString(),
+            'tampil' => true,
+        ]);
+        JadwalSertifikasi::create([
+            'skema' => 'Quality Assurance Officer',
+            'bidang' => 'manajemen',
+            'tanggal_sertifikasi' => now()->subMonth()->toDateString(),
+            'tampil' => true,
+        ]);
+
+        $this->get(route('jadwal-sertifikasi'))
+            ->assertOk()
+            ->assertSee(route('skema.show', 'corporate-legal-officer'))
+            ->assertDontSee(route('skema.show', 'quality-assurance-officer'))
+            ->assertSee('Selesai');
     }
 
     public function test_admin_can_view_jadwal_sertifikasi_list(): void

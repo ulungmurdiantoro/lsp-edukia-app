@@ -440,27 +440,22 @@ class PageController extends Controller
 
     public function jadwalSertifikasi()
     {
-        $bidangs = Skemas::bidangs();
+        // Slug skema dipetakan sekali agar tiap jadwal bisa menaut ke halaman detail skema.
+        $slugsByNama = Skemas::all()->pluck('slug', 'nama');
 
-        $sektor = JadwalSertifikasi::tampil()
+        $bulan = JadwalSertifikasi::tampil()
             ->orderBy('tanggal_sertifikasi')
             ->get()
-            ->groupBy('bidang')
-            ->filter(fn ($items, $bidang) => isset($bidangs[$bidang]))
-            ->sortBy(fn ($items, $bidang) => array_search($bidang, array_keys($bidangs)))
-            ->mapWithKeys(fn ($items, $bidang) => [
-                $bidang => [
-                    'label' => $bidangs[$bidang]['label'],
-                    'items' => $items->values(),
-                ],
-            ]);
+            ->each(fn (JadwalSertifikasi $item) => $item->skema_slug = $slugsByNama->get($item->skema))
+            ->groupBy(fn (JadwalSertifikasi $item) => $item->tanggal_sertifikasi->translatedFormat('F Y'))
+            ->map(fn ($items) => $items->values());
 
-        return view('jadwal-sertifikasi', compact('sektor'))
+        return view('jadwal-sertifikasi', compact('bulan'))
             ->with('activeNav', 'jadwal')
             ->with('SEOData', new SEOData(
                 title: 'Jadwal Sertifikasi Kompetensi',
-                description: 'Jadwal pelaksanaan sertifikasi kompetensi LSP Edukia per sektor: Perguruan Tinggi, Laboratorium ISO/IEC 17025, Lifting Engineering, Sistem Manajemen, dan lainnya.',
-                image: 'images/hero-skema.jpg',
+                description: 'Jadwal pelaksanaan sertifikasi kompetensi LSP Edukia per bulan, mencakup skema SPMI ISO 21001, Perguruan Tinggi, Laboratorium ISO/IEC 17025, Lifting Engineering, Sistem Manajemen, dan lainnya.',
+                image: 'images/hero-jadwal.jpg',
                 schema: SchemaCollection::initialize()
                     ->addBreadcrumbs(fn (BreadcrumbListSchema $b): BreadcrumbListSchema => $b->prependBreadcrumbs([
                         'Beranda' => url('/'),
