@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    // Beranda mengambil data Post/Kegiatan dari database, jadi skema tabel wajib disiapkan.
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      */
