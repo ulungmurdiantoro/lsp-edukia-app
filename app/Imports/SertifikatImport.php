@@ -10,6 +10,10 @@ use Maatwebsite\Excel\Concerns\WithUpserts;
 
 class SertifikatImport implements ToModel, WithHeadingRow, WithUpserts
 {
+    // Dimuat sekali (bukan per baris) untuk mempertahankan nilai lisensi yang sudah ada
+    // di database saat kolom "lisensi" kosong/tidak ada di file yang diimport.
+    private ?array $lisensiTersimpan = null;
+
     private static array $skemaKategori = [
         'Auditor Internal SPMI Terintegrasi ISO 21001:2018'          => 'spmi',
         'Lead Auditor Internal SPMI Terintegrasi ISO 21001:2018'     => 'spmi',
@@ -70,6 +74,32 @@ class SertifikatImport implements ToModel, WithHeadingRow, WithUpserts
         return 'spmi'; // default fallback
     }
 
+    /**
+     * Kolom "lisensi" wajib selalu ada di array yang dikembalikan model() karena upsert()
+     * dari maatwebsite/excel membangun daftar kolom UPDATE dari baris pertama batch,
+     * lalu menerapkannya ke semua baris — kalau ada baris yang tidak menyertakan kolom ini
+     * sama sekali, query upsert-nya akan gagal (kolom tidak konsisten antar baris).
+     *
+     * Karena itu, jika file yang diimport tidak mengisi kolom "lisensi" untuk suatu baris,
+     * nilai lisensi yang SUDAH ADA di database untuk nomor_sertifikat tsb dipertahankan
+     * (bukan otomatis di-set false) — supaya import ulang tanpa kolom ini tidak diam-diam
+     * menghapus status "Berlisensi KAN" yang sudah diisi manual/via import sebelumnya.
+     */
+    private function resolveLisensi(array $row): bool
+    {
+        if (array_key_exists('lisensi', $row) && trim((string) $row['lisensi']) !== '') {
+            return (bool) $row['lisensi'];
+        }
+
+        if ($this->lisensiTersimpan === null) {
+            $this->lisensiTersimpan = Sertifikat::query()->pluck('lisensi', 'nomor_sertifikat')->all();
+        }
+
+        $nomorSertifikat = trim((string) ($row['nomor_sertifikat'] ?? ''));
+
+        return (bool) ($this->lisensiTersimpan[$nomorSertifikat] ?? false);
+    }
+
     public function model(array $row): Sertifikat
     {
         $skema    = trim($row['skema'] ?? '');
@@ -80,6 +110,7 @@ class SertifikatImport implements ToModel, WithHeadingRow, WithUpserts
             'gelar'              => $row['gelar'] ?? null,
             'skema'              => $skema,
             'kategori'           => $kategori,
+            'lisensi'            => $this->resolveLisensi($row),
             'nomor_sertifikat'   => $row['nomor_sertifikat'],
             'no_sk'              => $row['no_sk'] ?? null,
             'no_skema'           => $row['no_skema'] ?? null,
