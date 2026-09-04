@@ -117,8 +117,9 @@
             {{ $c['label'] }} <span class="cnt">{{ $c['count'] }}</span>
           </button>
           @endforeach
-          <span style="flex:1"></span>
-          <span class="filter-label" style="margin-right:4px">Lisensi</span>
+        </div>
+        <div class="filter-bar" style="border-bottom:1px solid var(--line)">
+          <span class="filter-label">Lisensi</span>
           <button class="f-chip active" data-lisensi="all">Semua</button>
           <button class="f-chip" data-lisensi="ya">Berlisensi KAN</button>
           <button class="f-chip" data-lisensi="tidak">Tidak Berlisensi</button>
