@@ -93,7 +93,7 @@ class PageController extends Controller
                 'gelar' => 'CLLI (Certified Laboratory Lead Implementer)',
                 'reqs' => [
                     'Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate',
-                    'Memiliki Sertifikat Pelatihan Auditor Internal & ISO 17025:2017',
+                    'Memiliki Sertifikat Pelatihan Lead Implementer & ISO/IEC 17025:2017',
                 ],
             ],
             // ── Lifting Engineering ─────────────────────────────────────────
