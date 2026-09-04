@@ -187,7 +187,7 @@ class Skemas
                 'nama' => 'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
                 'kode' => 'EDUKIA-LIM-2024-007', 'jenis_kemasan' => 'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
                 'gelar' => 'CLLI (Certified Laboratory Lead Implementer)',
-                'persyaratan' => ['Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate', 'Memiliki Sertifikat Pelatihan Auditor Internal & ISO 17025:2017'],
+                'persyaratan' => ['Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate', 'Memiliki Sertifikat Pelatihan Lead Implementer & ISO/IEC 17025:2017'],
                 'units' => [
                     self::u('SP.LIM.001.01', 'Memahami Implementasi dan Interpretasi Standar ISO/IEC 17025:2017'),
                     self::u('SP.LIM.002.01', 'Menyiapkan Kebutuhan Dokumen ISO/IEC 17025:2017'),
