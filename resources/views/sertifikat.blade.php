@@ -28,7 +28,7 @@
 .search-bar .search-ico{color:var(--muted);display:flex}
 .search-btn{height:40px;padding:0 22px;border-radius:999px;border:0;background:var(--navy-800);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:inherit}
 
-.filter-bar{display:flex;flex-wrap:wrap;gap:8px;padding:18px 0 4px;align-items:center;border-bottom:1px solid var(--line)}
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;align-items:center}
 .filter-label{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-right:8px}
 .f-chip{height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line-2);background:#fff;color:var(--ink-2);font-size:12.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-family:inherit;transition:background .12s,color .12s,border-color .12s}
 .f-chip.active,.f-chip:hover{border-color:var(--navy-800);background:var(--navy-800);color:#fff}
@@ -118,13 +118,13 @@
           </button>
           @endforeach
         </div>
-        <div class="filter-bar" style="border-bottom:1px solid var(--line)">
+        <div class="filter-bar">
           <span class="filter-label">Lisensi</span>
           <button class="f-chip active" data-lisensi="all">Semua</button>
           <button class="f-chip" data-lisensi="ya">Berlisensi KAN</button>
           <button class="f-chip" data-lisensi="tidak">Tidak Berlisensi</button>
         </div>
-        <div class="filter-bar" style="border-bottom:1px solid var(--line)">
+        <div class="filter-bar">
           <span class="filter-label">Status</span>
           <button class="f-chip active" data-status="all">Semua</button>
           <button class="f-chip" data-status="aktif">Aktif</button>
