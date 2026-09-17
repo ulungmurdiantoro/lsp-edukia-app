@@ -86,9 +86,8 @@ class PostResource extends Resource
                     ->label('Gambar Utama')
                     ->image()
                     ->directory('posts')
-                    ->imageCropAspectRatio('16:9')
                     ->live()
-                    ->hint('Rasio 16:9 direkomendasikan'),
+                    ->hint('Rasio 16:9 direkomendasikan (gambar tidak dipotong otomatis)'),
 
                 Forms\Components\Select::make('kategori')
                     ->label('Kategori')
@@ -142,8 +141,7 @@ class PostResource extends Resource
                         ->image()
                         ->disk('public')
                         ->directory('seo')
-                        ->imageCropAspectRatio('1200:630')
-                        ->helperText('Rasio 1200×630 px optimal untuk WhatsApp, Facebook, X/Twitter. Kosongkan untuk memakai thumbnail artikel.'),
+                        ->helperText('Rasio 1200×630 px optimal untuk WhatsApp, Facebook, X/Twitter (gambar tidak dipotong otomatis). Kosongkan untuk memakai thumbnail artikel.'),
 
                     Forms\Components\TextInput::make('canonical_url')
                         ->label('Canonical URL')
