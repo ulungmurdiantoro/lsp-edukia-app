@@ -289,7 +289,7 @@ class Skemas
             ],
             [
                 'slug' => 'glp-laboratory-technician', 'badge' => 'O', 'bidang' => 'labtest', 'popular' => false,
-                'nama' => 'GLP Laboratory Technician / Teknisi Laboratorium Berbasis GLP', 'kode' => 'EDUKIA-GLP-2024-015', 'jenis_kemasan' => 'GLP Laboratory Technician',
+                'nama' => 'GLP Laboratory Officer', 'kode' => 'EDUKIA-GLP-2024-015', 'jenis_kemasan' => 'GLP Laboratory Officer',
                 'persyaratan' => ['Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate', 'Memiliki Sertifikat Pelatihan ISO/IEC 17025:2017'],
                 'units' => [
                     self::u('SP.GLP.001.01', 'Melakukan Persiapan Penerapan GLP'),
@@ -335,7 +335,7 @@ class Skemas
             ],
             [
                 'slug' => 'qc-laboratory-analyst', 'badge' => 'S', 'bidang' => 'manajemen', 'popular' => false,
-                'nama' => 'QC Laboratory Analyst / Analis QC Laboratorium', 'kode' => 'EDUKIA-QCA-2024-019', 'jenis_kemasan' => 'QC Laboratory Analyst / Analis QC Laboratorium',
+                'nama' => 'QC Laboratory Officer', 'kode' => 'EDUKIA-QCA-2024-019', 'jenis_kemasan' => 'QC Laboratory Officer',
                 'persyaratan' => ['Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3/S1 fresh graduate', 'Memiliki Sertifikat Pelatihan QC / ISO 9001:2015 / ISO 17025:2017'],
                 'units' => [
                     self::u('SP.QCA.001.01', 'Melakukan Kaji Ulang Permintaan, Tender, dan Kontrak Pengujian'),

@@ -168,7 +168,7 @@ class PageController extends Controller
             ],
             [
                 'nomor' => '15', 'kode' => 'EDUKIA-GLP-2024-015',
-                'judul' => 'GLP Laboratory Technician / Teknisi Laboratorium Berbasis GLP',
+                'judul' => 'GLP Laboratory Officer',
                 'kategori' => 'labtest', 'jumlah_unit' => 4,
                 'reqs' => [
                     'Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate',
@@ -205,7 +205,7 @@ class PageController extends Controller
             ],
             [
                 'nomor' => '19', 'kode' => 'EDUKIA-QCA-2024-019',
-                'judul' => 'QC Laboratory Analyst / Analis QC Laboratorium',
+                'judul' => 'QC Laboratory Officer',
                 'kategori' => 'labtest', 'jumlah_unit' => 9,
                 'reqs' => [
                     'Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3/S1 fresh graduate',

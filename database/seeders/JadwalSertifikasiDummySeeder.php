@@ -23,7 +23,7 @@ class JadwalSertifikasiDummySeeder extends Seeder
             ['skema' => 'Quality Management System (ISO 9001) Officer', 'tanggal' => '2026-09-17'],
             ['skema' => 'Auditor Internal SPMI Terintegrasi ISO 21001:2018', 'tanggal' => '2026-10-01'],
             ['skema' => 'Implementer Tata Kelola Organisasi Perguruan Tinggi', 'tanggal' => '2026-10-15'],
-            ['skema' => 'GLP Laboratory Technician / Teknisi Laboratorium Berbasis GLP', 'tanggal' => '2026-10-22'],
+            ['skema' => 'GLP Laboratory Officer', 'tanggal' => '2026-10-22'],
             ['skema' => 'Lead Auditor SPMI Terintegrasi ISO 21001:2018', 'tanggal' => '2026-11-05'],
             ['skema' => 'Laboratory HSE Officer / Petugas K3L Laboratorium', 'tanggal' => '2026-11-12'],
             ['skema' => 'Corporate Legal Officer', 'tanggal' => '2026-11-26'],
