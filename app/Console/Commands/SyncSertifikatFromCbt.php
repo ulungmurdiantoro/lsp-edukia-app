@@ -92,19 +92,11 @@ class SyncSertifikatFromCbt extends Command
             // lama (bukan hapus, supaya tetap ada untuk audit) supaya tidak dobel tampil
             // di halaman publik /daftar-penerima-sertifikat.
             $namaTernormalisasi = SertifikatExcelHelper::normalizeNama($row->nama);
-            $kandidat = Sertifikat::where('skema', $scheme['skema'])
+            $duplikatLama = Sertifikat::where('skema', $scheme['skema'])
                 ->where('nomor_sertifikat', '!=', $row->sertifikat_number)
                 ->where('tampil', true)
-                ->get();
-
-            if (str_contains(mb_strtolower($row->nama), 'maylani')) {
-                $this->line("  [DEBUG] row.nama=[{$row->nama}] row.nomor=[{$row->sertifikat_number}] row.skema=[{$scheme['skema']}] namaTernormalisasi=[{$namaTernormalisasi}] jumlahKandidat={$kandidat->count()}");
-                foreach ($kandidat as $k) {
-                    $this->line("  [DEBUG]   kandidat nomor=[{$k->nomor_sertifikat}] nama=[{$k->nama}] normalized=[" . SertifikatExcelHelper::normalizeNama($k->nama) . ']');
-                }
-            }
-
-            $duplikatLama = $kandidat->filter(fn (Sertifikat $s) => SertifikatExcelHelper::normalizeNama($s->nama) === $namaTernormalisasi);
+                ->get()
+                ->filter(fn (Sertifikat $s) => SertifikatExcelHelper::normalizeNama($s->nama) === $namaTernormalisasi);
 
             foreach ($duplikatLama as $stale) {
                 $stale->update(['tampil' => false]);
