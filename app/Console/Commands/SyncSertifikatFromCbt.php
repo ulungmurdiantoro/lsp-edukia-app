@@ -53,6 +53,7 @@ class SyncSertifikatFromCbt extends Command
 
         $synced = 0;
         $skipped = 0;
+        $hidden = 0;
 
         foreach ($rows as $row) {
             $scheme = SertifikatExcelHelper::resolveScheme($row->kode_skema, $row->classroom_title);
@@ -84,8 +85,26 @@ class SyncSertifikatFromCbt extends Command
                 ]
             );
             $synced++;
+
+            // Baris lama dengan nama+skema sama tapi nomor sertifikat beda kemungkinan
+            // besar orang yang sama yang dulu masuk lewat import Excel (sertifikat:import
+            // / tombol admin) dan sekarang punya data resmi dari CBT — sembunyikan yang
+            // lama (bukan hapus, supaya tetap ada untuk audit) supaya tidak dobel tampil
+            // di halaman publik /daftar-penerima-sertifikat.
+            $namaTernormalisasi = SertifikatExcelHelper::normalizeNama($row->nama);
+            $duplikatLama = Sertifikat::where('skema', $scheme['skema'])
+                ->where('nomor_sertifikat', '!=', $row->sertifikat_number)
+                ->where('tampil', true)
+                ->get()
+                ->filter(fn (Sertifikat $s) => SertifikatExcelHelper::normalizeNama($s->nama) === $namaTernormalisasi);
+
+            foreach ($duplikatLama as $stale) {
+                $stale->update(['tampil' => false]);
+                $this->warn("  Disembunyikan (duplikat lama, digantikan {$row->sertifikat_number}): {$stale->nama} | {$stale->nomor_sertifikat}");
+                $hidden++;
+            }
         }
 
-        $this->info("Selesai! {$synced} sertifikat disinkronkan, {$skipped} dilewati.");
+        $this->info("Selesai! {$synced} sertifikat disinkronkan, {$skipped} dilewati, {$hidden} duplikat lama disembunyikan.");
     }
 }

@@ -79,6 +79,21 @@ class SertifikatExcelHelper
     }
 
     /**
+     * Normalisasi nama untuk mencocokkan "orang yang sama" antara data import Excel dan
+     * sync CBT — dua sumber ini tidak punya identifier bersama (NIK/email), jadi nama
+     * adalah satu-satunya kunci yang tersedia. Buang tanda baca gelar (titik, koma) dan
+     * bedanya kapitalisasi/spasi supaya "Maylani Permata Saputri, S.Si" dari Excel dan
+     * "Maylani Permata Saputri, S.Si" dari CBT dianggap sama walau format sedikit beda.
+     */
+    public static function normalizeNama(string $nama): string
+    {
+        $nama = mb_strtolower($nama);
+        $nama = preg_replace('/[^\p{L}\p{N}\s]/u', '', $nama);
+
+        return trim(preg_replace('/\s+/', ' ', $nama));
+    }
+
+    /**
      * Tentukan skema & kategori dari kode "No Skema" (mis. EDUKIA-AIL-2024-001), toleran
      * terhadap typo prefix/tahun/nomor urut. Kalau kode tidak cocok, coba cocokkan dari
      * teks nama skema bebas sebagai fallback.
