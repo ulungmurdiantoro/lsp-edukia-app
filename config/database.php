@@ -85,15 +85,18 @@ return [
         ],
 
         // Koneksi read-only ke database sistem CBT (ujian sertifikasi) untuk sinkronisasi
-        // peserta yang sudah terbit No SK & No Sertifikat ke tabel sertifikats. Lihat
-        // App\Console\Commands\SyncSertifikatFromCbt.
+        // peserta LULUS yang sertifikatnya sudah terbit ke tabel sertifikats. Lihat
+        // App\Console\Commands\SyncSertifikatFromCbt. Kredensial CBT_DB_* WAJIB user
+        // read-only terpisah (GRANT SELECT saja) — jangan fallback ke DB_USERNAME/
+        // DB_PASSWORD milik app ini sendiri, supaya akses ke database CBT tidak ikut
+        // sebesar akses app ini ke database-nya sendiri.
         'cbt' => [
             'driver' => 'mysql',
-            'host' => env('CBT_DB_HOST', env('DB_HOST', '127.0.0.1')),
-            'port' => env('CBT_DB_PORT', env('DB_PORT', '3306')),
+            'host' => env('CBT_DB_HOST', '127.0.0.1'),
+            'port' => env('CBT_DB_PORT', '3306'),
             'database' => env('CBT_DB_DATABASE', 'cbt_edukia_4'),
-            'username' => env('CBT_DB_USERNAME', env('DB_USERNAME', 'root')),
-            'password' => env('CBT_DB_PASSWORD', env('DB_PASSWORD', '')),
+            'username' => env('CBT_DB_USERNAME'),
+            'password' => env('CBT_DB_PASSWORD'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',

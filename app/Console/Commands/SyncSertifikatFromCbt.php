@@ -9,37 +9,46 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Sinkronkan peserta yang sudah terbit No SK & No Sertifikat dari database sistem CBT
- * (koneksi 'cbt', lihat config/database.php) ke tabel sertifikats yang dipakai halaman
- * /daftar-penerima-sertifikat. Melengkapi App\Console\Commands\ImportSertifikat (yang
- * membaca dari 2 file Excel resmi) dengan jalur data langsung dari sistem ujian.
+ * Sinkronkan peserta yang sudah LULUS & sertifikatnya sudah terbit/terdistribusi dari
+ * database sistem CBT (koneksi 'cbt', lihat config/database.php) ke tabel sertifikats
+ * yang dipakai halaman /daftar-penerima-sertifikat. Melengkapi App\Console\Commands\
+ * ImportSertifikat (yang membaca dari 2 file Excel resmi) dengan jalur data langsung
+ * dari sistem ujian.
+ *
+ * Membaca dari VIEW read-only v_sertifikasi_kelulusan (bukan tabel mentah) supaya akses
+ * lintas-database dibatasi hanya ke kolom yang relevan, dan supaya filter "lulus & sudah
+ * terdistribusi" konsisten dengan definisi resminya di sisi CBT.
  */
 class SyncSertifikatFromCbt extends Command
 {
     protected $signature = 'sertifikat:sync-cbt';
-    protected $description = 'Sinkronkan peserta yang sudah terbit No SK & No Sertifikat dari database CBT ke tabel sertifikats';
+    protected $description = 'Sinkronkan peserta LULUS yang sertifikatnya sudah terbit dari database CBT ke tabel sertifikats';
 
     public function handle(): void
     {
-        // Peta kode-tengah (mis. AIL, LIM, ESG) → data master skema (kode, gelar, status
-        // lisensi KAN) dari App\Support\Skemas, sumber tunggal 26 skema LSP Edukia.
+        // Peta kode-tengah (mis. AIL, LIM, ESG) → data master skema (kode, gelar) dari
+        // App\Support\Skemas, sumber tunggal 26 skema LSP Edukia. Catatan: lisensi_kan di
+        // master ini TIDAK dipakai lagi untuk kolom `lisensi` — kolom itu sekarang diambil
+        // dari with_kan, yaitu pilihan KAN/non-KAN yang sungguhan dipakai saat sertifikat
+        // didistribusikan, bukan status lisensi default per skema.
         $skemaMaster = Skemas::all()->keyBy(fn (array $s) => SertifikatExcelHelper::middleKodeFor($s['nama']) ?? '');
 
-        $rows = DB::connection('cbt')->table('participant_results as pr')
-            ->join('students as s', 's.id', '=', 'pr.student_id')
-            ->join('classrooms as c', 'c.id', '=', 's.classroom_id')
-            ->whereNotNull('pr.sk_number')
-            ->whereNotNull('pr.sertifikat_number')
+        $rows = DB::connection('cbt')->table('v_sertifikasi_kelulusan')
+            ->whereNotNull('sk_number')
+            // valid_until wajib ada — baris yang SK/sertifikatnya terisi tapi belum punya
+            // tanggal kadaluarsa berarti belum benar-benar selesai difinalisasi di sisi CBT.
+            ->whereNotNull('valid_until')
             ->select([
-                's.name as nama',
-                'c.kode_skema',
-                'c.title as classroom_title',
-                'pr.sk_number',
-                'pr.sertifikat_number',
-                'pr.finalized_at',
-                'pr.valid_until',
+                'nama_peserta as nama',
+                'kode_skema',
+                'classroom_title',
+                'sk_number',
+                'sertifikat_number',
+                'finalized_at',
+                'valid_until',
+                'with_kan',
             ])
-            ->orderBy('pr.finalized_at')
+            ->orderBy('finalized_at')
             ->get();
 
         $synced = 0;
@@ -66,7 +75,7 @@ class SyncSertifikatFromCbt extends Command
                     'gelar' => $master['gelar'] ?? null,
                     'skema' => $scheme['skema'],
                     'kategori' => $scheme['kategori'],
-                    'lisensi' => $master['lisensi_kan'] ?? false,
+                    'lisensi' => (bool) $row->with_kan,
                     'no_sk' => $row->sk_number,
                     'no_skema' => $master['kode'] ?? $row->kode_skema,
                     'tanggal_terbit' => $row->finalized_at,
