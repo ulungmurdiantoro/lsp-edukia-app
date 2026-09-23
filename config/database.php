@@ -84,6 +84,24 @@ return [
             ]) : [],
         ],
 
+        // Koneksi read-only ke database sistem CBT (ujian sertifikasi) untuk sinkronisasi
+        // peserta yang sudah terbit No SK & No Sertifikat ke tabel sertifikats. Lihat
+        // App\Console\Commands\SyncSertifikatFromCbt.
+        'cbt' => [
+            'driver' => 'mysql',
+            'host' => env('CBT_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => env('CBT_DB_PORT', env('DB_PORT', '3306')),
+            'database' => env('CBT_DB_DATABASE', 'cbt_edukia_4'),
+            'username' => env('CBT_DB_USERNAME', env('DB_USERNAME', 'root')),
+            'password' => env('CBT_DB_PASSWORD', env('DB_PASSWORD', '')),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),

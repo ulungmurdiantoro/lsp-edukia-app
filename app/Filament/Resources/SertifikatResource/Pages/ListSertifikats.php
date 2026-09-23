@@ -8,6 +8,7 @@ use Filament\Actions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -19,6 +20,36 @@ class ListSertifikats extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+
+            Actions\Action::make('syncCbt')
+                ->label('Sync dari CBT')
+                ->icon('heroicon-o-arrow-path')
+                ->color('gray')
+                ->requiresConfirmation()
+                ->modalHeading('Sinkronkan dari Database CBT')
+                ->modalDescription('Menarik peserta yang sudah terbit No SK & No Sertifikat dari database sistem CBT (ujian) ke daftar ini. Data yang sudah ada (dicocokkan lewat No Sertifikat) akan diperbarui, bukan diduplikasi.')
+                ->modalSubmitActionLabel('Sinkronkan')
+                ->action(function (): void {
+                    try {
+                        Artisan::call('sertifikat:sync-cbt');
+                        $output = trim(Artisan::output());
+                        // Baris "Dilewati" per-peserta bisa banyak; ringkasan "Selesai! ..." di baris
+                        // terakhir sudah cukup untuk notifikasi, detail lengkap tetap ada di log.
+                        $summary = collect(explode("\n", $output))->last() ?: $output;
+
+                        Notification::make()
+                            ->title('Sinkronisasi selesai')
+                            ->body($summary !== '' ? $summary : 'Data sertifikat dari CBT telah disinkronkan.')
+                            ->success()
+                            ->send();
+                    } catch (\Throwable $e) {
+                        Notification::make()
+                            ->title('Sinkronisasi gagal')
+                            ->body('Tidak bisa terhubung ke database CBT: ' . $e->getMessage())
+                            ->danger()
+                            ->send();
+                    }
+                }),
 
             Actions\Action::make('import')
                 ->label('Import Excel')

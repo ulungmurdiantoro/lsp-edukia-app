@@ -121,6 +121,23 @@ class SertifikatExcelHelper
     }
 
     /**
+     * Kode-tengah (mis. AIL, LIM, ESG) untuk sebuah nama skema kanonik seperti yang
+     * dikembalikan resolveScheme()['skema']. Dipakai untuk mencocokkan hasil resolusi
+     * skema ke data master lain (gelar, status lisensi KAN) di App\Support\Skemas tanpa
+     * menduplikasi logika pencocokan teks yang sudah ada di resolveScheme().
+     */
+    public static function middleKodeFor(string $skemaCanonical): ?string
+    {
+        foreach (self::SKEMAS as [, $middle, $nama]) {
+            if ($nama === $skemaCanonical) {
+                return $middle;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Parser tanggal fleksibel: mendukung "4 Mei 2026", "April 2024" (tanpa tanggal,
      * dianggap tanggal 1), dan format ISO "YYYY-MM-DD".
      */
