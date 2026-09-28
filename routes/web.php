@@ -7,6 +7,7 @@ use App\Http\Controllers\SkemaController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\LlmsController;
 use App\Http\Controllers\KarierController;
+use App\Http\Controllers\DokumenLamaranController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/informasi-publik', [PageController::class, 'informasi'])->name('informasi');
@@ -32,7 +33,14 @@ Route::get('/blog/{slug}', [BlogController::class, 'redirectLegacy'])->name('blo
 
 Route::get('/karier', [KarierController::class, 'index'])->name('karier.index');
 Route::get('/karier/{slug}', [KarierController::class, 'show'])->name('karier.show');
-Route::post('/karier/apply', [KarierController::class, 'store'])->name('karier.apply');
+// Maks. 5 kiriman/menit per IP — tiap kiriman bisa membawa upload hingga ±20 MB.
+Route::post('/karier/apply', [KarierController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('karier.apply');
+
+// Dokumen pelamar (disk privat) — hanya admin, dicek di controller.
+Route::get('/dokumen-lamaran/{lamaran}/{jenis}', DokumenLamaranController::class)
+    ->name('lamaran.dokumen');
 
 Route::get('/{slug}', [BlogController::class, 'show'])
     ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|jadwal-sertifikasi-kompetensi$|karier$|kegiatan$|livewire$|llms\.txt$|llms-full\.txt$|login$|logout$|register$|reset-password$|sanctum$|sitemap\.xml$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[^/]+')

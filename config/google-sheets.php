@@ -18,4 +18,8 @@ return [
     */
 
     'webhook_url' => env('GOOGLE_SHEETS_WEBHOOK_URL', ''),
+
+    // Token rahasia bersama dengan Apps Script (Script Properties → WEBHOOK_TOKEN), supaya
+    // hanya server ini yang bisa menambah baris walau URL Web App-nya bocor.
+    'webhook_token' => env('GOOGLE_SHEETS_WEBHOOK_TOKEN', ''),
 ];

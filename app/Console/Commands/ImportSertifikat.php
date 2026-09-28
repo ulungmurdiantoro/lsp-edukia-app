@@ -22,7 +22,10 @@ class ImportSertifikat extends Command
 
         foreach ($files as $file) {
             if (! is_file($file['path'])) {
+                // File Excel berisi data pribadi penerima sertifikat, jadi tidak disimpan di git —
+                // salin manual ke folder database/ di server sebelum menjalankan perintah ini.
                 $this->error('File tidak ditemukan: ' . $file['path']);
+                $this->line('  File Excel tidak ikut di git (data pribadi). Salin manual ke folder database/.');
                 return;
             }
         }

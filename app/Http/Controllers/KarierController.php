@@ -4,51 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SyncLamaranToSheets;
 use App\Models\LamaranKarir;
+use App\Models\Lowongan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class KarierController extends Controller
 {
-    /**
-     * Static job openings configuration
-     */
-    private function getOpenings()
-    {
-        return [
-            [
-                'slug' => 'management-representative',
-                'judul' => 'Management Representative (MR) - LSP Edukia',
-                'deskripsi' => 'Kami mencari Management Representative yang berpengalaman untuk bergabung dengan tim LSP Edukia. Posisi ini bertanggung jawab atas pengelolaan sistem mutu dan audit internal.',
-                'kategori' => 'Management',
-                'lokasi' => 'Mijen, Semarang Barat',
-                'tipe' => 'Full-time',
-                'requirements' => [
-                    'Pendidikan minimal S1',
-                    'Pengalaman kerja di bidang Penjaminan Mutu minimal 1 tahun',
-                    'Memiliki sertifikat kompetensi di bidang ISO 21001 atau ISO 17024 (lebih diutamakan)',
-                    'Terampil dalam mengelola audit internal dan sistem mutu',
-                    'Mampu berkomunikasi dengan baik',
-                    'Bersedia bekerja penuh waktu (full-time) di lokasi Mijen, Semarang Barat',
-                ],
-                'responsibilities' => [
-                    'Mengelola dan mengembangkan sistem mutu organisasi',
-                    'Melakukan audit internal secara berkala',
-                    'Membuat laporan mutu kepada manajemen',
-                    'Memastikan kepatuhan terhadap standar ISO 21001',
-                    'Berkoordinasi dengan berbagai departemen untuk perbaikan berkelanjutan',
-                ],
-            ],
-        ];
-    }
+    private const PESAN_SUKSES = 'Lamaran Anda telah berhasil dikirimkan. Tim kami akan meninjau lamaran Anda dalam waktu singkat.';
 
     /**
      * Display all job openings
      */
     public function index()
     {
-        $openings = $this->getOpenings();
         return view('karier.index', [
-            'openings' => $openings,
+            'openings' => Lowongan::tampil()->orderBy('urutan')->orderBy('id')->get(),
             'activeNav' => 'karier',
         ]);
     }
@@ -58,15 +28,8 @@ class KarierController extends Controller
      */
     public function show($slug)
     {
-        $openings = $this->getOpenings();
-        $opening = collect($openings)->firstWhere('slug', $slug);
-
-        if (!$opening) {
-            abort(404);
-        }
-
         return view('karier.show', [
-            'opening' => $opening,
+            'opening' => Lowongan::tampil()->where('slug', $slug)->firstOrFail(),
             'activeNav' => 'karier',
         ]);
     }
@@ -76,8 +39,13 @@ class KarierController extends Controller
      */
     public function store(Request $request)
     {
+        // Honeypot terisi = bot. Pura-pura sukses supaya bot tidak belajar untuk menghindarinya.
+        if (filled($request->input('website'))) {
+            return redirect()->route('karier.index')->with('success', self::PESAN_SUKSES);
+        }
+
         $validated = $request->validate([
-            'posisi' => 'required|string',
+            'posisi' => ['required', 'string', Rule::exists('lowongans', 'slug')->where('tampil', true)],
             'nama_lengkap' => 'required|string|max:255',
             'tempat_tanggal_lahir' => 'required|string|max:255',
             'nomor_whatsapp' => 'required|string|max:20',
@@ -86,8 +54,8 @@ class KarierController extends Controller
             'jurusan' => 'required|string|max:255',
             'pengalaman_kerja' => 'required|in:<1 tahun,1-3 tahun,3-5 tahun,>5 tahun',
             'sertifikat_iso' => 'required|in:YA,TIDAK',
-            'sertifikat_list' => 'nullable|string',
-            'pengalaman_audit' => 'required|string',
+            'sertifikat_list' => 'nullable|string|max:5000',
+            'pengalaman_audit' => 'required|string|max:5000',
             'cv' => 'required|file|mimes:pdf,doc,docx|max:5120',
             'portofolio' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
             'ijazah' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
@@ -95,28 +63,26 @@ class KarierController extends Controller
             'bersedia_fulltime' => 'required|boolean',
         ]);
 
-        // Store file paths
-        if ($request->hasFile('cv')) {
-            $validated['cv'] = $request->file('cv')->store('lamaran-karir/cv', 'public');
-        }
-        if ($request->hasFile('portofolio')) {
-            $validated['portofolio'] = $request->file('portofolio')->store('lamaran-karir/portofolio', 'public');
-        }
-        if ($request->hasFile('ijazah')) {
-            $validated['ijazah'] = $request->file('ijazah')->store('lamaran-karir/ijazah', 'public');
-        }
-        if ($request->hasFile('sertifikat_pelatihan')) {
-            $validated['sertifikat_pelatihan'] = $request->file('sertifikat_pelatihan')->store('lamaran-karir/sertifikat', 'public');
+        // Dokumen berisi data pribadi → disk privat, diunduh admin lewat DokumenLamaranController.
+        $folder = ['cv' => 'cv', 'portofolio' => 'portofolio', 'ijazah' => 'ijazah', 'sertifikat_pelatihan' => 'sertifikat'];
+        foreach ($folder as $field => $subfolder) {
+            if ($request->hasFile($field)) {
+                $validated[$field] = $request->file($field)->store("lamaran-karir/{$subfolder}", LamaranKarir::DOKUMEN_DISK);
+            }
         }
 
         $lamaran = LamaranKarir::create($validated);
 
-        // Kirim ke Google Sheets di background (tidak blokir response user)
-        if (config('google-sheets.spreadsheet_id')) {
-            SyncLamaranToSheets::dispatch($lamaran)->onQueue('default');
+        // Kirim ke Google Sheets. Dengan QUEUE_CONNECTION=sync (shared hosting) job jalan saat
+        // itu juga, jadi error webhook jangan sampai menggagalkan lamaran yang sudah tersimpan.
+        if (config('google-sheets.webhook_url')) {
+            try {
+                SyncLamaranToSheets::dispatch($lamaran)->onQueue('default');
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
 
-        return redirect()->route('karier.index')
-            ->with('success', 'Lamaran Anda telah berhasil dikirimkan. Tim kami akan meninjau lamaran Anda dalam waktu singkat.');
+        return redirect()->route('karier.index')->with('success', self::PESAN_SUKSES);
     }
 }

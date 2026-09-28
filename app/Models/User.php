@@ -17,8 +17,16 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return (bool) $this->is_admin;
     }
+
+    /**
+     * Samakan dengan default kolom di DB, supaya model yang baru dibuat (belum di-refresh)
+     * tidak bernilai null.
+     */
+    protected $attributes = [
+        'is_admin' => false,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -51,6 +59,7 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 }

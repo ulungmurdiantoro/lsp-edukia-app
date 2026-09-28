@@ -136,7 +136,7 @@
               <h3>{{ $opening['judul'] }}</h3>
             </div>
 
-            <p class="job-description">{{ substr($opening['deskripsi'], 0, 120) }}...</p>
+            <p class="job-description">{{ \Illuminate\Support\Str::limit($opening['deskripsi'], 120) }}</p>
 
             <div class="job-meta">
               <div class="job-meta-item">

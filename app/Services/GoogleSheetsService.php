@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
  *
  * Setup:
  * 1. Buka spreadsheet → Extensions → Apps Script
- * 2. Paste script dari GOOGLE_APPS_SCRIPT.md
+ * 2. Paste script dari docs/google-apps-script.js
  * 3. Deploy → New deployment → Web app → Execute as: Me, Who has access: Anyone
  * 4. Copy Web App URL → isi GOOGLE_SHEETS_WEBHOOK_URL di .env
  */
@@ -32,10 +32,12 @@ class GoogleSheetsService
         }
 
         $response = Http::timeout(10)->post($this->webhookUrl, [
+            'token' => config('google-sheets.webhook_token', ''),
             'values' => $values,
         ]);
 
-        if (! $response->successful()) {
+        // Apps Script selalu membalas HTTP 200 — error sebenarnya ada di body {status: 'error'}.
+        if (! $response->successful() || $response->json('status') === 'error') {
             throw new \RuntimeException(
                 'Google Sheets webhook error: '.$response->status().' '.$response->body()
             );

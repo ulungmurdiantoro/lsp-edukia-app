@@ -9,7 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\HtmlString;
 
 class LamaranKarirResource extends Resource
 {
@@ -91,36 +91,17 @@ class LamaranKarirResource extends Resource
 
                 Forms\Components\Section::make('Dokumen Pelamar')
                     ->description('Klik tautan untuk mengunduh dokumen.')
-                    ->schema([
-                        Forms\Components\Placeholder::make('cv_link')
-                            ->label('CV')
-                            ->content(fn ($record) => $record?->cv
-                                ? new \Illuminate\Support\HtmlString(
-                                    '<a href="'.Storage::disk('public')->url($record->cv).'" target="_blank" class="text-primary-600 underline">⬇ Unduh CV</a>'
+                    ->schema(collect(LamaranKarir::DOKUMEN)
+                        ->map(fn (string $label, string $jenis) => Forms\Components\Placeholder::make("{$jenis}_link")
+                            ->label($label)
+                            ->content(fn (?LamaranKarir $record) => ($url = $record?->dokumenUrl($jenis))
+                                ? new HtmlString(
+                                    '<a href="'.e($url).'" target="_blank" class="text-primary-600 underline">⬇ Unduh '.e($label).'</a>'
                                 )
-                                : '—'),
-                        Forms\Components\Placeholder::make('portofolio_link')
-                            ->label('Portofolio')
-                            ->content(fn ($record) => $record?->portofolio
-                                ? new \Illuminate\Support\HtmlString(
-                                    '<a href="'.Storage::disk('public')->url($record->portofolio).'" target="_blank" class="text-primary-600 underline">⬇ Unduh Portofolio</a>'
-                                )
-                                : '—'),
-                        Forms\Components\Placeholder::make('ijazah_link')
-                            ->label('Ijazah Terakhir')
-                            ->content(fn ($record) => $record?->ijazah
-                                ? new \Illuminate\Support\HtmlString(
-                                    '<a href="'.Storage::disk('public')->url($record->ijazah).'" target="_blank" class="text-primary-600 underline">⬇ Unduh Ijazah</a>'
-                                )
-                                : '—'),
-                        Forms\Components\Placeholder::make('sertifikat_link')
-                            ->label('Sertifikat Pelatihan')
-                            ->content(fn ($record) => $record?->sertifikat_pelatihan
-                                ? new \Illuminate\Support\HtmlString(
-                                    '<a href="'.Storage::disk('public')->url($record->sertifikat_pelatihan).'" target="_blank" class="text-primary-600 underline">⬇ Unduh Sertifikat</a>'
-                                )
-                                : '—'),
-                    ])->columns(2),
+                                : '—'))
+                        ->values()
+                        ->all())
+                    ->columns(2),
 
                 Forms\Components\Section::make('Lainnya & Catatan Admin')
                     ->schema([

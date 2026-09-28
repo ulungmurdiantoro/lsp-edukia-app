@@ -333,6 +333,11 @@
         <form action="{{ route('karier.apply') }}" method="POST" enctype="multipart/form-data" id="applicationForm">
           @csrf
           <input type="hidden" name="posisi" value="{{ $opening['slug'] }}">
+          {{-- Honeypot anti-spam: tidak terlihat manusia, biasanya diisi bot. --}}
+          <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;">
+            <label for="website">Jangan isi kolom ini</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
 
           <!-- Nama Lengkap -->
           <div class="form-group">

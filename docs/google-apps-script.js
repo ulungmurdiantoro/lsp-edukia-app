@@ -12,6 +12,15 @@
  * 5. Klik Deploy → copy URL yang muncul
  * 6. Isi di .env server:  GOOGLE_SHEETS_WEBHOOK_URL=<URL yang dicopy>
  * 7. Di server: php artisan config:cache
+ *
+ * OPSIONAL — token rahasia (supaya orang lain yang tahu URL tidak bisa menambah baris):
+ *   a. Project Settings (ikon gerigi) → Script Properties → Add property:
+ *        WEBHOOK_TOKEN = <token acak, mis. hasil: php -r "echo bin2hex(random_bytes(24));">
+ *   b. Isi di .env server: GOOGLE_SHEETS_WEBHOOK_TOKEN=<token yang sama>, lalu config:cache
+ *   Kalau WEBHOOK_TOKEN tidak diatur, token tidak dicek.
+ *
+ * Setelah mengubah kode ini: Deploy → Manage deployments → Edit → Version: New version
+ * (URL tetap sama). Tanpa langkah itu, kode lama yang masih berjalan.
  */
 
 var HEADERS = [
@@ -39,10 +48,33 @@ function ensureHeader(sheet) {
   }
 }
 
+// Isian pelamar yang diawali = + - @ akan dieksekusi Sheets sebagai rumus (mis. IMPORTXML
+// untuk mengirim data keluar). Awali dengan apostrof supaya selalu tersimpan sebagai teks.
+function asText(value) {
+  if (typeof value === 'string' && /^[=+\-@]/.test(value)) {
+    return "'" + value;
+  }
+  return value;
+}
+
+function jsonOut(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
-    var values = data.values;
+
+    // Token opsional: bila WEBHOOK_TOKEN diatur di Script Properties, hanya permintaan dengan
+    // token yang sama yang diterima. Bila tidak diatur, semua permintaan diterima.
+    var expected = PropertiesService.getScriptProperties().getProperty('WEBHOOK_TOKEN');
+    if (expected && data.token !== expected) {
+      return jsonOut({ status: 'error', message: 'Token tidak valid.' });
+    }
+
+    var values = (data.values || []).map(asText);
 
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1')
       || SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];

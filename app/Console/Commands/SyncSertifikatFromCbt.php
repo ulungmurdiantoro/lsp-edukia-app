@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 class SyncSertifikatFromCbt extends Command
 {
     protected $signature = 'sertifikat:sync-cbt';
+
     protected $description = 'Sinkronkan peserta LULUS yang sertifikatnya sudah terbit dari database CBT ke tabel sertifikats';
 
     public function handle(): void
@@ -35,6 +36,10 @@ class SyncSertifikatFromCbt extends Command
 
         $rows = DB::connection('cbt')->table('v_sertifikasi_kelulusan')
             ->whereNotNull('sk_number')
+            // nomor_sertifikat adalah kunci upsert (unique, NOT NULL) — satu baris tanpa nomor
+            // akan menggagalkan seluruh sync.
+            ->whereNotNull('sertifikat_number')
+            ->where('sertifikat_number', '!=', '')
             // valid_until wajib ada — baris yang SK/sertifikatnya terisi tapi belum punya
             // tanggal kadaluarsa berarti belum benar-benar selesai difinalisasi di sisi CBT.
             ->whereNotNull('valid_until')
@@ -55,23 +60,25 @@ class SyncSertifikatFromCbt extends Command
         $skipped = 0;
         $hidden = 0;
 
-        foreach ($rows as $row) {
-            $scheme = SertifikatExcelHelper::resolveScheme($row->kode_skema, $row->classroom_title);
+        // Satu transaksi: kalau ada baris yang error, tabel tidak tertinggal setengah tersinkron.
+        DB::transaction(function () use ($rows, $skemaMaster, &$synced, &$skipped, &$hidden) {
+            foreach ($rows as $row) {
+                $scheme = SertifikatExcelHelper::resolveScheme($row->kode_skema, $row->classroom_title);
 
-            if (! $row->nama || ! $row->finalized_at || ! $scheme) {
-                $this->warn("  Dilewati (skema tidak dikenali): {$row->nama} | {$row->classroom_title}");
-                $skipped++;
-                continue;
-            }
+                if (! $row->nama || ! $row->finalized_at || ! $scheme) {
+                    $this->warn("  Dilewati (skema tidak dikenali): {$row->nama} | {$row->classroom_title}");
+                    $skipped++;
 
-            // Skema/kategori sudah pasti valid dari resolveScheme() di atas, jadi kode-tengah
-            // hasil middleKodeFor() dijamin ada di $skemaMaster (tidak perlu fallback lagi).
-            $middle = SertifikatExcelHelper::middleKodeFor($scheme['skema']);
-            $master = $skemaMaster->get($middle);
+                    continue;
+                }
 
-            Sertifikat::updateOrCreate(
-                ['nomor_sertifikat' => $row->sertifikat_number],
-                [
+                // Skema/kategori sudah pasti valid dari resolveScheme() di atas, jadi kode-tengah
+                // hasil middleKodeFor() dijamin ada di $skemaMaster (tidak perlu fallback lagi).
+                $middle = SertifikatExcelHelper::middleKodeFor($scheme['skema']);
+                $master = $skemaMaster->get($middle);
+
+                $sertifikat = Sertifikat::firstOrNew(['nomor_sertifikat' => $row->sertifikat_number]);
+                $sertifikat->fill([
                     'nama' => SertifikatExcelHelper::clean($row->nama),
                     'gelar' => $master['gelar'] ?? null,
                     'skema' => $scheme['skema'],
@@ -81,29 +88,39 @@ class SyncSertifikatFromCbt extends Command
                     'no_skema' => $master['kode'] ?? $row->kode_skema,
                     'tanggal_terbit' => $row->finalized_at,
                     'tanggal_kadaluarsa' => $row->valid_until,
-                    'tampil' => true,
-                ]
-            );
-            $synced++;
+                ]);
+                // `tampil` hanya diisi untuk sertifikat baru — yang sudah ada mempertahankan
+                // pilihan admin (mis. disembunyikan karena dicabut), jangan dimunculkan lagi
+                // oleh sync harian.
+                if (! $sertifikat->exists) {
+                    $sertifikat->tampil = true;
+                }
+                $sertifikat->save();
+                $synced++;
 
-            // Baris lama dengan nama+skema sama tapi nomor sertifikat beda kemungkinan
-            // besar orang yang sama yang dulu masuk lewat import Excel (sertifikat:import
-            // / tombol admin) dan sekarang punya data resmi dari CBT — sembunyikan yang
-            // lama (bukan hapus, supaya tetap ada untuk audit) supaya tidak dobel tampil
-            // di halaman publik /daftar-penerima-sertifikat.
-            $namaTernormalisasi = SertifikatExcelHelper::normalizeNama($row->nama);
-            $duplikatLama = Sertifikat::where('skema', $scheme['skema'])
-                ->where('nomor_sertifikat', '!=', $row->sertifikat_number)
-                ->where('tampil', true)
-                ->get()
-                ->filter(fn (Sertifikat $s) => SertifikatExcelHelper::normalizeNama($s->nama) === $namaTernormalisasi);
+                // Baris lama dengan nama+skema sama tapi nomor sertifikat beda kemungkinan
+                // besar orang yang sama yang dulu masuk lewat import Excel (sertifikat:import
+                // / tombol admin) dan sekarang punya data resmi dari CBT — sembunyikan yang
+                // lama (bukan hapus, supaya tetap ada untuk audit) supaya tidak dobel tampil
+                // di halaman publik /daftar-penerima-sertifikat. Hanya yang terbit sebelum/
+                // bersamaan dengan baris ini: sertifikat resertifikasi yang lebih baru tidak
+                // boleh disembunyikan oleh sertifikat lama milik orang yang sama.
+                $namaTernormalisasi = SertifikatExcelHelper::normalizeNama($row->nama);
+                $duplikatLama = Sertifikat::where('skema', $scheme['skema'])
+                    ->where('nomor_sertifikat', '!=', $row->sertifikat_number)
+                    ->where('tampil', true)
+                    ->where(fn ($q) => $q->whereNull('tanggal_terbit')
+                        ->orWhereDate('tanggal_terbit', '<=', $sertifikat->tanggal_terbit))
+                    ->get()
+                    ->filter(fn (Sertifikat $s) => SertifikatExcelHelper::normalizeNama($s->nama) === $namaTernormalisasi);
 
-            foreach ($duplikatLama as $stale) {
-                $stale->update(['tampil' => false]);
-                $this->warn("  Disembunyikan (duplikat lama, digantikan {$row->sertifikat_number}): {$stale->nama} | {$stale->nomor_sertifikat}");
-                $hidden++;
+                foreach ($duplikatLama as $stale) {
+                    $stale->update(['tampil' => false]);
+                    $this->warn("  Disembunyikan (duplikat lama, digantikan {$row->sertifikat_number}): {$stale->nama} | {$stale->nomor_sertifikat}");
+                    $hidden++;
+                }
             }
-        }
+        });
 
         $this->info("Selesai! {$synced} sertifikat disinkronkan, {$skipped} dilewati, {$hidden} duplikat lama disembunyikan.");
     }

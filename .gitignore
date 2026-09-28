@@ -22,3 +22,9 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Pengaturan lokal Claude Code (izin per-mesin)
+/.claude/settings.local.json
+
+# Data pribadi penerima sertifikat — sumber sertifikat:import, salin manual ke server
+/database/*.xlsx

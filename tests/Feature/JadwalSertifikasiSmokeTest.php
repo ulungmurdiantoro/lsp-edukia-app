@@ -52,21 +52,21 @@ class JadwalSertifikasiSmokeTest extends TestCase
 
     public function test_admin_can_view_jadwal_sertifikasi_list(): void
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(User::factory()->admin()->create());
 
         $this->get('/admin/jadwal-sertifikasis')->assertOk();
     }
 
     public function test_admin_can_view_jadwal_sertifikasi_create_form(): void
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(User::factory()->admin()->create());
 
         $this->get('/admin/jadwal-sertifikasis/create')->assertOk();
     }
 
     public function test_admin_can_create_jadwal_sertifikasi_via_livewire_form(): void
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(User::factory()->admin()->create());
 
         Livewire::test(CreateJadwalSertifikasi::class)
             ->fillForm([

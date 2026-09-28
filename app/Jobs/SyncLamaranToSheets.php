@@ -42,10 +42,9 @@ class SyncLamaranToSheets implements ShouldQueue
             $this->lamaran->pengalaman_audit,
             $this->lamaran->bersedia_fulltime ? 'YA' : 'TIDAK',
             $this->lamaran->status,
-            $this->lamaran->cv ? url('storage/'.$this->lamaran->cv) : '',
-            $this->lamaran->portofolio ? url('storage/'.$this->lamaran->portofolio) : '',
-            $this->lamaran->ijazah ? url('storage/'.$this->lamaran->ijazah) : '',
-            $this->lamaran->sertifikat_pelatihan ? url('storage/'.$this->lamaran->sertifikat_pelatihan) : '',
+            // Tautan butuh login admin — dokumen tidak ikut bocor bila spreadsheet tersebar.
+            ...collect(array_keys(LamaranKarir::DOKUMEN))
+                ->map(fn (string $jenis) => $this->lamaran->dokumenUrl($jenis) ?? ''),
         ]);
     }
 

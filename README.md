@@ -1,59 +1,74 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LSP Edukia — Website
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Website publik dan panel admin [lspedukia.id](https://lspedukia.id): skema sertifikasi, jadwal,
+daftar penerima sertifikat, blog, dan lowongan karier.
 
-## About Laravel
+Laravel 12 · Filament 3 (panel admin di `/admin`) · PHP 8.2+ · MySQL (produksi) / SQLite (lokal)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Menjalankan di lokal
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+composer setup        # install dependency, buat .env, key:generate, migrate, build aset
+php artisan db:seed   # buat user admin — password acak ditampilkan sekali di terminal
+composer dev          # server + queue + log + vite
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Jalankan test dengan `composer test`.
 
-## Learning Laravel
+## Panel admin
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Hanya user dengan `is_admin = true` yang bisa masuk `/admin`. User admin awal dibuat oleh
+`AdminSeeder` dari `ADMIN_EMAIL` / `ADMIN_PASSWORD` di `.env` (password kosong = dibuat acak).
+Seeder tidak pernah menimpa password admin yang sudah ada.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Data sertifikat
 
-## Laravel Sponsors
+Halaman `/daftar-penerima-sertifikat` membaca tabel `sertifikats`, yang diisi dari dua sumber:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Sumber | Cara | Keterangan |
+|---|---|---|
+| Database CBT | `php artisan sertifikat:sync-cbt` — otomatis tiap hari 02:00, atau tombol **Sync dari CBT** di admin | Sumber utama. Membaca view `v_sertifikasi_kelulusan` lewat koneksi `cbt` (`CBT_DB_*` di `.env`) dengan user MySQL **read-only**. |
+| File Excel | Tombol **Import Excel** di admin, atau `php artisan sertifikat:import` | Data lama. File `database/*.xlsx` berisi data pribadi sehingga **tidak disimpan di git** — salin manual ke server bila perlu. |
 
-### Premium Partners
+Aturan sync CBT:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- Upsert berdasarkan nomor sertifikat. Baris CBT tanpa nomor sertifikat dilewati.
+- Sertifikat yang disembunyikan admin (`tampil = false`) tetap tersembunyi setelah sync.
+- Sertifikat lama milik orang yang sama untuk skema yang sama (terbit lebih awal) disembunyikan,
+  bukan dihapus.
 
-## Contributing
+## Lamaran karier
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Lowongan dikelola di admin: **Karir → Lowongan**.
+- Dokumen pelamar (CV, ijazah, dll.) disimpan di disk privat `storage/app/private` dan hanya
+  bisa diunduh admin lewat `/dokumen-lamaran/{id}/{jenis}`.
+- Form dibatasi 5 kiriman/menit per IP dan memakai honeypot anti-bot.
+- Setiap lamaran dikirim ke Google Sheets bila `GOOGLE_SHEETS_WEBHOOK_URL` diisi. Kode Apps
+  Script dan cara setup-nya ada di [docs/google-apps-script.js](docs/google-apps-script.js).
+  Token `GOOGLE_SHEETS_WEBHOOK_TOKEN` opsional.
 
-## Code of Conduct
+## Deploy (VPS)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+bash deploy.sh
+```
 
-## Security Vulnerabilities
+Setup pertama: clone, salin `.env.production.example` → `.env`, migrate, cache.
+Deploy berikutnya: maintenance mode → `git pull` → composer → migrate → cache → online lagi
+(otomatis keluar dari maintenance mode bila ada langkah yang gagal).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Wajib:** cron scheduler, supaya sync CBT harian berjalan:
 
-## License
+```
+* * * * * cd /var/www/lsp-edukia && php artisan schedule:run >> /dev/null 2>&1
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Struktur penting
+
+| Lokasi | Isi |
+|---|---|
+| `app/Support/Skemas.php` | Master data 26 skema sertifikasi (sumber tunggal) |
+| `app/Support/SertifikatExcelHelper.php` | Pencocokan skema, normalisasi nama, parser tanggal |
+| `app/Console/Commands/` | `sertifikat:sync-cbt`, `sertifikat:import`, `blog:import-wordpress`, `blog:fix-ringkasan` |
+| `routes/web.php` | Route blog `/{slug}` menangkap semua URL satu segmen — halaman statis baru **harus** ditambahkan ke daftar pengecualiannya (dijaga oleh `tests/Feature/RouteCatchAllTest.php`) |
+| `docs/` | Blueprint frontend & SEO, prototipe desain, Apps Script |

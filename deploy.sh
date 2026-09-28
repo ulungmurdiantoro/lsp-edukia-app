@@ -29,6 +29,9 @@ if [ ! -d "$APP_DIR/.git" ]; then
     sudo chown -R $USER:www-data "$APP_DIR"
     sudo chmod -R 2775 "$APP_DIR/storage" "$APP_DIR/bootstrap/cache"
     echo "✓ Setup pertama selesai!"
+    echo ""
+    echo "! Pasang cron scheduler (wajib untuk sync sertifikat CBT harian pukul 02:00):"
+    echo "    crontab -e   →   * * * * * cd $APP_DIR && php artisan schedule:run >> /dev/null 2>&1"
     exit 0
 fi
 
@@ -37,6 +40,8 @@ cd "$APP_DIR"
 
 echo "→ Masuk maintenance mode..."
 php artisan down --retry=60
+# Kalau langkah mana pun gagal (set -e), jangan biarkan situs tertahan di maintenance mode.
+trap 'echo "✗ Deploy gagal — keluar dari maintenance mode."; php artisan up' ERR
 
 echo "→ Pull kode terbaru dari GitHub..."
 git pull origin main
@@ -61,6 +66,12 @@ php artisan route:cache
 php artisan view:cache
 
 echo "→ Keluar maintenance mode..."
+trap - ERR
 php artisan up
+
+if ! crontab -l 2>/dev/null | grep -q "schedule:run"; then
+    echo "! Cron scheduler belum terpasang — sync sertifikat CBT harian tidak akan jalan."
+    echo "    crontab -e   →   * * * * * cd $APP_DIR && php artisan schedule:run >> /dev/null 2>&1"
+fi
 
 echo "✓ Deploy selesai!"
