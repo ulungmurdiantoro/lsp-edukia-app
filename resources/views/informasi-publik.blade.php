@@ -59,7 +59,7 @@
 .tl-item p strong{color:var(--ink);font-weight:600}
 
 /* Resertifikasi */
-.resert-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.resert-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
 .resert-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;flex-direction:column}
 .resert-header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
 .resert-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:0 0 auto}
@@ -203,6 +203,7 @@
           'Pemohon yang memenuhi persyaratan direkomendasikan lanjut ke proses asesmen setelah menyelesaikan administrasi pembayaran.',
         ]],
         ['icon'=>'monitor','title'=>'Pelaksanaan Asesmen','items'=>[
+          'Uji kompetensi dapat dilaksanakan secara Offline (tatap muka di Tempat Uji Kompetensi/TUK yang telah diverifikasi LSP) maupun Online (melalui Zoom Meeting & sistem ujian daring dengan pengawasan langsung), sesuai metode yang ditetapkan pada jadwal skema yang dipilih.',
           'LSP Edukia memastikan kesiapan TUK/platform ujian, perangkat asesmen, identitas peserta, dan metode pengumpulan bukti.',
           'Pengawas ujian menjelaskan teknis dan tata tertib ujian, memverifikasi identitas dan TUK peserta, serta mencatat kejadian/ketidaksesuaian selama ujian.',
           'Peserta melaksanakan ujian sesuai skema yang dipilih di bawah pengawasan pengawas ujian.',
@@ -281,14 +282,18 @@
         </div>
         <div class="resert-sublabel">Berlaku untuk</div>
         <ul class="resert-list">
-          @foreach(['Auditor Internal SPMI Terintegrasi ISO 21001:2018','Lead Auditor SPMI Terintegrasi ISO 21001:2018','Auditor Internal Standar Laboratorium ISO/IEC 17025:2017'] as $s)
+          @foreach([
+            'Lifting Engineer for Medium Lifting',
+            'Lifting Engineer for Heavy & Critical Lifting',
+            '2D Lifting Designer',
+            '3D Lifting Designer',
+            'Panelis Terlatih Pengujian Sensori Pangan',
+            'Laboratory HSE Officer/Petugas K3L Laboratorium',
+            'Laboratory Operations Officer/Pranata Laboratorium',
+          ] as $s)
           <li><span class="resert-dot" style="background:var(--blue-deep)"></span><span>{{ $s }}</span></li>
           @endforeach
         </ul>
-        <div class="resert-note blue">
-          <strong>Persyaratan Portofolio:</strong>
-          Auditor Internal — pengalaman audit min. 2 kali dalam 3 tahun. Lead Auditor — sebagai Lead minimal 1 kali dalam 3 tahun. Jika tidak memenuhi, akan diberikan uji kompetensi kembali.
-        </div>
       </div>
       <div class="resert-card">
         <div class="resert-header">
@@ -299,14 +304,37 @@
         </div>
         <div class="resert-sublabel">Berlaku untuk</div>
         <ul class="resert-list">
-          @foreach(['Lead Implementer SPMI ISO 21001','Training of Trainer (ToT) OBE','Implementer Tata Kelola PT','Lead Implementer Lab ISO 17025','Lifting Engineer Medium / Heavy','2D / 3D Lifting Designer','Lab Quality / Food Safety / GLP / HSE / Operations','QMS ISO 9001 / QC / QA / R&D / Regulatory','Sustainability / ESG / EMS ISO 14001','Corporate Legal Officer'] as $s)
+          @foreach([
+            'Auditor Internal SPMI Terintegrasi ISO 21001:2018',
+            'Lead Auditor SPMI Terintegrasi ISO 21001:2018',
+            'Lead Implementer SPMI Terintegrasi ISO 21001:2018',
+            'Training of Trainer Outcome Based Education',
+            'Implementer Tata Kelola Organisasi Perguruan Tinggi',
+            'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017',
+            'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
+            'Lifting Engineer for Medium Lifting',
+            'Lifting Engineer for Heavy & Critical Lifting',
+            '2D Lifting Designer',
+            '3D Lifting Designer',
+            'Laboratory Quality System Officer ISO/IEC 17025/ Petugas Sistem Mutu Laboratorium ISO/IEC 17025',
+            'Food Safety Management Officer/ Petugas Sistem Keamanan Pangan',
+            'Panelis Terlatih Pengujian Sensori Pangan',
+            'GLP Laboratory Technician/Teknisi Laboratorium Berbasis GLP',
+            'Laboratory HSE Officer/Petugas K3L Laboratorium',
+            'Laboratory Operations Officer/Pranata Laboratorium',
+            'Quality Management System (ISO 9001) Officer',
+            'QC Laboratory Analyst/Analis QC Laboratorium',
+            'Quality Assurance Officer',
+            'Research and Development Officer',
+            'Regulatory Affairs Officer',
+            'Sustainability Officer',
+            'ESG Officer',
+            'Environmental Management System (ISO 14001) Officer',
+            'Corporate Legal Officer',
+          ] as $s)
           <li><span class="resert-dot" style="background:var(--orange-deep)"></span><span>{{ $s }}</span></li>
           @endforeach
         </ul>
-        <div class="resert-note green">
-          <strong>Catatan:</strong>
-          Proses resertifikasi mengikuti prosedur yang sama dengan sertifikasi awal (klausul 5a–5d).
-        </div>
       </div>
     </div>
   </div>

@@ -89,13 +89,14 @@
       <p class="sub">Persyaratan pendidikan, pengalaman, dan sertifikat pelatihan yang harus dipenuhi untuk setiap skema kompetensi.</p>
     </div>
     <div class="chips" id="chips">
-      <button class="chip active" data-filter="all">Semua <span class="count">26</span></button>
-      <button class="chip" data-filter="spmi">SPMI ISO 21001 <span class="count">3</span></button>
-      <button class="chip" data-filter="pt">Perguruan Tinggi <span class="count">2</span></button>
-      <button class="chip" data-filter="lab17025">Lab ISO 17025 <span class="count">2</span></button>
-      <button class="chip" data-filter="lifting">Lifting Engineering <span class="count">4</span></button>
-      <button class="chip" data-filter="labtest">Lab &amp; Pengujian <span class="count">6</span></button>
-      <button class="chip" data-filter="manajemen">Sistem Manajemen <span class="count">8</span></button>
+      <button class="chip active" data-filter="all">Semua <span class="count">{{ count($schemes) }}</span></button>
+      <button class="chip" data-filter="spmi">SPMI ISO 21001 <span class="count">{{ $kategoriCounts['spmi'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="pt">Perguruan Tinggi <span class="count">{{ $kategoriCounts['pt'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="lab17025">Lab ISO 17025 <span class="count">{{ $kategoriCounts['lab17025'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="lifting">Lifting Engineering <span class="count">{{ $kategoriCounts['lifting'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="labtest">Lab &amp; Pengujian <span class="count">{{ $kategoriCounts['labtest'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="manajemen">Sistem Manajemen <span class="count">{{ $kategoriCounts['manajemen'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="riset">Research &amp; Innovation <span class="count">{{ $kategoriCounts['riset'] ?? 0 }}</span></button>
     </div>
     <div id="schemes">
       @foreach($schemes as $i => $scheme)
