@@ -190,35 +190,31 @@
     <div class="sec-head">
       <div class="eyebrow">Proses Sertifikasi</div>
       <h2>Proses Sertifikasi</h2>
-      <p class="sub">Empat tahap sertifikasi yang transparan, objektif, dan sesuai standar — dari permohonan hingga penerbitan sertifikat.</p>
+      <p class="sub">Tiga tahap sertifikasi yang transparan, objektif, dan sesuai standar — dari permohonan hingga penerbitan sertifikat.</p>
     </div>
     <div class="proc-steps">
       @php
       $procSteps = [
         ['icon'=>'doc','title'=>'Permohonan Sertifikasi','items'=>[
-          'Calon peserta mengisi berkas FR.APL.01 dan FR.AK.01.',
-          'Peserta menyatakan setuju memenuhi persyaratan dan memberikan informasi yang diperlukan.',
-          'LSP Edukia melakukan pengkajian terhadap permohonan asesmen.',
-          'Peserta yang memenuhi syarat direkomendasikan untuk tindak lanjut asesmen.',
+          'Pemohon mengisi formulir permohonan sertifikasi (FR.APL.01) dan formulir persetujuan asesmen (FR.AK.01) melalui sistem pendaftaran LSP.',
+          'Pemohon dengan kebutuhan khusus wajib mengisi Formulir Permohonan Akomodasi Peserta Berkebutuhan Khusus (FR.APL.04).',
+          'Pemohon menyatakan setuju memenuhi persyaratan sertifikasi dan memberikan informasi yang diperlukan untuk pengkajian permohonan.',
+          'Pengkaji Permohonan meninjau rekaman formulir dan dokumen persyaratan sesuai skema sertifikasi yang dipilih.',
+          'Pemohon yang memenuhi persyaratan direkomendasikan lanjut ke proses asesmen setelah menyelesaikan administrasi pembayaran.',
         ]],
-        ['icon'=>'check-list','title'=>'Proses Pra Asesmen','items'=>[
-          'Asesmen direncanakan untuk memastikan verifikasi objektif dan sistematis.',
-          'LSP Edukia menugaskan asesor kompetensi.',
-          'Asesor melakukan verifikasi perangkat dan metode asesmen.',
-          'Asesor menjelaskan dan menyepakati rencana asesmen dengan peserta.',
-          'Pengkajian kecukupan bukti dari dokumen pendukung (APL 02).',
-        ]],
-        ['icon'=>'monitor','title'=>'Pelaksanaan Asesmen / Uji Kompetensi','items'=>[
-          'Metode: ujian tertulis, lisan, keterampilan, atau metode lain yang andal.',
-          'Bukti dievaluasi: Valid, Asli, Terkini, Memadai (VATM).',
-          'Hasil: "Kompeten" atau "Belum Kompeten".',
-          'Asesor menyampaikan rekaman hasil dan rekomendasi kepada LSP Edukia.',
+        ['icon'=>'monitor','title'=>'Pelaksanaan Asesmen','items'=>[
+          'LSP Edukia memastikan kesiapan TUK/platform ujian, perangkat asesmen, identitas peserta, dan metode pengumpulan bukti.',
+          'Pengawas ujian menjelaskan teknis dan tata tertib ujian, memverifikasi identitas dan TUK peserta, serta mencatat kejadian/ketidaksesuaian selama ujian.',
+          'Peserta melaksanakan ujian sesuai skema yang dipilih di bawah pengawasan pengawas ujian.',
+          'Uji kompetensi menggunakan metode ujian tertulis, lisan, praktek, tugas keterampilan, atau metode lain yang andal, objektif, dan konsisten dengan skema sertifikasi.',
+          'Asesor mengompilasi seluruh bukti dan hasil ujian, lalu menyampaikan rekomendasi hasil asesmen kepada LSP Edukia.',
         ]],
         ['icon'=>'award','title'=>'Keputusan Asesmen','items'=>[
-          'LSP Edukia melakukan rapat verifikasi berkas dan menetapkan status kompetensi.',
-          'Tim asesor membuat keputusan sertifikasi.',
-          'Peserta tidak lulus dapat: menerima hasil · remedial · banding (FR.AK.04).',
-          'Sertifikat disahkan Ketua LSP Edukia dengan masa berlaku 3 tahun.',
+          'LSP Edukia memastikan informasi yang dikumpulkan selama uji kompetensi mencukupi untuk pengambilan keputusan sertifikasi dan penelusuran apabila terjadi banding.',
+          'Pengambil keputusan sertifikasi memverifikasi berkas peserta, rekaman hasil ujian, dan rekomendasi asesor untuk menetapkan status kompetensi.',
+          'Hasil keputusan: "Kompeten" atau "Belum Kompeten". Peserta Belum Kompeten dapat memilih: menerima hasil apa adanya · remedial · banding (FR.AK.04).',
+          'LSP Edukia menerbitkan sertifikat kompetensi kepada peserta yang ditetapkan kompeten.',
+          'Sertifikat disahkan Ketua LSP Edukia dengan masa berlaku 3 (tiga) tahun.',
         ]],
       ];
       @endphp
@@ -227,7 +223,7 @@
         <div class="proc-left">
           <div class="proc-badge"><svg width="22" height="22"><use href="#i-{{ $step['icon'] }}"></use></svg></div>
           <div class="proc-meta">
-            <div class="proc-label">Tahap {{ $idx + 1 }} dari 4</div>
+            <div class="proc-label">Tahap {{ $idx + 1 }} dari {{ count($procSteps) }}</div>
             <h3 class="proc-title">{{ $step['title'] }}</h3>
           </div>
         </div>
@@ -271,8 +267,8 @@
 <section id="resertifikasi" style="background:#fbf9f3">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">Proses Resertifikasi</div>
-      <h2>Proses Resertifikasi</h2>
+      <div class="eyebrow">Proses Survailen dan Resertifikasi</div>
+      <h2>Proses Survailen dan Resertifikasi</h2>
       <p class="sub">Pemegang sertifikat wajib mengajukan permohonan sertifikasi ulang minimal <strong>2 bulan sebelum masa berlaku berakhir</strong>.</p>
     </div>
     <div class="resert-grid">
@@ -281,7 +277,7 @@
           <div class="resert-icon blue">
             <svg width="22" height="22"><use href="#i-refresh"></use></svg>
           </div>
-          <h3>Perpanjangan Sertifikat</h3>
+          <h3>Proses Survailen</h3>
         </div>
         <div class="resert-sublabel">Berlaku untuk</div>
         <ul class="resert-list">
@@ -299,7 +295,7 @@
           <div class="resert-icon orange">
             <svg width="22" height="22"><use href="#i-doc"></use></svg>
           </div>
-          <h3>Uji Kompetensi Kembali</h3>
+          <h3>Resertifikasi</h3>
         </div>
         <div class="resert-sublabel">Berlaku untuk</div>
         <ul class="resert-list">
