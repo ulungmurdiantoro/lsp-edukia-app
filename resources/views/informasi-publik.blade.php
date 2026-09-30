@@ -76,6 +76,22 @@
 .resert-note.green{background:#e8f4ee;border:1px solid #c6e3d3;color:#1f5a37}
 .resert-note.green strong{color:#0f3d24;display:block;margin-bottom:4px}
 
+/* Kriteria TUK Offline & Online */
+.tuk-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.tuk-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;flex-direction:column}
+.tuk-header{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.tuk-icon{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;flex:0 0 auto}
+.tuk-icon.blue{background:var(--blue-50);color:var(--blue-deep)}
+.tuk-icon.orange{background:var(--orange-50);color:var(--orange-deep)}
+.tuk-card h3{font-size:19px;font-weight:700;color:var(--ink);margin:0}
+.tuk-card .sm{font-size:13px;color:var(--muted);margin-top:3px}
+.tuk-group{margin-top:20px}
+.tuk-group:first-of-type{margin-top:0}
+.tuk-group-label{font-size:12px;font-weight:700;color:var(--ink);padding-bottom:8px;margin-bottom:10px;border-bottom:1px dashed var(--line-2)}
+.tuk-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.tuk-list li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink-2);line-height:1.55}
+.tuk-dot{width:5px;height:5px;border-radius:50%;flex:0 0 auto;margin-top:8px}
+
 /* Keluhan & Banding — 3-column grid */
 .kb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .kb-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
@@ -93,7 +109,7 @@
 .kb-note strong{display:block;margin-bottom:2px}
 
 @media(max-width:960px){
-  .hk-grid,.resert-grid{grid-template-columns:1fr}
+  .hk-grid,.resert-grid,.tuk-grid{grid-template-columns:1fr}
   .proc-article{grid-template-columns:1fr}
   .kb-grid{grid-template-columns:1fr}
   .cta{grid-template-columns:1fr}
@@ -239,6 +255,137 @@
           </ol>
         </div>
       </article>
+      @endforeach
+    </div>
+  </div>
+</section>
+
+{{-- KRITERIA TUK OFFLINE & ONLINE --}}
+<section id="kriteria-tuk">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Tempat Uji Kompetensi</div>
+      <h2>Kriteria TUK Offline &amp; Online</h2>
+      <p class="sub">Setiap Tempat Uji Kompetensi (TUK) — fisik maupun daring — diverifikasi LSP Edukia sebelum digunakan agar asesmen berlangsung valid, aman, tertib, objektif, dan mampu telusur (SOP.SM.21).</p>
+    </div>
+    @php
+    $tukCriteria = [
+      'offline' => [
+        'title' => 'Kriteria TUK Offline',
+        'subtitle' => 'Tempat Uji Kompetensi tatap muka (fisik)',
+        'icon' => 'pin',
+        'tone' => 'blue',
+        'groups' => [
+          'Legalitas dan pengelolaan lokasi' => [
+            'Identitas/nama dan alamat TUK dapat ditelusuri.',
+            'Terdapat penanggung jawab/PIC lokasi yang dapat berkoordinasi dengan LSP.',
+            'Penggunaan lokasi untuk kegiatan asesmen telah memperoleh persetujuan dari pengelola/pemilik lokasi.',
+          ],
+          'Ruang dan kondisi lingkungan' => [
+            'Ruang asesmen cukup untuk jumlah peserta dan metode asesmen yang digunakan.',
+            'Pencahayaan, ventilasi/sirkulasi udara dan kebersihan memadai.',
+            'Kondisi ruang mendukung ketenangan, ketertiban, privasi dan konsentrasi peserta.',
+            'Tata letak memungkinkan Pengawas Ujian/Asesor memantau peserta dengan memadai.',
+            'Tersedia area tunggu/registrasi apabila diperlukan dan tidak mengganggu ruang asesmen.',
+          ],
+          'Sarana, prasarana dan peralatan' => [
+            'Meja, kursi dan fasilitas dasar tersedia dalam jumlah yang memadai.',
+            'Peralatan khusus yang dipersyaratkan oleh skema/metode asesmen tersedia dan berfungsi.',
+            'Komputer, jaringan/internet, proyektor atau sarana elektronik tersedia apabila dibutuhkan oleh metode ujian.',
+            'Sumber listrik dan fasilitas pendukung memadai; mitigasi gangguan tersedia apabila diperlukan.',
+          ],
+          'Keamanan, keselamatan dan akses' => [
+            'Akses masuk/keluar lokasi dapat dikendalikan selama asesmen.',
+            'Terdapat kondisi keselamatan dasar dan jalur evakuasi/fasilitas kedaruratan yang memadai sesuai karakter lokasi.',
+            'Materi ujian, dokumen peserta dan rekaman asesmen dapat dijaga dari akses pihak yang tidak berwenang.',
+            'Tersedia pengaturan untuk peserta berkebutuhan khusus apabila relevan dan dimungkinkan oleh skema.',
+          ],
+          'Dukungan pelaksanaan asesmen' => [
+            'Tersedia ruang/area yang memungkinkan verifikasi identitas dan administrasi peserta.',
+            'Tersedia fasilitas bagi Asesor/Penguji dan Pengawas Ujian untuk menjalankan tugasnya.',
+            'Kondisi TUK mendukung penerapan tata tertib ujian dan pencegahan kecurangan.',
+            'Jumlah peserta yang dapat dilayani ditetapkan sesuai kapasitas ruang dan sarana.',
+          ],
+        ],
+      ],
+      'online' => [
+        'title' => 'Kriteria TUK Online',
+        'subtitle' => 'Lingkungan asesmen jarak jauh (Zoom Meeting & sistem ujian daring)',
+        'icon' => 'monitor',
+        'tone' => 'orange',
+        'groups' => [
+          'Kondisi lingkungan/ruangan' => [
+            'Ruangan/area peserta cukup tenang dan kondusif untuk pelaksanaan asesmen.',
+            'Pencahayaan memadai sehingga wajah dan aktivitas peserta dapat terlihat jelas.',
+            'Peserta mengikuti asesmen secara individual dan tidak memperoleh bantuan dari pihak lain.',
+            'Tidak terdapat pihak lain di sekitar peserta yang dapat memengaruhi integritas asesmen.',
+            'Meja/area kerja bebas dari perangkat atau bahan lain yang tidak diizinkan.',
+            'Peserta bersedia menunjukkan kondisi ruangan/area kerja melalui kamera apabila diminta Pengawas Ujian.',
+            'Lokasi memungkinkan peserta mengikuti rangkaian asesmen tanpa gangguan yang signifikan.',
+          ],
+          'Perangkat' => [
+            'Peserta menggunakan komputer/laptop yang dapat menjalankan Zoom Meeting dan sistem/aplikasi ujian LSP.',
+            'Kamera/webcam berfungsi dan dapat menampilkan wajah peserta secara jelas.',
+            'Mikrofon dan speaker/audio berfungsi dengan baik.',
+            'Perangkat memiliki daya yang memadai atau terhubung dengan sumber listrik.',
+            'Tidak terdapat penggunaan perangkat/alat bantu lain yang tidak diizinkan selama asesmen.',
+          ],
+          'Koneksi dan aplikasi' => [
+            'Koneksi internet memadai untuk menjalankan Zoom Meeting dan sistem ujian secara bersamaan.',
+            'Peserta dapat mengakses tautan/platform ujian yang ditetapkan LSP.',
+            'Peserta dapat mengaktifkan kamera dan mikrofon selama asesmen.',
+            'Nama akun Zoom dapat diidentifikasi sesuai identitas peserta.',
+            'Tersedia mekanisme komunikasi dengan Pengawas Ujian apabila terjadi gangguan koneksi.',
+          ],
+          'Identifikasi peserta' => [
+            'Peserta sesuai dengan daftar peserta asesmen.',
+            'Identitas peserta diverifikasi sesuai mekanisme LSP.',
+            'Wajah peserta sesuai dengan identitas/data peserta.',
+            'Kamera tetap aktif selama asesmen kecuali ditetapkan lain oleh metode asesmen.',
+          ],
+          'Keamanan dan integritas asesmen' => [
+            'Peserta tidak menerima bantuan pihak lain.',
+            'Peserta hanya menggunakan referensi apabila metode asesmen mengizinkan.',
+            'Peserta tidak membuka aplikasi, situs, komunikasi atau sumber informasi yang tidak diizinkan.',
+            'Peserta tidak merekam, memotret, menyalin atau menyebarluaskan materi ujian.',
+            'Peserta tidak meninggalkan area asesmen tanpa izin Pengawas Ujian.',
+            'Peserta tetap berada dalam jangkauan kamera selama asesmen.',
+            'Peserta bersedia mengikuti instruksi Pengawas untuk menunjukkan area sekitar apabila terdapat indikasi ketidaksesuaian.',
+          ],
+          'Pengawasan' => [
+            'Pengawas dapat melihat peserta dengan jelas melalui Zoom Meeting.',
+            'Pengawas dapat berkomunikasi dengan peserta selama asesmen.',
+            'Pengawas dapat meminta peserta mengarahkan kamera untuk memverifikasi kondisi lingkungan.',
+            'Pengawas mencatat gangguan, pelanggaran atau ketidaksesuaian yang terjadi.',
+            'Ketidaksesuaian yang dapat memengaruhi validitas atau integritas asesmen harus ditindaklanjuti sebelum peserta memulai atau melanjutkan asesmen.',
+          ],
+        ],
+      ],
+    ];
+    @endphp
+    <div class="tuk-grid">
+      @foreach($tukCriteria as $tuk)
+      <div class="tuk-card">
+        <div class="tuk-header">
+          <div class="tuk-icon {{ $tuk['tone'] }}">
+            <svg width="24" height="24"><use href="#i-{{ $tuk['icon'] }}"></use></svg>
+          </div>
+          <div>
+            <h3>{{ $tuk['title'] }}</h3>
+            <div class="sm">{{ $tuk['subtitle'] }}</div>
+          </div>
+        </div>
+        @foreach($tuk['groups'] as $label => $items)
+        <div class="tuk-group">
+          <div class="tuk-group-label">{{ $label }}</div>
+          <ul class="tuk-list">
+            @foreach($items as $item)
+            <li><span class="tuk-dot" style="background:var(--{{ $tuk['tone'] }}-deep)"></span><span>{{ $item }}</span></li>
+            @endforeach
+          </ul>
+        </div>
+        @endforeach
+      </div>
       @endforeach
     </div>
   </div>

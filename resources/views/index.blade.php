@@ -21,7 +21,7 @@
     <div>
       <div class="badge"><span class="dot"></span> Berlisensi KAN · LSP-033-IDN</div>
       <h1>Sertifikasi kompetensi <em>profesional</em> berstandar Nasional dan <em>"Internasional"</em></h1>
-      <p class="lead">26 skema sertifikasi untuk bidang Pendidikan Tinggi, Laboratorium, Lifting Engineering, dan Industri. Uji kompetensi daring, sertifikat berlaku 3 tahun.</p>
+      <p class="lead">26 skema sertifikasi untuk bidang Pendidikan Tinggi, Laboratorium, Lifting Engineering, dan Industri. Uji kompetensi Online maupun Offline, sertifikat berlaku 3 tahun.</p>
       <div class="hero-cta">
         <a href="#persyaratan" class="btn btn-primary btn-lg">Lihat persyaratan
           <svg class="icon"><use href="#i-arrow-r"></use></svg>
@@ -38,7 +38,7 @@
       <div class="stat"><span class="corner">01</span><div class="v">26</div><div class="l">Skema sertifikasi</div></div>
       <div class="stat"><span class="corner">02</span><div class="v">5</div><div class="l">Bidang keahlian</div></div>
       <div class="stat"><span class="corner">03</span><div class="v">3<small>th</small></div><div class="l">Masa berlaku sertifikat</div></div>
-      <div class="stat featured"><span class="corner">04</span><div class="v online">Online</div><div class="l">Uji kompetensi fleksibel</div></div>
+      <div class="stat featured"><span class="corner">04</span><div class="v online">Hybrid</div><div class="l">Uji kompetensi Online &amp; Offline</div></div>
     </div>
   </div>
 </section>
