@@ -262,11 +262,9 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
       <div class="foot-col">
         <h4>Bidang Skema</h4>
         <ul>
-          <li>Pendidikan Tinggi &amp; SPMI (5)</li>
-          <li>Laboratorium &amp; Pengujian (9)</li>
-          <li>Lifting Engineering (4)</li>
-          <li>Sistem Manajemen &amp; Industri (7)</li>
-          <li>Hukum Korporasi (1)</li>
+          @foreach($footerBidangSkema ?? [] as $bidang)
+          <li>{{ $bidang['label'] }} ({{ $bidang['jumlah'] }})</li>
+          @endforeach
         </ul>
       </div>
       <div class="foot-col contact">
@@ -274,6 +272,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
         <ul>
           <li><svg class="icon ico"><use href="#i-pin"></use></svg> Jl. Teras Bali No.12, Mijen, Kota Semarang</li>
           <li><svg class="icon ico"><use href="#i-mail"></use></svg> edukasi.cendekia@gmail.com</li>
+          <li><svg class="icon ico"><use href="#i-monitor"></use></svg> Uji kompetensi: Offline (tatap muka) &amp; Online</li>
         </ul>
       </div>
     </div>

@@ -21,7 +21,7 @@
     <div>
       <div class="badge"><span class="dot"></span> Berlisensi KAN · LSP-033-IDN</div>
       <h1>Sertifikasi kompetensi <em>profesional</em> berstandar Nasional dan <em>"Internasional"</em></h1>
-      <p class="lead">26 skema sertifikasi untuk bidang Pendidikan Tinggi, Laboratorium, Lifting Engineering, dan Industri. Uji kompetensi daring, sertifikat berlaku 3 tahun.</p>
+      <p class="lead">26 skema sertifikasi untuk bidang Pendidikan Tinggi, Laboratorium, Lifting Engineering, dan Industri. Uji kompetensi Online maupun Offline, sertifikat berlaku 3 tahun.</p>
       <div class="hero-cta">
         <a href="#persyaratan" class="btn btn-primary btn-lg">Lihat persyaratan
           <svg class="icon"><use href="#i-arrow-r"></use></svg>
@@ -38,7 +38,7 @@
       <div class="stat"><span class="corner">01</span><div class="v">26</div><div class="l">Skema sertifikasi</div></div>
       <div class="stat"><span class="corner">02</span><div class="v">5</div><div class="l">Bidang keahlian</div></div>
       <div class="stat"><span class="corner">03</span><div class="v">3<small>th</small></div><div class="l">Masa berlaku sertifikat</div></div>
-      <div class="stat featured"><span class="corner">04</span><div class="v online">Online</div><div class="l">Uji kompetensi fleksibel</div></div>
+      <div class="stat featured"><span class="corner">04</span><div class="v online">Hybrid</div><div class="l">Uji kompetensi Online &amp; Offline</div></div>
     </div>
   </div>
 </section>
@@ -89,13 +89,14 @@
       <p class="sub">Persyaratan pendidikan, pengalaman, dan sertifikat pelatihan yang harus dipenuhi untuk setiap skema kompetensi.</p>
     </div>
     <div class="chips" id="chips">
-      <button class="chip active" data-filter="all">Semua <span class="count">26</span></button>
-      <button class="chip" data-filter="spmi">SPMI ISO 21001 <span class="count">3</span></button>
-      <button class="chip" data-filter="pt">Perguruan Tinggi <span class="count">2</span></button>
-      <button class="chip" data-filter="lab17025">Lab ISO 17025 <span class="count">2</span></button>
-      <button class="chip" data-filter="lifting">Lifting Engineering <span class="count">4</span></button>
-      <button class="chip" data-filter="labtest">Lab &amp; Pengujian <span class="count">6</span></button>
-      <button class="chip" data-filter="manajemen">Sistem Manajemen <span class="count">8</span></button>
+      <button class="chip active" data-filter="all">Semua <span class="count">{{ count($schemes) }}</span></button>
+      <button class="chip" data-filter="spmi">SPMI ISO 21001 <span class="count">{{ $kategoriCounts['spmi'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="pt">Perguruan Tinggi <span class="count">{{ $kategoriCounts['pt'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="lab17025">Lab ISO 17025 <span class="count">{{ $kategoriCounts['lab17025'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="lifting">Lifting Engineering <span class="count">{{ $kategoriCounts['lifting'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="labtest">Lab &amp; Pengujian <span class="count">{{ $kategoriCounts['labtest'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="manajemen">Sistem Manajemen <span class="count">{{ $kategoriCounts['manajemen'] ?? 0 }}</span></button>
+      <button class="chip" data-filter="riset">Research &amp; Innovation <span class="count">{{ $kategoriCounts['riset'] ?? 0 }}</span></button>
     </div>
     <div id="schemes">
       @foreach($schemes as $i => $scheme)

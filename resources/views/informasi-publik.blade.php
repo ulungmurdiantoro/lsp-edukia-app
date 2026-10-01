@@ -59,7 +59,7 @@
 .tl-item p strong{color:var(--ink);font-weight:600}
 
 /* Resertifikasi */
-.resert-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.resert-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
 .resert-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;flex-direction:column}
 .resert-header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
 .resert-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:0 0 auto}
@@ -75,6 +75,22 @@
 .resert-note.blue strong{color:#1e3a8a;display:block;margin-bottom:4px}
 .resert-note.green{background:#e8f4ee;border:1px solid #c6e3d3;color:#1f5a37}
 .resert-note.green strong{color:#0f3d24;display:block;margin-bottom:4px}
+
+/* Kriteria TUK Offline & Online */
+.tuk-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.tuk-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;flex-direction:column}
+.tuk-header{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.tuk-icon{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;flex:0 0 auto}
+.tuk-icon.blue{background:var(--blue-50);color:var(--blue-deep)}
+.tuk-icon.orange{background:var(--orange-50);color:var(--orange-deep)}
+.tuk-card h3{font-size:19px;font-weight:700;color:var(--ink);margin:0}
+.tuk-card .sm{font-size:13px;color:var(--muted);margin-top:3px}
+.tuk-group{margin-top:20px}
+.tuk-group:first-of-type{margin-top:0}
+.tuk-group-label{font-size:12px;font-weight:700;color:var(--ink);padding-bottom:8px;margin-bottom:10px;border-bottom:1px dashed var(--line-2)}
+.tuk-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.tuk-list li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink-2);line-height:1.55}
+.tuk-dot{width:5px;height:5px;border-radius:50%;flex:0 0 auto;margin-top:8px}
 
 /* Keluhan & Banding — 3-column grid */
 .kb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -104,7 +120,7 @@
 .ak-list{display:grid;grid-template-columns:1fr 1fr;gap:12px 32px}
 
 @media(max-width:960px){
-  .hk-grid,.resert-grid,.ak-list{grid-template-columns:1fr}
+  .hk-grid,.resert-grid,.tuk-grid,.ak-list{grid-template-columns:1fr}
   .proc-article{grid-template-columns:1fr}
   .kb-grid{grid-template-columns:1fr}
   .cta{grid-template-columns:1fr}
@@ -201,37 +217,32 @@
     <div class="sec-head">
       <div class="eyebrow">Proses Sertifikasi</div>
       <h2>Proses Sertifikasi</h2>
-      <p class="sub">Empat tahap sertifikasi yang transparan, objektif, dan sesuai standar — dari permohonan hingga penerbitan sertifikat.</p>
+      <p class="sub">Tiga tahap sertifikasi yang transparan, objektif, dan sesuai standar — dari permohonan hingga penerbitan sertifikat.</p>
     </div>
     <div class="proc-steps">
       @php
       $procSteps = [
         ['icon'=>'doc','title'=>'Permohonan Sertifikasi','items'=>[
-          'Pemohon mengisi formulir permohonan sertifikasi (FR.APL.01) dan persetujuan asesmen (FR.AK.01) pada sistem pendaftaran LSP Edukia, atau yang diberikan oleh admin.',
-          'Pemohon berkebutuhan khusus wajib mengisi Formulir Permohonan Akomodasi Peserta Berkebutuhan Khusus (FR.APL.04).',
-          'Pemohon menyatakan setuju memenuhi persyaratan sertifikasi dan memberikan setiap informasi yang diperlukan.',
-          'Pengkaji permohonan mengkaji permohonan, formulir, dan dokumen persyaratan sesuai skema yang dipilih, termasuk permohonan akomodasi bila ada.',
-          'Pemohon yang memenuhi persyaratan direkomendasikan lanjut ke asesmen setelah menyelesaikan administrasi pembayaran.',
+          'Pemohon mengisi formulir permohonan sertifikasi (FR.APL.01) dan formulir persetujuan asesmen (FR.AK.01) melalui sistem pendaftaran LSP.',
+          'Pemohon dengan kebutuhan khusus wajib mengisi Formulir Permohonan Akomodasi Peserta Berkebutuhan Khusus (FR.APL.04).',
+          'Pemohon menyatakan setuju memenuhi persyaratan sertifikasi dan memberikan informasi yang diperlukan untuk pengkajian permohonan.',
+          'Pengkaji Permohonan meninjau rekaman formulir dan dokumen persyaratan sesuai skema sertifikasi yang dipilih.',
+          'Pemohon yang memenuhi persyaratan direkomendasikan lanjut ke proses asesmen setelah menyelesaikan administrasi pembayaran.',
         ], 'link'=>['url'=>config('site.pendaftaran_url'),'label'=>'Buka sistem pendaftaran']],
-        ['icon'=>'check-list','title'=>'Proses Pra Asesmen','items'=>[
-          'Asesmen direncanakan untuk memastikan verifikasi objektif dan sistematis.',
-          'LSP Edukia menugaskan asesor kompetensi.',
-          'Asesor melakukan verifikasi perangkat dan metode asesmen.',
-          'Asesor menjelaskan dan menyepakati rencana asesmen dengan peserta.',
-          'Pengkajian kecukupan bukti dari dokumen pendukung (APL 02).',
-        ]],
-        ['icon'=>'monitor','title'=>'Pelaksanaan Asesmen / Uji Kompetensi','items'=>[
-          'LSP Edukia memastikan kesiapan TUK atau platform ujian, perangkat asesmen, identitas peserta, hasil kajian peserta berkebutuhan khusus (jika ada), dan metode pengumpulan bukti.',
-          'Pengawas ujian menjelaskan teknis dan tata tertib ujian, memverifikasi identitas peserta serta TUK peserta (jika ujian online), dan mencatat kejadian selama ujian.',
-          'Metode: ujian tertulis, lisan, praktik, tugas keterampilan, atau metode lain yang andal, objektif, dan konsisten dengan skema.',
-          'Bukti dievaluasi: Valid, Asli, Terkini, Memadai (VATM).',
-          'Asesor mengompilasi bukti dan hasil ujian, melengkapi rekaman asesmen, lalu menyampaikan rekomendasi hasil asesmen kepada LSP Edukia.',
+        ['icon'=>'monitor','title'=>'Pelaksanaan Asesmen','items'=>[
+          'Uji kompetensi dapat dilaksanakan secara Offline (tatap muka di Tempat Uji Kompetensi/TUK yang telah diverifikasi LSP) maupun Online (melalui Zoom Meeting & sistem ujian daring dengan pengawasan langsung), sesuai metode yang ditetapkan pada jadwal skema yang dipilih.',
+          'LSP Edukia memastikan kesiapan TUK/platform ujian, perangkat asesmen, identitas peserta, dan metode pengumpulan bukti.',
+          'Pengawas ujian menjelaskan teknis dan tata tertib ujian, memverifikasi identitas dan TUK peserta, serta mencatat kejadian/ketidaksesuaian selama ujian.',
+          'Peserta melaksanakan ujian sesuai skema yang dipilih di bawah pengawasan pengawas ujian.',
+          'Uji kompetensi menggunakan metode ujian tertulis, lisan, praktek, tugas keterampilan, atau metode lain yang andal, objektif, dan konsisten dengan skema sertifikasi.',
+          'Asesor mengompilasi seluruh bukti dan hasil ujian, lalu menyampaikan rekomendasi hasil asesmen kepada LSP Edukia.',
         ]],
         ['icon'=>'award','title'=>'Keputusan Asesmen','items'=>[
-          'LSP Edukia menunjuk pengambil keputusan sertifikasi untuk memverifikasi berkas peserta, rekaman hasil ujian, dan rekomendasi asesor.',
-          'Keputusan ditetapkan dalam surat keputusan LSP Edukia: "Kompeten" atau "Belum Kompeten".',
-          'Peserta Belum Kompeten dapat memilih: menerima hasil · remedial · banding (FR.AK.04).',
-          'Sertifikat kompetensi diterbitkan bagi asesi yang kompeten, disahkan Ketua LSP Edukia dengan masa berlaku 3 tahun.',
+          'LSP Edukia memastikan informasi yang dikumpulkan selama uji kompetensi mencukupi untuk pengambilan keputusan sertifikasi dan penelusuran apabila terjadi banding.',
+          'Pengambil keputusan sertifikasi memverifikasi berkas peserta, rekaman hasil ujian, dan rekomendasi asesor untuk menetapkan status kompetensi.',
+          'Hasil keputusan: "Kompeten" atau "Belum Kompeten". Peserta Belum Kompeten dapat memilih: menerima hasil apa adanya · remedial · banding (FR.AK.04).',
+          'LSP Edukia menerbitkan sertifikat kompetensi kepada peserta yang ditetapkan kompeten.',
+          'Sertifikat disahkan Ketua LSP Edukia dengan masa berlaku 3 (tiga) tahun.',
         ]],
       ];
       @endphp
@@ -240,7 +251,7 @@
         <div class="proc-left">
           <div class="proc-badge"><svg width="22" height="22"><use href="#i-{{ $step['icon'] }}"></use></svg></div>
           <div class="proc-meta">
-            <div class="proc-label">Tahap {{ $idx + 1 }} dari 4</div>
+            <div class="proc-label">Tahap {{ $idx + 1 }} dari {{ count($procSteps) }}</div>
             <h3 class="proc-title">{{ $step['title'] }}</h3>
           </div>
         </div>
@@ -295,6 +306,137 @@
   </div>
 </section>
 
+{{-- KRITERIA TUK OFFLINE & ONLINE --}}
+<section id="kriteria-tuk">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Tempat Uji Kompetensi</div>
+      <h2>Kriteria TUK Offline &amp; Online</h2>
+      <p class="sub">Setiap Tempat Uji Kompetensi (TUK) — fisik maupun daring — diverifikasi LSP Edukia sebelum digunakan agar asesmen berlangsung valid, aman, tertib, objektif, dan mampu telusur (SOP.SM.21).</p>
+    </div>
+    @php
+    $tukCriteria = [
+      'offline' => [
+        'title' => 'Kriteria TUK Offline',
+        'subtitle' => 'Tempat Uji Kompetensi tatap muka (fisik)',
+        'icon' => 'pin',
+        'tone' => 'blue',
+        'groups' => [
+          'Legalitas dan pengelolaan lokasi' => [
+            'Identitas/nama dan alamat TUK dapat ditelusuri.',
+            'Terdapat penanggung jawab/PIC lokasi yang dapat berkoordinasi dengan LSP.',
+            'Penggunaan lokasi untuk kegiatan asesmen telah memperoleh persetujuan dari pengelola/pemilik lokasi.',
+          ],
+          'Ruang dan kondisi lingkungan' => [
+            'Ruang asesmen cukup untuk jumlah peserta dan metode asesmen yang digunakan.',
+            'Pencahayaan, ventilasi/sirkulasi udara dan kebersihan memadai.',
+            'Kondisi ruang mendukung ketenangan, ketertiban, privasi dan konsentrasi peserta.',
+            'Tata letak memungkinkan Pengawas Ujian/Asesor memantau peserta dengan memadai.',
+            'Tersedia area tunggu/registrasi apabila diperlukan dan tidak mengganggu ruang asesmen.',
+          ],
+          'Sarana, prasarana dan peralatan' => [
+            'Meja, kursi dan fasilitas dasar tersedia dalam jumlah yang memadai.',
+            'Peralatan khusus yang dipersyaratkan oleh skema/metode asesmen tersedia dan berfungsi.',
+            'Komputer, jaringan/internet, proyektor atau sarana elektronik tersedia apabila dibutuhkan oleh metode ujian.',
+            'Sumber listrik dan fasilitas pendukung memadai; mitigasi gangguan tersedia apabila diperlukan.',
+          ],
+          'Keamanan, keselamatan dan akses' => [
+            'Akses masuk/keluar lokasi dapat dikendalikan selama asesmen.',
+            'Terdapat kondisi keselamatan dasar dan jalur evakuasi/fasilitas kedaruratan yang memadai sesuai karakter lokasi.',
+            'Materi ujian, dokumen peserta dan rekaman asesmen dapat dijaga dari akses pihak yang tidak berwenang.',
+            'Tersedia pengaturan untuk peserta berkebutuhan khusus apabila relevan dan dimungkinkan oleh skema.',
+          ],
+          'Dukungan pelaksanaan asesmen' => [
+            'Tersedia ruang/area yang memungkinkan verifikasi identitas dan administrasi peserta.',
+            'Tersedia fasilitas bagi Asesor/Penguji dan Pengawas Ujian untuk menjalankan tugasnya.',
+            'Kondisi TUK mendukung penerapan tata tertib ujian dan pencegahan kecurangan.',
+            'Jumlah peserta yang dapat dilayani ditetapkan sesuai kapasitas ruang dan sarana.',
+          ],
+        ],
+      ],
+      'online' => [
+        'title' => 'Kriteria TUK Online',
+        'subtitle' => 'Lingkungan asesmen jarak jauh (Zoom Meeting & sistem ujian daring)',
+        'icon' => 'monitor',
+        'tone' => 'orange',
+        'groups' => [
+          'Kondisi lingkungan/ruangan' => [
+            'Ruangan/area peserta cukup tenang dan kondusif untuk pelaksanaan asesmen.',
+            'Pencahayaan memadai sehingga wajah dan aktivitas peserta dapat terlihat jelas.',
+            'Peserta mengikuti asesmen secara individual dan tidak memperoleh bantuan dari pihak lain.',
+            'Tidak terdapat pihak lain di sekitar peserta yang dapat memengaruhi integritas asesmen.',
+            'Meja/area kerja bebas dari perangkat atau bahan lain yang tidak diizinkan.',
+            'Peserta bersedia menunjukkan kondisi ruangan/area kerja melalui kamera apabila diminta Pengawas Ujian.',
+            'Lokasi memungkinkan peserta mengikuti rangkaian asesmen tanpa gangguan yang signifikan.',
+          ],
+          'Perangkat' => [
+            'Peserta menggunakan komputer/laptop yang dapat menjalankan Zoom Meeting dan sistem/aplikasi ujian LSP.',
+            'Kamera/webcam berfungsi dan dapat menampilkan wajah peserta secara jelas.',
+            'Mikrofon dan speaker/audio berfungsi dengan baik.',
+            'Perangkat memiliki daya yang memadai atau terhubung dengan sumber listrik.',
+            'Tidak terdapat penggunaan perangkat/alat bantu lain yang tidak diizinkan selama asesmen.',
+          ],
+          'Koneksi dan aplikasi' => [
+            'Koneksi internet memadai untuk menjalankan Zoom Meeting dan sistem ujian secara bersamaan.',
+            'Peserta dapat mengakses tautan/platform ujian yang ditetapkan LSP.',
+            'Peserta dapat mengaktifkan kamera dan mikrofon selama asesmen.',
+            'Nama akun Zoom dapat diidentifikasi sesuai identitas peserta.',
+            'Tersedia mekanisme komunikasi dengan Pengawas Ujian apabila terjadi gangguan koneksi.',
+          ],
+          'Identifikasi peserta' => [
+            'Peserta sesuai dengan daftar peserta asesmen.',
+            'Identitas peserta diverifikasi sesuai mekanisme LSP.',
+            'Wajah peserta sesuai dengan identitas/data peserta.',
+            'Kamera tetap aktif selama asesmen kecuali ditetapkan lain oleh metode asesmen.',
+          ],
+          'Keamanan dan integritas asesmen' => [
+            'Peserta tidak menerima bantuan pihak lain.',
+            'Peserta hanya menggunakan referensi apabila metode asesmen mengizinkan.',
+            'Peserta tidak membuka aplikasi, situs, komunikasi atau sumber informasi yang tidak diizinkan.',
+            'Peserta tidak merekam, memotret, menyalin atau menyebarluaskan materi ujian.',
+            'Peserta tidak meninggalkan area asesmen tanpa izin Pengawas Ujian.',
+            'Peserta tetap berada dalam jangkauan kamera selama asesmen.',
+            'Peserta bersedia mengikuti instruksi Pengawas untuk menunjukkan area sekitar apabila terdapat indikasi ketidaksesuaian.',
+          ],
+          'Pengawasan' => [
+            'Pengawas dapat melihat peserta dengan jelas melalui Zoom Meeting.',
+            'Pengawas dapat berkomunikasi dengan peserta selama asesmen.',
+            'Pengawas dapat meminta peserta mengarahkan kamera untuk memverifikasi kondisi lingkungan.',
+            'Pengawas mencatat gangguan, pelanggaran atau ketidaksesuaian yang terjadi.',
+            'Ketidaksesuaian yang dapat memengaruhi validitas atau integritas asesmen harus ditindaklanjuti sebelum peserta memulai atau melanjutkan asesmen.',
+          ],
+        ],
+      ],
+    ];
+    @endphp
+    <div class="tuk-grid">
+      @foreach($tukCriteria as $tuk)
+      <div class="tuk-card">
+        <div class="tuk-header">
+          <div class="tuk-icon {{ $tuk['tone'] }}">
+            <svg width="24" height="24"><use href="#i-{{ $tuk['icon'] }}"></use></svg>
+          </div>
+          <div>
+            <h3>{{ $tuk['title'] }}</h3>
+            <div class="sm">{{ $tuk['subtitle'] }}</div>
+          </div>
+        </div>
+        @foreach($tuk['groups'] as $label => $items)
+        <div class="tuk-group">
+          <div class="tuk-group-label">{{ $label }}</div>
+          <ul class="tuk-list">
+            @foreach($items as $item)
+            <li><span class="tuk-dot" style="background:var(--{{ $tuk['tone'] }}-deep)"></span><span>{{ $item }}</span></li>
+            @endforeach
+          </ul>
+        </div>
+        @endforeach
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+
 {{-- PEMBEKUAN & PENCABUTAN --}}
 <section id="pembekuan">
   <div class="wrap">
@@ -319,8 +461,8 @@
 <section id="resertifikasi" style="background:#fbf9f3">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">Proses Resertifikasi</div>
-      <h2>Proses Resertifikasi</h2>
+      <div class="eyebrow">Proses Survailen dan Resertifikasi</div>
+      <h2>Proses Survailen dan Resertifikasi</h2>
       <p class="sub">Pemegang sertifikat wajib mengajukan permohonan sertifikasi ulang minimal <strong>2 bulan sebelum masa berlaku berakhir</strong>.</p>
     </div>
     <div class="resert-grid">
@@ -329,36 +471,63 @@
           <div class="resert-icon blue">
             <svg width="22" height="22"><use href="#i-refresh"></use></svg>
           </div>
-          <h3>Perpanjangan Sertifikat</h3>
+          <h3>Proses Survailen</h3>
         </div>
         <div class="resert-sublabel">Berlaku untuk</div>
         <ul class="resert-list">
-          @foreach(['Auditor Internal SPMI Terintegrasi ISO 21001:2018','Lead Auditor SPMI Terintegrasi ISO 21001:2018'] as $s)
+          @foreach([
+            'Lifting Engineer for Medium Lifting',
+            'Lifting Engineer for Heavy & Critical Lifting',
+            '2D Lifting Designer',
+            '3D Lifting Designer',
+            'Panelis Terlatih Pengujian Sensori Pangan',
+            'Laboratory HSE Officer/Petugas K3L Laboratorium',
+            'Laboratory Operations Officer/Pranata Laboratorium',
+          ] as $s)
           <li><span class="resert-dot" style="background:var(--blue-deep)"></span><span>{{ $s }}</span></li>
           @endforeach
         </ul>
-        <div class="resert-note blue">
-          <strong>Persyaratan Portofolio:</strong>
-          Auditor Internal — pengalaman audit min. 2 kali dalam 3 tahun. Lead Auditor — sebagai Lead minimal 1 kali dalam 3 tahun. Jika tidak memenuhi, akan diberikan uji kompetensi kembali.
-        </div>
       </div>
       <div class="resert-card">
         <div class="resert-header">
           <div class="resert-icon orange">
             <svg width="22" height="22"><use href="#i-doc"></use></svg>
           </div>
-          <h3>Uji Kompetensi Kembali</h3>
+          <h3>Resertifikasi</h3>
         </div>
         <div class="resert-sublabel">Berlaku untuk</div>
         <ul class="resert-list">
-          @foreach(['Lead Implementer SPMI ISO 21001','Training of Trainer (ToT) OBE','Implementer Tata Kelola PT','Auditor Internal Lab ISO/IEC 17025','Lead Implementer Lab ISO 17025','Lifting Engineer Medium / Heavy','2D / 3D Lifting Designer','Lab Quality / Food Safety / GLP / HSE / Operations','QMS ISO 9001 / QC / QA / R&D / Regulatory','Sustainability / ESG / EMS ISO 14001','Corporate Legal Officer'] as $s)
+          @foreach([
+            'Auditor Internal SPMI Terintegrasi ISO 21001:2018',
+            'Lead Auditor SPMI Terintegrasi ISO 21001:2018',
+            'Lead Implementer SPMI Terintegrasi ISO 21001:2018',
+            'Training of Trainer Outcome Based Education',
+            'Implementer Tata Kelola Organisasi Perguruan Tinggi',
+            'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017',
+            'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
+            'Lifting Engineer for Medium Lifting',
+            'Lifting Engineer for Heavy & Critical Lifting',
+            '2D Lifting Designer',
+            '3D Lifting Designer',
+            'Laboratory Quality System Officer ISO/IEC 17025/ Petugas Sistem Mutu Laboratorium ISO/IEC 17025',
+            'Food Safety Management Officer/ Petugas Sistem Keamanan Pangan',
+            'Panelis Terlatih Pengujian Sensori Pangan',
+            'GLP Laboratory Technician/Teknisi Laboratorium Berbasis GLP',
+            'Laboratory HSE Officer/Petugas K3L Laboratorium',
+            'Laboratory Operations Officer/Pranata Laboratorium',
+            'Quality Management System (ISO 9001) Officer',
+            'QC Laboratory Analyst/Analis QC Laboratorium',
+            'Quality Assurance Officer',
+            'Research and Development Officer',
+            'Regulatory Affairs Officer',
+            'Sustainability Officer',
+            'ESG Officer',
+            'Environmental Management System (ISO 14001) Officer',
+            'Corporate Legal Officer',
+          ] as $s)
           <li><span class="resert-dot" style="background:var(--orange-deep)"></span><span>{{ $s }}</span></li>
           @endforeach
         </ul>
-        <div class="resert-note green">
-          <strong>Catatan:</strong>
-          Proses resertifikasi mengikuti prosedur yang sama dengan sertifikasi awal (klausul 5a–5d).
-        </div>
       </div>
     </div>
   </div>

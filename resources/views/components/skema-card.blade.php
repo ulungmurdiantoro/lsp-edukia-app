@@ -8,7 +8,7 @@ $iconPaths = [
   'beaker'   => 'M9 3v6L4 19a2 2 0 002 3h12a2 2 0 002-3l-5-10V3M9 3h6M7 14h10',
   'crane'    => 'M3 21h18M6 21V8M6 8h13M6 8L4 6M6 8v3l4 4M19 8v2h-3',
   'factory'  => 'M3 21h18M5 21V11l5 3V11l5 3V8l4-3v16',
-  'scale'    => 'M12 3v18M5 7h14M7 21h10M5 7l-3 7h6L5 7zM19 7l-3 7h6l-3-7z',
+  'search'   => 'M11 3a8 8 0 100 16 8 8 0 000-16zM21 21l-4.35-4.35',
 ];
 $cats = [
   'spmi'      => ['label' => 'SPMI ISO 21001',      'color' => '#1a4a8a', 'bg' => '#e0ebff', 'icon' => 'building'],
@@ -17,7 +17,7 @@ $cats = [
   'labtest'   => ['label' => 'Lab & Pengujian',     'color' => '#1a5c35', 'bg' => '#e3f5ea', 'icon' => 'beaker'],
   'lifting'   => ['label' => 'Lifting Engineering', 'color' => '#d77110', 'bg' => '#fdf0e1', 'icon' => 'crane'],
   'manajemen' => ['label' => 'Sistem Manajemen',    'color' => '#922b2b', 'bg' => '#fde8e8', 'icon' => 'factory'],
-  'hukum'     => ['label' => 'Hukum Korporasi',     'color' => '#5a3aa6', 'bg' => '#f0ecfa', 'icon' => 'scale'],
+  'riset'     => ['label' => 'Research & Innovation', 'color' => '#5a3aa6', 'bg' => '#f0ecfa', 'icon' => 'search'],
 ];
 $cat = $cats[$scheme['kategori']] ?? $cats['spmi'];
 $iconPath = $iconPaths[$cat['icon']] ?? '';
