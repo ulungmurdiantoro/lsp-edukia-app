@@ -82,8 +82,9 @@ class PageController extends Controller
                 'kategori' => 'lab17025', 'jumlah_unit' => 8, 'lisensi_kan' => true,
                 'gelar' => 'CLIA (Certified Laboratory Internal Auditor)',
                 'reqs' => [
-                    'Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate',
-                    'Memiliki Sertifikat Pelatihan Auditor Internal & ISO 17025:2017',
+                    'Pendidikan minimal SMA/SMK dengan pengalaman kerja di bidang laboratorium minimal 2 tahun, atau minimal D3 dengan pengalaman kerja di bidang laboratorium',
+                    'Memiliki Sertifikat Pelatihan Pemahaman ISO/IEC 17025:2017',
+                    'Memiliki Sertifikat Pelatihan Audit Internal ISO/IEC 17025:2017',
                 ],
             ],
             [

@@ -105,7 +105,8 @@ class LlmsController extends Controller
                 .'Versi ringkas: '.route('llms').'.';
             $lines[] = '';
             $lines[] = 'Kontak: WhatsApp '.config('site.whatsapp').' — email '.config('site.email')
-                .'. Pendaftaran uji kompetensi melalui WhatsApp. Verifikasi sertifikat: '.route('sertifikat')
+                .'. Pendaftaran uji kompetensi melalui sistem pendaftaran LSP Edukia ('.config('site.pendaftaran_url')
+                .') atau konsultasi via WhatsApp. Verifikasi sertifikat: '.route('sertifikat')
                 .'. Jadwal pelaksanaan sertifikasi terbaru: '.route('jadwal-sertifikasi').'.';
             $lines[] = '';
 
@@ -145,6 +146,25 @@ class LlmsController extends Controller
                         $lines[] = '- '.$u['kode'].' — '.$u['judul'];
                     }
                     $lines[] = '';
+                    if (! empty($s['asesmen'])) {
+                        $lines[] = '**Pembobotan & Standar Kelulusan:**';
+                        foreach ($s['asesmen']['bobot_soal'] as $b) {
+                            $lines[] = '- '.$b['metode'].': '.$b['soal'].' soal, '.$b['durasi'].', bobot '.$b['bobot'];
+                        }
+                        foreach ($s['asesmen']['bobot_rekap'] as $b) {
+                            $lines[] = '- '.$b['metode'].': '.$b['bobot'];
+                        }
+                        foreach ($s['asesmen']['kelulusan'] as $k) {
+                            $lines[] = '- '.$k;
+                        }
+                        $lines[] = '';
+                    }
+                    if (! empty($s['pemeliharaan'])) {
+                        $lines[] = '**Survailen:** '.$s['pemeliharaan']['survailen'];
+                        $lines[] = '';
+                        $lines[] = '**Resertifikasi:** '.$s['pemeliharaan']['resertifikasi'];
+                        $lines[] = '';
+                    }
                 }
             }
 

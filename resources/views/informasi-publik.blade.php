@@ -91,9 +91,20 @@
 .kb-note.warn{background:#fdf3ec;border:1px solid #f3d0b0;color:#7d3e10}
 .kb-note.info{background:var(--blue-50);border:1px solid #bfdbfe;color:#1e40af}
 .kb-note strong{display:block;margin-bottom:2px}
+.kb-dl-list{display:flex;flex-direction:column;gap:10px}
+.kb-dl{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--blue-50);color:var(--navy-800);font-size:13.5px;line-height:1.45;transition:all .15s}
+.kb-dl svg{width:36px;height:36px;padding:9px;border-radius:8px;background:var(--navy-800);color:#fff}
+.kb-dl strong{color:var(--navy-800);margin-right:4px}
+.kb-dl small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.kb-dl:hover{border-color:var(--blue);transform:translateY(-1px)}
+
+/* Proses — tautan tindak lanjut & daftar akomodasi */
+.proc-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:14px;font-weight:600;color:var(--blue-deep)}
+.proc-link:hover{color:var(--navy-800)}
+.ak-list{display:grid;grid-template-columns:1fr 1fr;gap:12px 32px}
 
 @media(max-width:960px){
-  .hk-grid,.resert-grid{grid-template-columns:1fr}
+  .hk-grid,.resert-grid,.ak-list{grid-template-columns:1fr}
   .proc-article{grid-template-columns:1fr}
   .kb-grid{grid-template-columns:1fr}
   .cta{grid-template-columns:1fr}
@@ -106,7 +117,7 @@
   <div class="wrap page-hero-inner">
     <div class="badge">DP.AK.05 Rev. 02 · Informasi Publik</div>
     <h1>Informasi <em>Publik</em></h1>
-    <p class="lead">Hak pemohon, kewajiban pemegang sertifikat, proses sertifikasi, pembekuan, resertifikasi, dan penanganan keluhan — LSP Edukasi Global Cendekia.</p>
+    <p class="lead">Hak pemohon, kewajiban pemegang sertifikat, proses sertifikasi, akomodasi peserta berkebutuhan khusus, pembekuan, resertifikasi, dan penanganan keluhan — LSP Edukasi Global Cendekia.</p>
     <a class="btn btn-primary btn-lg" href="{{ asset('downloads/DP.AK.05 Panduan Uji Kompetensi R2.pdf') }}" target="_blank" rel="noopener" style="margin-top:26px">
       <svg class="icon" width="20" height="20"><use href="#i-download"></use></svg> Unduh Dokumen DP.AK.05
     </a>
@@ -196,11 +207,12 @@
       @php
       $procSteps = [
         ['icon'=>'doc','title'=>'Permohonan Sertifikasi','items'=>[
-          'Calon peserta mengisi berkas FR.APL.01 dan FR.AK.01.',
-          'Peserta menyatakan setuju memenuhi persyaratan dan memberikan informasi yang diperlukan.',
-          'LSP Edukia melakukan pengkajian terhadap permohonan asesmen.',
-          'Peserta yang memenuhi syarat direkomendasikan untuk tindak lanjut asesmen.',
-        ]],
+          'Pemohon mengisi formulir permohonan sertifikasi (FR.APL.01) dan persetujuan asesmen (FR.AK.01) pada sistem pendaftaran LSP Edukia, atau yang diberikan oleh admin.',
+          'Pemohon berkebutuhan khusus wajib mengisi Formulir Permohonan Akomodasi Peserta Berkebutuhan Khusus (FR.APL.04).',
+          'Pemohon menyatakan setuju memenuhi persyaratan sertifikasi dan memberikan setiap informasi yang diperlukan.',
+          'Pengkaji permohonan mengkaji permohonan, formulir, dan dokumen persyaratan sesuai skema yang dipilih, termasuk permohonan akomodasi bila ada.',
+          'Pemohon yang memenuhi persyaratan direkomendasikan lanjut ke asesmen setelah menyelesaikan administrasi pembayaran.',
+        ], 'link'=>['url'=>config('site.pendaftaran_url'),'label'=>'Buka sistem pendaftaran']],
         ['icon'=>'check-list','title'=>'Proses Pra Asesmen','items'=>[
           'Asesmen direncanakan untuk memastikan verifikasi objektif dan sistematis.',
           'LSP Edukia menugaskan asesor kompetensi.',
@@ -209,16 +221,17 @@
           'Pengkajian kecukupan bukti dari dokumen pendukung (APL 02).',
         ]],
         ['icon'=>'monitor','title'=>'Pelaksanaan Asesmen / Uji Kompetensi','items'=>[
-          'Metode: ujian tertulis, lisan, keterampilan, atau metode lain yang andal.',
+          'LSP Edukia memastikan kesiapan TUK atau platform ujian, perangkat asesmen, identitas peserta, hasil kajian peserta berkebutuhan khusus (jika ada), dan metode pengumpulan bukti.',
+          'Pengawas ujian menjelaskan teknis dan tata tertib ujian, memverifikasi identitas peserta serta TUK peserta (jika ujian online), dan mencatat kejadian selama ujian.',
+          'Metode: ujian tertulis, lisan, praktik, tugas keterampilan, atau metode lain yang andal, objektif, dan konsisten dengan skema.',
           'Bukti dievaluasi: Valid, Asli, Terkini, Memadai (VATM).',
-          'Hasil: "Kompeten" atau "Belum Kompeten".',
-          'Asesor menyampaikan rekaman hasil dan rekomendasi kepada LSP Edukia.',
+          'Asesor mengompilasi bukti dan hasil ujian, melengkapi rekaman asesmen, lalu menyampaikan rekomendasi hasil asesmen kepada LSP Edukia.',
         ]],
         ['icon'=>'award','title'=>'Keputusan Asesmen','items'=>[
-          'LSP Edukia melakukan rapat verifikasi berkas dan menetapkan status kompetensi.',
-          'Tim asesor membuat keputusan sertifikasi.',
-          'Peserta tidak lulus dapat: menerima hasil · remedial · banding (FR.AK.04).',
-          'Sertifikat disahkan Ketua LSP Edukia dengan masa berlaku 3 tahun.',
+          'LSP Edukia menunjuk pengambil keputusan sertifikasi untuk memverifikasi berkas peserta, rekaman hasil ujian, dan rekomendasi asesor.',
+          'Keputusan ditetapkan dalam surat keputusan LSP Edukia: "Kompeten" atau "Belum Kompeten".',
+          'Peserta Belum Kompeten dapat memilih: menerima hasil · remedial · banding (FR.AK.04).',
+          'Sertifikat kompetensi diterbitkan bagi asesi yang kompeten, disahkan Ketua LSP Edukia dengan masa berlaku 3 tahun.',
         ]],
       ];
       @endphp
@@ -240,9 +253,44 @@
             </li>
             @endforeach
           </ol>
+          @if(!empty($step['link']))
+          <a class="proc-link" href="{{ $step['link']['url'] }}" target="_blank" rel="noopener">
+            {{ $step['link']['label'] }} <svg width="14" height="14"><use href="#i-arrow-r"></use></svg>
+          </a>
+          @endif
         </div>
       </article>
       @endforeach
+    </div>
+
+    {{-- Kemampuan (ability) peserta — ketentuan pemohon/peserta berkebutuhan khusus --}}
+    <div id="berkebutuhan-khusus" class="hk-card blue" style="margin-top:28px">
+      <div class="hk-header">
+        <div class="hk-icon blue">
+          <svg width="24" height="24"><use href="#i-shield"></use></svg>
+        </div>
+        <div>
+          <h3>Pemohon / Peserta Berkebutuhan Khusus</h3>
+          <div class="sm">Akomodasi diajukan saat permohonan melalui formulir FR.APL.04</div>
+        </div>
+      </div>
+      <ol class="hk-list ak-list">
+        @foreach([
+          'LSP Edukia memberikan kesempatan yang setara kepada pemohon/peserta berkebutuhan khusus untuk mengikuti sertifikasi.',
+          'Pemohon yang membutuhkan akomodasi menyampaikan kebutuhan penyesuaian pada saat permohonan sertifikasi (FR.APL.04).',
+          'LSP mengkaji kebutuhan tersebut dengan mempertimbangkan persyaratan kompetensi, elemen/KUK, aspek kritis, metode asesmen, aksesibilitas TUK, keselamatan, dan ketersediaan akomodasi.',
+          'Akomodasi dapat berupa penyesuaian akses TUK, media asesmen, tambahan waktu yang proporsional, perangkat bantu, media komunikasi, waktu istirahat, atau penyesuaian lain yang relevan.',
+          'Akomodasi tidak mengubah kompetensi yang dinilai, aspek kritis, tingkat kesulitan, dan kriteria kelulusan, serta tidak mengurangi validitas, objektivitas, keamanan, dan integritas asesmen.',
+          'Untuk kompetensi dengan tuntutan teknis, sensorik, atau keselamatan tertentu, kemampuan peserta memenuhi tuntutan esensial dinilai berdasarkan persyaratan kompetensi skema dengan mempertimbangkan akomodasi yang tersedia.',
+          'Bila kebutuhan tidak dapat difasilitasi tanpa menghilangkan kompetensi esensial atau menimbulkan risiko keselamatan yang tidak dapat dikendalikan, LSP mendokumentasikan hasil kajian, alasan, dan alternatif akomodasi yang dipertimbangkan, lalu menginformasikannya kepada pemohon.',
+          'Seluruh informasi kebutuhan khusus peserta dijaga kerahasiaannya dan hanya digunakan untuk penentuan akomodasi serta pelaksanaan sertifikasi.',
+        ] as $i => $item)
+        <li>
+          <span class="hk-num blue">{{ $i + 1 }}</span>
+          <span>{{ $item }}</span>
+        </li>
+        @endforeach
+      </ol>
     </div>
   </div>
 </section>
@@ -261,7 +309,7 @@
         <div class="tl-item"><div class="tl-dot"></div><p>LSP Edukia melakukan pembekuan dan pencabutan melalui <strong>tahap peringatan terlebih dahulu</strong>.</p></div>
         <div class="tl-item"><div class="tl-dot green"></div><p>LSP Edukia menerbitkan <strong>surat pengaktifan kembali</strong> setelah tindakan perbaikan dalam <strong>1 bulan</strong> setelah surat peringatan.</p></div>
         <div class="tl-item"><div class="tl-dot orange"></div><p>LSP Edukia menerbitkan <strong>surat pembekuan</strong> jika tidak ada perbaikan. Periode: <strong>3 bulan</strong> — sertifikat tidak boleh digunakan.</p></div>
-        <div class="tl-item"><div class="tl-dot warn"></div><p>LSP Edukia menerbitkan <strong>surat pencabutan sertifikat</strong> jika perbaikan tidak sesuai. Pemegang harus mengembalikan sertifikat.</p></div>
+        <div class="tl-item"><div class="tl-dot warn"></div><p>LSP Edukia menerbitkan <strong>surat pencabutan sertifikat</strong> jika perbaikan tidak sesuai. Pemegang harus mengembalikan sertifikat dan tidak boleh menggunakan referensi sertifikasi yang berkaitan dengan kompetensinya.</p></div>
       </div>
     </div>
   </div>
@@ -285,7 +333,7 @@
         </div>
         <div class="resert-sublabel">Berlaku untuk</div>
         <ul class="resert-list">
-          @foreach(['Auditor Internal SPMI Terintegrasi ISO 21001:2018','Lead Auditor SPMI Terintegrasi ISO 21001:2018','Auditor Internal Standar Laboratorium ISO/IEC 17025:2017'] as $s)
+          @foreach(['Auditor Internal SPMI Terintegrasi ISO 21001:2018','Lead Auditor SPMI Terintegrasi ISO 21001:2018'] as $s)
           <li><span class="resert-dot" style="background:var(--blue-deep)"></span><span>{{ $s }}</span></li>
           @endforeach
         </ul>
@@ -303,7 +351,7 @@
         </div>
         <div class="resert-sublabel">Berlaku untuk</div>
         <ul class="resert-list">
-          @foreach(['Lead Implementer SPMI ISO 21001','Training of Trainer (ToT) OBE','Implementer Tata Kelola PT','Lead Implementer Lab ISO 17025','Lifting Engineer Medium / Heavy','2D / 3D Lifting Designer','Lab Quality / Food Safety / GLP / HSE / Operations','QMS ISO 9001 / QC / QA / R&D / Regulatory','Sustainability / ESG / EMS ISO 14001','Corporate Legal Officer'] as $s)
+          @foreach(['Lead Implementer SPMI ISO 21001','Training of Trainer (ToT) OBE','Implementer Tata Kelola PT','Auditor Internal Lab ISO/IEC 17025','Lead Implementer Lab ISO 17025','Lifting Engineer Medium / Heavy','2D / 3D Lifting Designer','Lab Quality / Food Safety / GLP / HSE / Operations','QMS ISO 9001 / QC / QA / R&D / Regulatory','Sustainability / ESG / EMS ISO 14001','Corporate Legal Officer'] as $s)
           <li><span class="resert-dot" style="background:var(--orange-deep)"></span><span>{{ $s }}</span></li>
           @endforeach
         </ul>
@@ -331,7 +379,7 @@
           <h3 class="kb-title">Hak Pengajuan Keluhan dan Banding</h3>
         </div>
         <div class="kb-body">
-          <p>LSP Edukia memberikan kesempatan kepada asesi untuk mengajukan keluhan dan banding apabila proses sertifikasi dirasakan tidak sesuai SOP.</p>
+          <p>LSP Edukia memberikan kesempatan kepada asesi untuk mengajukan keluhan dan banding apabila proses sertifikasi dirasakan tidak sesuai SOP dan prinsip asesmen.</p>
           <div class="kb-note warn">
             <strong>Batas waktu:</strong>
             Maksimal 7 hari sejak keputusan sertifikasi ditetapkan.
@@ -344,20 +392,16 @@
           <h3 class="kb-title">Formulir Keluhan dan Banding</h3>
         </div>
         <div class="kb-body">
-          <p>Formulir yang digunakan:</p>
-          <ul class="kb-list">
-            <li>
-              <svg class="kb-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
-              <span>Formulir keluhan asesmen: <strong>FR.AK.07</strong></span>
-            </li>
-            <li>
-              <svg class="kb-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg>
-              <span>Formulir banding asesmen: <strong>FR.AK.04</strong></span>
-            </li>
-          </ul>
-          <div class="kb-note info">
-            <strong>Akses formulir:</strong>
-            Dapat diunduh melalui website LSP Edukia.
+          <p>Unduh formulir keluhan dan/atau banding asesmen:</p>
+          <div class="kb-dl-list">
+            <a class="kb-dl" href="{{ asset('downloads/FR.AK.07 Formulir Pengajuan dan Penanganan Keluhan.docx') }}" download>
+              <svg width="18" height="18"><use href="#i-download"></use></svg>
+              <span><strong>FR.AK.07</strong> Formulir Pengajuan dan Penanganan Keluhan<small>Dokumen Word (.docx)</small></span>
+            </a>
+            <a class="kb-dl" href="{{ asset('downloads/FR.AK.04 Banding Asesmen R2.docx') }}" download>
+              <svg width="18" height="18"><use href="#i-download"></use></svg>
+              <span><strong>FR.AK.04</strong> Formulir Banding Asesmen<small>Dokumen Word (.docx)</small></span>
+            </a>
           </div>
         </div>
       </article>

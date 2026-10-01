@@ -34,6 +34,13 @@
 .unit-table tr:last-child td{border-bottom:none}
 .unit-code{color:var(--blue-deep);font-family:ui-monospace,monospace;font-size:11.5px;white-space:nowrap;padding-right:14px;font-weight:600;min-width:130px}
 .unit-title{color:var(--ink-2);line-height:1.5}
+.unit-table td.num,.unit-table th.num{text-align:right;white-space:nowrap;padding-left:14px}
+.sk-sub{font-size:15px;font-weight:700;color:var(--ink);margin:24px 0 10px}
+.sk-sub:first-of-type{margin-top:0}
+.sk-ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:9px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
+.sk-cap{font-size:12.5px;color:var(--muted);margin-top:8px}
+.sk-doc{font-size:13px;color:var(--muted);margin-top:14px;line-height:1.55}
+.sk-text{font-size:14.5px;line-height:1.7;color:var(--ink-2);margin:0}
 .sk-side{position:sticky;top:90px}
 .sk-cta{background:linear-gradient(135deg,var(--navy-800),var(--navy-900));border-radius:16px;padding:24px;color:#fff}
 .sk-cta h3{color:#fff;font-size:18px;margin-bottom:8px}
@@ -85,6 +92,12 @@
           terakreditasi <b>KAN (Komite Akreditasi Nasional)</b>. Uji kompetensi mencakup <b>{{ $skema['jumlah_unit'] }} unit kompetensi</b>@if($skema['lisensi_kan'])
           dan menghasilkan Sertifikat Kompetensi <b>berlisensi KAN</b> yang diakui secara nasional.@else.
           Skema ini merupakan skema sertifikasi LSP Edukia yang <b>belum berlisensi KAN</b>.@endif</p>
+        @if(!empty($skema['ruang_lingkup']))
+        <p class="sk-lead" style="margin-top:12px"><b>Ruang lingkup:</b> {{ $skema['ruang_lingkup'] }}</p>
+        @endif
+        @if(!empty($skema['dokumen']))
+        <p class="sk-doc">Mengacu pada dokumen skema {{ $skema['kode'] }} Revisi {{ $skema['dokumen']['revisi'] }}, berlaku efektif {{ $skema['dokumen']['tgl_efektif'] }}.</p>
+        @endif
       </div>
 
       @if(!empty($skema['gelar']))
@@ -114,16 +127,82 @@
           </tbody>
         </table>
       </div>
+
+      @if(!empty($skema['asesmen']))
+      <div class="sk-card">
+        <h2>Metode Asesmen &amp; Standar Kelulusan</h2>
+        <h3 class="sk-sub">Metode penilaian</h3>
+        <ol class="sk-ol">
+          @foreach($skema['asesmen']['metode'] as $item)
+            <li>{{ $item }}</li>
+          @endforeach
+        </ol>
+
+        <h3 class="sk-sub">Bobot penilaian ujian tulis</h3>
+        <table class="unit-table">
+          <thead><tr><th>Metode Ujian</th><th class="num">Jumlah Soal</th><th class="num">Lama Pengerjaan</th><th class="num">Proporsi Nilai</th></tr></thead>
+          <tbody>
+            @foreach($skema['asesmen']['bobot_soal'] as $row)
+              <tr><td class="unit-title">{{ $row['metode'] }}</td><td class="unit-title num">{{ $row['soal'] }}</td><td class="unit-title num">{{ $row['durasi'] }}</td><td class="unit-title num">{{ $row['bobot'] }}</td></tr>
+            @endforeach
+          </tbody>
+        </table>
+        <p class="sk-cap">Evaluasi per unit kompetensi.</p>
+
+        <h3 class="sk-sub">Rekapitulasi pembobotan</h3>
+        <table class="unit-table">
+          <thead><tr><th>Metode Ujian</th><th class="num">Proporsi Nilai</th></tr></thead>
+          <tbody>
+            @foreach($skema['asesmen']['bobot_rekap'] as $row)
+              <tr><td class="unit-title">{{ $row['metode'] }}</td><td class="unit-title num">{{ $row['bobot'] }}</td></tr>
+            @endforeach
+          </tbody>
+        </table>
+
+        <h3 class="sk-sub">Standar kelulusan</h3>
+        <ol class="sk-ol">
+          @foreach($skema['asesmen']['kelulusan'] as $item)
+            <li>{{ $item }}</li>
+          @endforeach
+        </ol>
+      </div>
+      @endif
+
+      @if(!empty($skema['kode_etik']))
+      <div class="sk-card">
+        <h2>Aturan Pelaksanaan (Code of Conduct)</h2>
+        <p class="sk-text" style="margin-bottom:12px">Pemegang sertifikat wajib:</p>
+        <ol class="sk-ol" type="a">
+          @foreach($skema['kode_etik'] as $item)
+            <li>{{ $item }}</li>
+          @endforeach
+        </ol>
+      </div>
+      @endif
+
+      @if(!empty($skema['pemeliharaan']))
+      <div class="sk-card">
+        <h2>Survailen &amp; Resertifikasi</h2>
+        <p class="sk-text">Sertifikat kompetensi disahkan Ketua LSP Edukia dengan masa berlaku <b>3 tahun</b>.</p>
+        <h3 class="sk-sub" style="margin-top:20px">Survailen</h3>
+        <p class="sk-text">{{ $skema['pemeliharaan']['survailen'] }}</p>
+        <h3 class="sk-sub">Resertifikasi</h3>
+        <p class="sk-text">{{ $skema['pemeliharaan']['resertifikasi'] }}</p>
+      </div>
+      @endif
     </div>
 
     <aside class="sk-side">
       <div class="sk-cta">
         <h3>Daftar Sertifikasi Ini</h3>
-        <p>Konsultasikan jadwal uji kompetensi dan biaya untuk skema {{ Str::limit($skema['nama'], 50) }} bersama tim kami.</p>
-        <a class="btn btn-primary" href="https://wa.me/{{ config('site.whatsapp') }}?text={{ urlencode('Halo, saya ingin mendaftar sertifikasi ' . $skema['nama']) }}" target="_blank" rel="noopener">Daftar via WhatsApp
+        <p>Isi formulir permohonan (FR.APL.01) dan persetujuan asesmen (FR.AK.01) melalui sistem pendaftaran LSP Edukia, atau konsultasikan jadwal dan biaya untuk skema {{ Str::limit($skema['nama'], 50) }} bersama tim kami.</p>
+        <a class="btn btn-primary" href="{{ config('site.pendaftaran_url') }}" target="_blank" rel="noopener">Daftar Online
           <svg class="icon"><use href="#i-arrow-r"></use></svg>
         </a>
-        <a class="wa" href="{{ route('skema') }}" style="background:rgba(255,255,255,.1)">Lihat semua skema</a>
+        <a class="wa" href="https://wa.me/{{ config('site.whatsapp') }}?text={{ urlencode('Halo, saya ingin mendaftar sertifikasi ' . $skema['nama']) }}" target="_blank" rel="noopener">
+          <svg class="icon"><use href="#i-wa"></use></svg> Konsultasi via WhatsApp
+        </a>
+        <a class="wa" href="{{ route('skema') }}" style="background:rgba(255,255,255,.1);margin-top:10px">Lihat semua skema</a>
       </div>
 
       @if($related->isNotEmpty())

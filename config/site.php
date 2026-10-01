@@ -27,4 +27,10 @@ return [
     'phone'   => env('SITE_PHONE', '+6285175479385'),
     'whatsapp'=> env('SITE_WHATSAPP', '6285175479385'),
     'email'   => env('SITE_EMAIL', 'edukasi.cendekia@gmail.com'),
+
+    /**
+     * Sistem pendaftaran uji kompetensi (FR.APL.01 & FR.AK.01 diisi di sini),
+     * sesuai klausul Proses Sertifikasi pada dokumen skema.
+     */
+    'pendaftaran_url' => env('SITE_PENDAFTARAN_URL', 'https://lsp-cbt.sistemedu.com/'),
 ];

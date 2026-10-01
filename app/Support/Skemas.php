@@ -8,6 +8,10 @@ use Illuminate\Support\Collection;
  * Sumber data tunggal 26 skema sertifikasi LSP Edukia (data referensi statis).
  * Dipakai oleh halaman daftar skema, halaman detail per-skema, hub bidang, dan sitemap.
  * Setiap skema punya URL terindeks sendiri: /skema-sertifikasi/{slug}.
+ *
+ * Kunci opsional dokumen, ruang_lingkup, asesmen, kode_etik, dan pemeliharaan diisi
+ * bila skema sudah diselaraskan dengan dokumen skema resminya; halaman detail hanya
+ * merender bagian yang ada.
  */
 class Skemas
 {
@@ -170,7 +174,11 @@ class Skemas
                 'nama' => 'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017',
                 'kode' => 'EDUKIA-AUI-2024-006', 'jenis_kemasan' => 'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017',
                 'gelar' => 'CLIA (Certified Laboratory Internal Auditor)',
-                'persyaratan' => ['Minimal SMA/SMK dengan pengalaman lab 2 tahun, atau D3 fresh graduate', 'Memiliki Sertifikat Pelatihan Auditor Internal & ISO 17025:2017'],
+                'persyaratan' => [
+                    'Pendidikan minimal SMA/SMK dengan pengalaman kerja di bidang laboratorium minimal 2 tahun, atau minimal D3 dengan pengalaman kerja di bidang laboratorium',
+                    'Memiliki Sertifikat Pelatihan Pemahaman ISO/IEC 17025:2017',
+                    'Memiliki Sertifikat Pelatihan Audit Internal ISO/IEC 17025:2017',
+                ],
                 'units' => [
                     self::u('SP.AUI.001.01', 'Memahami Pengetahuan Dasar terkait Audit Internal'),
                     self::u('SP.AUI.002.01', 'Melaksanakan Kegiatan Audit Internal'),
@@ -180,6 +188,45 @@ class Skemas
                     self::u('SP.AUI.006.01', 'Mengevaluasi Penerapan Siklus Check ISO/IEC 17025:2017'),
                     self::u('SP.AUI.007.01', 'Mengevaluasi Penerapan Siklus Act ISO/IEC 17025:2017'),
                     self::u('SP.AUI.008.01', 'Mengelola Program Audit Internal'),
+                ],
+                // Rincian di bawah mengikuti dokumen skema EDUKIA-AUI-2024-006 Revisi 6.
+                'dokumen' => ['revisi' => 6, 'tgl_efektif' => '15 September 2026'],
+                'ruang_lingkup' => 'Standar kompetensi kerja dasar bagi personel auditor internal laboratorium untuk melakukan audit internal terhadap persyaratan standar ISO/IEC 17025:2017, kepatuhan regulasi, dan peningkatan berkelanjutan.',
+                'asesmen' => [
+                    'metode' => [
+                        'Ujian tulis (pilihan ganda dan esai) untuk menilai pemahaman dan penguasaan pengetahuan terhadap elemen kompetensi dan kriteria unjuk kerja.',
+                        'Ujian lisan berbasis studi kasus untuk menilai kemampuan menjelaskan, menginterpretasikan, memberikan argumentasi, mengidentifikasi ketidaksesuaian, dan menganalisis permasalahan.',
+                        'Tugas keterampilan untuk mengevaluasi pengetahuan, keterampilan, dan kemampuan peserta.',
+                    ],
+                    'bobot_soal' => [
+                        ['metode' => 'Pilihan Ganda', 'soal' => 100, 'durasi' => '120 menit', 'bobot' => '65%'],
+                        ['metode' => 'Esai', 'soal' => 10, 'durasi' => '90 menit', 'bobot' => '35%'],
+                    ],
+                    'bobot_rekap' => [
+                        ['metode' => 'Ujian Tulis (Pilihan Ganda + Esai)', 'bobot' => '70%'],
+                        ['metode' => 'Ujian Lisan + Keterampilan', 'bobot' => '30%'],
+                    ],
+                    'kelulusan' => [
+                        'Asesi dinyatakan lulus uji kompetensi apabila memperoleh nilai minimal 60. Asesi yang tidak lulus dapat mengikuti remedial.',
+                        'Asesi wajib mengerjakan ujian secara jujur dan mandiri, tanpa bekerja sama, alat bantu tambahan, atau perantara ujian. Pelanggaran atau perilaku tidak jujur membatalkan ujian, nilai dianggap 0, dan asesi dinyatakan tidak lulus.',
+                        'Jawaban yang terindikasi plagiarisme (kata, kalimat, data, atau informasi sama persis) diberi skor 0 untuk pilihan ganda dan esai, asesi dinyatakan tidak lulus, dan tidak dapat mengikuti ujian ulang sampai batas waktu yang ditentukan LSP Edukia.',
+                    ],
+                ],
+                'kode_etik' => [
+                    'Bekerja hanya dalam lingkup kompetensi dan kewenangan yang dimiliki.',
+                    'Memberikan informasi, data, hasil analisis, laporan, atau pernyataan profesional secara benar, objektif, dapat dipertanggungjawabkan, dan tidak menyesatkan.',
+                    'Menjaga kerahasiaan informasi yang diperoleh dalam pelaksanaan pekerjaan, kecuali pengungkapan diwajibkan oleh hukum atau telah mendapat kewenangan yang sah.',
+                    'Menghindari konflik kepentingan dan mengungkapkan potensi konflik kepentingan kepada pihak yang relevan.',
+                    'Mematuhi peraturan perundang-undangan, standar, prosedur, dan persyaratan profesional yang relevan.',
+                    'Tidak menyalahgunakan sertifikat, logo, tanda sertifikasi, atau status sertifikasi.',
+                    'Tidak melakukan tindakan yang dapat merusak integritas proses profesional maupun reputasi sertifikasi.',
+                    'Menjaga dan mengembangkan kompetensi sesuai perkembangan bidang profesinya.',
+                    'Bersedia memenuhi ketentuan LSP mengenai pemeliharaan, penggunaan, pembekuan, pencabutan, dan sertifikasi ulang sesuai skema yang berlaku.',
+                    'Menjaga independensi dan objektivitas audit; menggunakan bukti objektif; menjaga kerahasiaan data laboratorium/pelanggan; tidak mengubah atau menghilangkan temuan; menghindari konflik kepentingan; serta menghormati ketentuan keselamatan saat berada di laboratorium.',
+                ],
+                'pemeliharaan' => [
+                    'survailen' => 'Survailen tidak diterapkan pada skema ini berdasarkan kajian risiko LSP Edukia. Selama masa berlaku sertifikat, pemegang sertifikat tetap wajib menjaga kompetensi, mematuhi aturan pelaksanaan (code of conduct), menggunakan sertifikat sesuai ketentuan, dan mengikuti perkembangan standar, regulasi, teknologi, dan praktik profesional yang relevan. Informasi atau keluhan atas dugaan pelanggaran tetap dapat ditindaklanjuti LSP sesuai prosedur.',
+                    'resertifikasi' => 'Permohonan sertifikasi ulang diajukan paling lambat 2 bulan sebelum masa berlaku sertifikat berakhir. Resertifikasi dilakukan dengan uji kompetensi kembali, melalui proses pendaftaran, asesmen, dan pengambilan keputusan yang sama dengan sertifikasi awal.',
                 ],
             ],
             [
