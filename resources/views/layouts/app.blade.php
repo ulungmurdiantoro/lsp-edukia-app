@@ -48,6 +48,11 @@ nav.menu a{font-size:13.5px;font-weight:500;color:var(--ink-2);position:relative
 nav.menu a:hover{color:var(--navy-800)}
 nav.menu a.active{color:var(--navy-800);font-weight:600}
 nav.menu a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:linear-gradient(90deg,var(--blue),var(--orange));border-radius:2px}
+/* Tombol menu (hamburger) — hanya tampil di layar ≤960px */
+.nav-toggle{display:none;align-items:center;justify-content:center;width:42px;height:42px;flex:0 0 auto;border:1px solid var(--line-2);border-radius:12px;background:#fff;color:var(--navy-800);cursor:pointer;padding:0}
+.nav-toggle svg{width:22px;height:22px}
+.nav-toggle .ic-close,header.menu-open .nav-toggle .ic-open{display:none}
+header.menu-open .nav-toggle .ic-close{display:block}
 .btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;font-weight:600;font-size:14.5px;letter-spacing:-0.005em;transition:transform .15s ease,box-shadow .2s ease,background .2s ease}
 .btn-primary{background:var(--orange);color:#fff;box-shadow:0 4px 14px rgba(244,137,31,.35)}
 .btn-primary:hover{background:var(--orange-deep);transform:translateY(-1px);box-shadow:0 6px 20px rgba(244,137,31,.4)}
@@ -183,7 +188,14 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
   .hero-grid,.schemes,.steps,.foot-grid,.blog-grid{grid-template-columns:1fr}
   .hero-grid{padding:64px 0}
   .cta{grid-template-columns:1fr;text-align:left}
-  nav.menu{display:none}
+  .nav{gap:12px}
+  .nav-toggle{display:inline-flex}
+  nav.menu{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;padding:6px 20px 14px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 18px 30px rgba(15,29,53,.12);max-height:calc(100vh - 80px);overflow-y:auto}
+  header.menu-open nav.menu{display:flex}
+  nav.menu a{font-size:15px;padding:13px 2px;border-bottom:1px solid var(--cream-2)}
+  nav.menu a:last-child{border-bottom:0}
+  nav.menu a.active{color:var(--orange-deep)}
+  nav.menu a.active::after{display:none}
   section{padding:64px 0}
   .wrap{padding:0 20px}
   .slide{flex:0 0 calc(80% - 10px)}
@@ -192,6 +204,17 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
 }
 @media(max-width:640px){
   .slide{flex:0 0 calc(90% - 10px)}
+  header .brand-logo{height:42px}
+  header .nav{padding-top:10px;padding-bottom:10px}
+  header .btn-primary{height:40px;padding:0 14px;font-size:13.5px;white-space:nowrap}
+}
+@media(max-width:380px){
+  header .btn-primary svg{display:none}
+}
+@media(max-width:340px){
+  header .nav{gap:8px}
+  header .brand-logo{height:36px}
+  header .btn-primary{padding:0 12px;font-size:12.5px}
 }
 </style>
 @yield('extra-css')
@@ -222,7 +245,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
     <a class="brand" href="{{ route('home') }}">
       <img src="{{ asset('LOGO-EDUKIA-REV.002-UPD.14032024-001.png') }}" class="brand-logo" alt="LSP Edukia">
     </a>
-    <nav class="menu">
+    <nav class="menu" id="site-menu">
       <a href="{{ route('home') }}" @class(['active' => ($activeNav ?? '') === 'home'])>Beranda</a>
       <a href="{{ route('tentang') }}" @class(['active' => ($activeNav ?? '') === 'tentang'])>Tentang Kami</a>
       <a href="{{ route('skema') }}" @class(['active' => ($activeNav ?? '') === 'skema'])>Skema Kompetensi</a>
@@ -235,6 +258,10 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
     <a href="https://wa.me/6285175479385" target="_blank" rel="noopener" class="btn btn-primary">Daftar Sekarang
       <svg class="icon"><use href="#i-arrow-r"></use></svg>
     </a>
+    <button type="button" class="nav-toggle" aria-controls="site-menu" aria-expanded="false" aria-label="Buka menu">
+      <svg class="ic-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="ic-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
   </div>
 </header>
 
@@ -287,6 +314,28 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
   <svg class="wa-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.4 11.4 0 0012.05 0C5.5 0 .2 5.3.2 11.85a11.7 11.7 0 001.6 5.95L0 24l6.35-1.65a11.85 11.85 0 005.7 1.45h.01c6.55 0 11.85-5.3 11.85-11.85a11.7 11.7 0 00-3.41-8.45zm-8.45 18.2a9.95 9.95 0 01-5.05-1.4l-.36-.22-3.77.98 1-3.67-.24-.38a9.85 9.85 0 1118.05-5.46c0 5.45-4.45 9.9-9.63 10.15zM17.5 14.3c-.3-.15-1.75-.85-2-1s-.45-.15-.65.15-.75 1-.9 1.2-.3.2-.6.05a8.1 8.1 0 01-2.4-1.5 9 9 0 01-1.65-2.05c-.2-.3 0-.45.15-.6s.3-.4.45-.55a2.7 2.7 0 00.3-.5.6.6 0 000-.55c0-.15-.65-1.55-.9-2.1s-.5-.5-.7-.5h-.55a1.1 1.1 0 00-.8.4 3.3 3.3 0 00-1 2.5 5.7 5.7 0 001.2 3.1 13.5 13.5 0 005.45 4.65c.75.3 1.35.45 1.8.6a4.4 4.4 0 002 .15 3.3 3.3 0 002.15-1.5 2.65 2.65 0 00.15-1.5c-.05-.1-.25-.2-.55-.35z"></path></svg>
   <span class="wa-text">Hubungi Kami</span>
 </a>
+
+<script>
+// Menu mobile: buka/tutup lewat tombol hamburger; tertutup saat link diklik, klik di luar header, atau Escape.
+(function () {
+  var toggle = document.querySelector('.nav-toggle');
+  if (!toggle) return;
+  var header = toggle.closest('header');
+
+  function setOpen(open) {
+    header.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+  }
+
+  toggle.addEventListener('click', function () { setOpen(!header.classList.contains('menu-open')); });
+  header.querySelectorAll('#site-menu a').forEach(function (a) {
+    a.addEventListener('click', function () { setOpen(false); });
+  });
+  document.addEventListener('click', function (e) { if (!header.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+})();
+</script>
 
 @yield('scripts')
 </body>
