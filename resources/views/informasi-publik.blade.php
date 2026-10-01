@@ -474,16 +474,10 @@
           <h3>Proses Survailen</h3>
         </div>
         <div class="resert-sublabel">Berlaku untuk</div>
+        @php $semuaSkema = \App\Support\Skemas::all(); @endphp
         <ul class="resert-list">
-          @foreach([
-            'Lifting Engineer for Medium Lifting',
-            'Lifting Engineer for Heavy & Critical Lifting',
-            '2D Lifting Designer',
-            '3D Lifting Designer',
-            'Panelis Terlatih Pengujian Sensori Pangan',
-            'Laboratory HSE Officer/Petugas K3L Laboratorium',
-            'Laboratory Operations Officer/Pranata Laboratorium',
-          ] as $s)
+          {{-- Skema yang menerapkan survailen, sesuai klausul 14.A dokumen skema masing-masing. --}}
+          @foreach($semuaSkema->filter(fn ($s) => ! empty($s['survailen']))->pluck('nama') as $s)
           <li><span class="resert-dot" style="background:var(--blue-deep)"></span><span>{{ $s }}</span></li>
           @endforeach
         </ul>
@@ -497,34 +491,8 @@
         </div>
         <div class="resert-sublabel">Berlaku untuk</div>
         <ul class="resert-list">
-          @foreach([
-            'Auditor Internal SPMI Terintegrasi ISO 21001:2018',
-            'Lead Auditor SPMI Terintegrasi ISO 21001:2018',
-            'Lead Implementer SPMI Terintegrasi ISO 21001:2018',
-            'Training of Trainer Outcome Based Education',
-            'Implementer Tata Kelola Organisasi Perguruan Tinggi',
-            'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017',
-            'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017',
-            'Lifting Engineer for Medium Lifting',
-            'Lifting Engineer for Heavy & Critical Lifting',
-            '2D Lifting Designer',
-            '3D Lifting Designer',
-            'Laboratory Quality System Officer ISO/IEC 17025/ Petugas Sistem Mutu Laboratorium ISO/IEC 17025',
-            'Food Safety Management Officer/ Petugas Sistem Keamanan Pangan',
-            'Panelis Terlatih Pengujian Sensori Pangan',
-            'GLP Laboratory Technician/Teknisi Laboratorium Berbasis GLP',
-            'Laboratory HSE Officer/Petugas K3L Laboratorium',
-            'Laboratory Operations Officer/Pranata Laboratorium',
-            'Quality Management System (ISO 9001) Officer',
-            'QC Laboratory Analyst/Analis QC Laboratorium',
-            'Quality Assurance Officer',
-            'Research and Development Officer',
-            'Regulatory Affairs Officer',
-            'Sustainability Officer',
-            'ESG Officer',
-            'Environmental Management System (ISO 14001) Officer',
-            'Corporate Legal Officer',
-          ] as $s)
+          {{-- Semua skema: resertifikasi dengan uji kompetensi kembali (klausul 14.B). --}}
+          @foreach($semuaSkema->pluck('nama') as $s)
           <li><span class="resert-dot" style="background:var(--orange-deep)"></span><span>{{ $s }}</span></li>
           @endforeach
         </ul>

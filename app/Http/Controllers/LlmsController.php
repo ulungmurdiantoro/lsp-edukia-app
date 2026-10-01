@@ -136,6 +136,10 @@ class LlmsController extends Controller
                         .'kode '.$s['kode'].' ini terdiri dari '.$s['jumlah_unit'].' unit kompetensi yang '
                         .'menguji kemampuan pemohon sesuai standar yang berlaku.';
                     $lines[] = '';
+                    if (! empty($s['ruang_lingkup'])) {
+                        $lines[] = '**Ruang Lingkup:** '.$s['ruang_lingkup'];
+                        $lines[] = '';
+                    }
                     $lines[] = '**Persyaratan Pemohon:**';
                     foreach ($s['persyaratan'] as $req) {
                         $lines[] = '- '.$req;
@@ -149,7 +153,8 @@ class LlmsController extends Controller
                     if (! empty($s['asesmen'])) {
                         $lines[] = '**Pembobotan & Standar Kelulusan:**';
                         foreach ($s['asesmen']['bobot_soal'] as $b) {
-                            $lines[] = '- '.$b['metode'].': '.$b['soal'].' soal, '.$b['durasi'].', bobot '.$b['bobot'];
+                            $jumlah = is_numeric($b['soal']) ? $b['soal'].' soal' : $b['soal'];
+                            $lines[] = '- '.$b['metode'].': '.$jumlah.', '.$b['durasi'].', bobot '.$b['bobot'];
                         }
                         foreach ($s['asesmen']['bobot_rekap'] as $b) {
                             $lines[] = '- '.$b['metode'].': '.$b['bobot'];
@@ -159,12 +164,12 @@ class LlmsController extends Controller
                         }
                         $lines[] = '';
                     }
-                    if (! empty($s['pemeliharaan'])) {
-                        $lines[] = '**Survailen:** '.$s['pemeliharaan']['survailen'];
-                        $lines[] = '';
-                        $lines[] = '**Resertifikasi:** '.$s['pemeliharaan']['resertifikasi'];
-                        $lines[] = '';
-                    }
+                    $lines[] = '**Survailen:** '.(empty($s['survailen'])
+                        ? Skemas::SURVAILEN_TIDAK_DITERAPKAN
+                        : Skemas::SURVAILEN_DITERAPKAN.' Metode: '.$s['survailen']['metode'].' Kriteria: '.$s['survailen']['kriteria']);
+                    $lines[] = '';
+                    $lines[] = '**Resertifikasi:** '.Skemas::RESERTIFIKASI;
+                    $lines[] = '';
                 }
             }
 

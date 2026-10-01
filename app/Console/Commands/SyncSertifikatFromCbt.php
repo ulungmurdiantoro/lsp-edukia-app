@@ -32,7 +32,10 @@ class SyncSertifikatFromCbt extends Command
         // master ini TIDAK dipakai lagi untuk kolom `lisensi` — kolom itu sekarang diambil
         // dari with_kan, yaitu pilihan KAN/non-KAN yang sungguhan dipakai saat sertifikat
         // didistribusikan, bukan status lisensi default per skema.
-        $skemaMaster = Skemas::all()->keyBy(fn (array $s) => SertifikatExcelHelper::middleKodeFor($s['nama']) ?? '');
+        // Dikunci dengan kode-tengah dari kode skema (EDUKIA-AIL-2024-001 → AIL), bukan nama:
+        // nama skema publik di Skemas bisa berubah mengikuti revisi dokumen skema (mis. ISO
+        // 21001:2018 → 2025), sedangkan nama registri sertifikat sengaja tetap.
+        $skemaMaster = Skemas::all()->keyBy(fn (array $s) => strtoupper(explode('-', $s['kode'])[1] ?? ''));
 
         $rows = DB::connection('cbt')->table('v_sertifikasi_kelulusan')
             ->whereNotNull('sk_number')
@@ -75,7 +78,7 @@ class SyncSertifikatFromCbt extends Command
                 // Skema/kategori sudah pasti valid dari resolveScheme() di atas, jadi kode-tengah
                 // hasil middleKodeFor() dijamin ada di $skemaMaster (tidak perlu fallback lagi).
                 $middle = SertifikatExcelHelper::middleKodeFor($scheme['skema']);
-                $master = $skemaMaster->get($middle);
+                $master = $skemaMaster->get(strtoupper((string) $middle));
 
                 $sertifikat = Sertifikat::firstOrNew(['nomor_sertifikat' => $row->sertifikat_number]);
                 $sertifikat->fill([

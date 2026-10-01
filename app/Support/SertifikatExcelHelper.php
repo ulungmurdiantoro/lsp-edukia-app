@@ -22,6 +22,9 @@ class SertifikatExcelHelper
 
     // nomor urut, kode-tengah (mis. AIL, ToT), nama skema, kategori — sinkron dengan
     // Select options di App\Filament\Resources\SertifikatResource agar hasil import valid di admin.
+    // Nama di sini adalah nama registri sertifikat yang sudah terbit, jadi sengaja tidak ikut
+    // berganti saat nama skema publik di App\Support\Skemas direvisi; pencocokan ke data master
+    // memakai kode-tengah. Kode-tengah lama (LFM, LFH) tetap terselesaikan lewat nomor urut.
     private const SKEMAS = [
         ['01', 'AIL', 'Auditor Internal SPMI Terintegrasi ISO 21001:2018', 'spmi'],
         ['02', 'LAD', 'Lead Auditor Internal SPMI Terintegrasi ISO 21001:2018', 'spmi'],
@@ -30,8 +33,8 @@ class SertifikatExcelHelper
         ['05', 'TKO', 'Implementer Tata Kelola Organisasi Perguruan Tinggi', 'pt'],
         ['06', 'AUI', 'Auditor Internal Standar Laboratorium ISO/IEC 17025:2017', 'lab17025'],
         ['07', 'LIM', 'Lead Implementer Standar Laboratorium ISO/IEC 17025:2017', 'lab17025'],
-        ['08', 'LFM', 'Lifting Engineer for Medium Lifting', 'lifting'],
-        ['09', 'LFH', 'Lifting Engineer for Heavy & Critical Lifting Operation', 'lifting'],
+        ['08', 'LML', 'Lifting Engineer for Medium Lifting', 'lifting'],
+        ['09', 'LHC', 'Lifting Engineer for Heavy & Critical Lifting Operation', 'lifting'],
         ['10', 'LDT', '2D Lifting Designer', 'lifting'],
         ['11', 'DLD', '3D Lifting Designer', 'lifting'],
         ['12', 'LQO', 'Laboratory Quality System Officer ISO/IEC 17025', 'labtest'],

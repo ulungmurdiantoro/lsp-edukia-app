@@ -138,7 +138,7 @@
           @endforeach
         </ol>
 
-        <h3 class="sk-sub">Bobot penilaian ujian tulis</h3>
+        <h3 class="sk-sub">Bobot penilaian per metode ujian</h3>
         <table class="unit-table">
           <thead><tr><th>Metode Ujian</th><th class="num">Jumlah Soal</th><th class="num">Lama Pengerjaan</th><th class="num">Proporsi Nilai</th></tr></thead>
           <tbody>
@@ -149,6 +149,7 @@
         </table>
         <p class="sk-cap">Evaluasi per unit kompetensi.</p>
 
+        @if(!empty($skema['asesmen']['bobot_rekap']))
         <h3 class="sk-sub">Rekapitulasi pembobotan</h3>
         <table class="unit-table">
           <thead><tr><th>Metode Ujian</th><th class="num">Proporsi Nilai</th></tr></thead>
@@ -158,6 +159,7 @@
             @endforeach
           </tbody>
         </table>
+        @endif
 
         <h3 class="sk-sub">Standar kelulusan</h3>
         <ol class="sk-ol">
@@ -180,16 +182,20 @@
       </div>
       @endif
 
-      @if(!empty($skema['pemeliharaan']))
       <div class="sk-card">
         <h2>Survailen &amp; Resertifikasi</h2>
         <p class="sk-text">Sertifikat kompetensi disahkan Ketua LSP Edukia dengan masa berlaku <b>3 tahun</b>.</p>
         <h3 class="sk-sub" style="margin-top:20px">Survailen</h3>
-        <p class="sk-text">{{ $skema['pemeliharaan']['survailen'] }}</p>
+        @if(!empty($skema['survailen']))
+          <p class="sk-text">{{ \App\Support\Skemas::SURVAILEN_DITERAPKAN }}</p>
+          <p class="sk-text" style="margin-top:10px"><b>Metode:</b> {{ $skema['survailen']['metode'] }}</p>
+          <p class="sk-text" style="margin-top:10px"><b>Kriteria:</b> {{ $skema['survailen']['kriteria'] }}</p>
+        @else
+          <p class="sk-text">{{ \App\Support\Skemas::SURVAILEN_TIDAK_DITERAPKAN }}</p>
+        @endif
         <h3 class="sk-sub">Resertifikasi</h3>
-        <p class="sk-text">{{ $skema['pemeliharaan']['resertifikasi'] }}</p>
+        <p class="sk-text">{{ \App\Support\Skemas::RESERTIFIKASI }}</p>
       </div>
-      @endif
     </div>
 
     <aside class="sk-side">
