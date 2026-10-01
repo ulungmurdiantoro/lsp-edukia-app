@@ -1,6 +1,7 @@
 @extends('layouts.app')
 {{-- Meta dikelola via $SEOData dari PageController@jadwalSertifikasi (ralphjsmit/laravel-seo). --}}
-{{-- $bulan: "Bulan YYYY" => Collection<JadwalSertifikasi>, urut kronologis. Tiap item punya skema_slug (nullable). --}}
+{{-- $bulan: jadwal mendatang, "Bulan YYYY" => Collection<JadwalSertifikasi>, urut kronologis. --}}
+{{-- $bulanSelesai: jadwal yang sudah lewat, struktur sama, terbaru lebih dulu — dirender di bawah. Tiap item punya skema_slug (nullable). --}}
 {{-- Layout daftar per bulan mengikuti pola mutululusan.id/jadwal-pelatihan-2026; hero & tipografi mengikuti halaman lain di situs ini. --}}
 @push('head')
 <link rel="preload" as="image" href="{{ asset('images/hero-jadwal.jpg') }}" fetchpriority="high">
@@ -33,6 +34,13 @@ a.jadwal-item-skema::after{content:"";position:absolute;inset:0;border-radius:14
 .jadwal-item.linked:hover .jadwal-item-skema{color:var(--navy-800)}
 .jadwal-bidang{display:inline-flex;align-items:center;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:5px;letter-spacing:.02em;background:var(--navy-50,#eef3fb);color:var(--navy-600,#1a4a8a)}
 .jadwal-item-action{position:relative;z-index:2;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.jadwal-metode{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:5px;letter-spacing:.02em}
+.jadwal-metode.online{background:#e3f5ea;color:#1a5c35}
+.jadwal-metode.offline{background:var(--orange-50,#fdf3ec);color:var(--orange-deep,#b85c0f)}
+.jadwal-divider{display:flex;align-items:center;gap:12px;margin:12px 0 28px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.jadwal-divider::after{content:"";flex:1;height:1px;background:var(--line-2,#dfe3ec);order:1}
+.jadwal-divider .cnt{order:2;letter-spacing:0;text-transform:none;font-weight:600;font-size:12.5px}
+.jadwal-empty + .jadwal-divider{margin-top:44px}
 .jadwal-status-done{font-size:12.5px;font-weight:600;color:var(--muted)}
 .jadwal-btn{height:36px;padding:0 18px;border-radius:999px;background:var(--navy-800);color:#fff;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap;transition:background .12s}
 .jadwal-btn:hover{background:var(--orange,#f4891f)}
@@ -54,7 +62,7 @@ a.jadwal-item-skema::after{content:"";position:absolute;inset:0;border-radius:14
 @section('content')
 <div class="page-hero">
   <div class="wrap page-hero-inner">
-    <div class="badge">Kalender Sertifikasi · {{ $bulan->sum(fn ($items) => $items->count()) }} Jadwal</div>
+    <div class="badge">Kalender Sertifikasi · {{ $bulan->sum(fn ($items) => $items->count()) }} Jadwal Mendatang</div>
     <h1>Jadwal <em>Sertifikasi</em> Kompetensi</h1>
     <p class="lead">Kalender pelaksanaan uji kompetensi LSP Edukasi Global Cendekia. Pilih skema yang sesuai, lalu daftar melalui tim kami untuk informasi persyaratan dan biaya.</p>
   </div>
@@ -63,46 +71,24 @@ a.jadwal-item-skema::after{content:"";position:absolute;inset:0;border-radius:14
 <section style="padding:60px 0 96px;background:var(--cream,#fbf9f3)">
   <div class="wrap">
 
-    @if($bulan->isEmpty())
+    @if($bulan->isEmpty() && $bulanSelesai->isEmpty())
       <div class="jadwal-empty">Belum ada jadwal sertifikasi yang dipublikasikan. Silakan cek kembali nanti atau hubungi tim kami via WhatsApp.</div>
     @else
       @php $bidangLabels = \App\Support\Skemas::bidangs(); @endphp
-      @foreach($bulan as $label => $items)
-      <div class="jadwal-group">
-        <div class="jadwal-group-head">
-          <h2>{{ $label }}</h2>
-          <span class="cnt">{{ $items->count() }} jadwal</span>
+
+      @if($bulan->isEmpty())
+        <div class="jadwal-empty">Belum ada jadwal mendatang yang dipublikasikan. Silakan cek kembali nanti atau hubungi tim kami via WhatsApp.</div>
+      @else
+        @include('partials.jadwal-bulan', ['bulan' => $bulan])
+      @endif
+
+      @if($bulanSelesai->isNotEmpty())
+        <div class="jadwal-divider">
+          <span>Jadwal Selesai</span>
+          <span class="cnt">{{ $bulanSelesai->sum(fn ($items) => $items->count()) }} jadwal</span>
         </div>
-        <div class="jadwal-list">
-          @foreach($items as $item)
-          @php
-            $lewat = $item->tanggal_sertifikasi->lt(now()->startOfDay());
-            $tautSkema = ! $lewat && $item->skema_slug;
-          @endphp
-          <div @class(['jadwal-item', 'past' => $lewat, 'linked' => $tautSkema])>
-            <div class="jadwal-item-info">
-              <p class="jadwal-item-meta">
-                {{ $item->tanggal_sertifikasi->translatedFormat('d M Y') }}
-                <span class="jadwal-bidang">{{ $bidangLabels[$item->bidang]['label'] ?? $item->bidang }}</span>
-              </p>
-              @if($tautSkema)
-                <a class="jadwal-item-skema" href="{{ route('skema.show', $item->skema_slug) }}">{{ $item->skema }}</a>
-              @else
-                <span class="jadwal-item-skema">{{ $item->skema }}</span>
-              @endif
-            </div>
-            <div class="jadwal-item-action">
-              @if($lewat)
-                <span class="jadwal-status-done">Selesai</span>
-              @else
-                <a class="jadwal-btn" href="https://wa.me/{{ config('site.whatsapp') }}?text={{ urlencode('Halo, saya ingin mendaftar sertifikasi ' . $item->skema . ' pada jadwal ' . $item->tanggal_sertifikasi->translatedFormat('d M Y') . '.') }}" target="_blank" rel="noopener">Daftar</a>
-              @endif
-            </div>
-          </div>
-          @endforeach
-        </div>
-      </div>
-      @endforeach
+        @include('partials.jadwal-bulan', ['bulan' => $bulanSelesai])
+      @endif
 
       <div class="jadwal-note">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>

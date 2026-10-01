@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class JadwalSertifikasi extends Model
 {
+    /** Metode pelaksanaan uji kompetensi: nilai kolom => label tampilan. */
+    public const METODE = [
+        'online' => 'Online',
+        'offline' => 'Offline',
+    ];
+
     protected $fillable = [
         'skema',
         'bidang',
         'tanggal_sertifikasi',
+        'metode',
         'tampil',
     ];
 

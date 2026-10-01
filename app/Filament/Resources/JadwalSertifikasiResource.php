@@ -64,6 +64,17 @@ class JadwalSertifikasiResource extends Resource
                 ->label('Tanggal Sertifikasi')
                 ->required(),
 
+            Forms\Components\Radio::make('metode')
+                ->label('Metode Pelaksanaan')
+                ->options(JadwalSertifikasi::METODE)
+                ->descriptions([
+                    'online' => 'Zoom Meeting & sistem ujian daring',
+                    'offline' => 'Tatap muka di Tempat Uji Kompetensi (TUK)',
+                ])
+                ->default('online')
+                ->required()
+                ->columnSpanFull(),
+
             Forms\Components\Toggle::make('tampil')
                 ->label('Tampilkan di Website')
                 ->default(true)
@@ -90,6 +101,12 @@ class JadwalSertifikasiResource extends Resource
                 ->date('d M Y')
                 ->sortable(),
 
+            Tables\Columns\TextColumn::make('metode')
+                ->label('Metode')
+                ->badge()
+                ->formatStateUsing(fn (string $state): string => JadwalSertifikasi::METODE[$state] ?? $state)
+                ->color(fn (string $state): string => $state === 'offline' ? 'warning' : 'success'),
+
             Tables\Columns\IconColumn::make('tampil')
                 ->label('Tampil')
                 ->boolean(),
@@ -99,6 +116,10 @@ class JadwalSertifikasiResource extends Resource
             Tables\Filters\SelectFilter::make('bidang')
                 ->label('Sektor')
                 ->options(fn () => self::bidangOptions()),
+
+            Tables\Filters\SelectFilter::make('metode')
+                ->label('Metode')
+                ->options(JadwalSertifikasi::METODE),
 
             Tables\Filters\TernaryFilter::make('tampil')->label('Ditampilkan'),
         ])

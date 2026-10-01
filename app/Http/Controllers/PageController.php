@@ -195,14 +195,23 @@ class PageController extends Controller
         // Slug skema dipetakan sekali agar tiap jadwal bisa menaut ke halaman detail skema.
         $slugsByNama = Skemas::all()->pluck('slug', 'nama');
 
-        $bulan = JadwalSertifikasi::tampil()
+        $jadwal = JadwalSertifikasi::tampil()
             ->orderBy('tanggal_sertifikasi')
             ->get()
-            ->each(fn (JadwalSertifikasi $item) => $item->skema_slug = $slugsByNama->get($item->skema))
+            ->each(fn (JadwalSertifikasi $item) => $item->skema_slug = $slugsByNama->get($item->skema));
+
+        // Jadwal yang sudah lewat dipindah ke bagian bawah halaman (terbaru lebih dulu).
+        [$selesai, $mendatang] = $jadwal->partition(
+            fn (JadwalSertifikasi $item) => $item->tanggal_sertifikasi->lt(now()->startOfDay())
+        );
+        $perBulan = fn ($items) => $items
             ->groupBy(fn (JadwalSertifikasi $item) => $item->tanggal_sertifikasi->translatedFormat('F Y'))
             ->map(fn ($items) => $items->values());
 
-        return view('jadwal-sertifikasi', compact('bulan'))
+        $bulan = $perBulan($mendatang);
+        $bulanSelesai = $perBulan($selesai->reverse());
+
+        return view('jadwal-sertifikasi', compact('bulan', 'bulanSelesai'))
             ->with('activeNav', 'jadwal')
             ->with('SEOData', new SEOData(
                 title: 'Jadwal Sertifikasi Kompetensi',
