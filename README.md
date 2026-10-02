@@ -41,20 +41,26 @@ Aturan sync CBT:
 
 QR code di Sertifikat & SK yang diterbitkan CBT berisi
 `https://verifikasi-sertifikat.lspedukia.id/{nomor_sertifikat}` dan `.../sk/{no_sk}`.
-Aplikasi ini melayani subdomain tersebut (`VERIFIKASI_DOMAIN`, default
-`verifikasi-sertifikat.lspedukia.id`) dan mengalihkannya (301) ke
-`/verifikasi-sertifikat/{nomor}` dan `/verifikasi-sertifikat/sk/{no_sk}` di domain utama,
-yang menampilkan data dari tabel `sertifikats` (hanya `tampil = true`). Sertifikat baru
-muncul setelah ditandai terkirim di CBT dan tersinkron (harian 02:00 atau tombol Sync).
+Halaman tujuannya ada di aplikasi ini: `/verifikasi-sertifikat/{nomor}` dan
+`/verifikasi-sertifikat/sk/{no_sk}`, membaca tabel `sertifikats` (hanya `tampil = true`).
+Sertifikat baru muncul setelah ditandai terkirim di CBT dan tersinkron (harian 02:00 atau tombol Sync).
 
-Agar subdomain aktif, di server:
+Di VPS (nginx), subdomain punya vhost & sertifikat Let's Encrypt sendiri yang hanya mengalihkan
+ke lspedukia.id (aplikasi verifikasi lama tidak dipakai lagi). Blok `server` port 443-nya:
 
-1. DNS: record `A` `verifikasi-sertifikat` → IP VPS yang sama dengan `lspedukia.id`.
-2. Web server: tambahkan subdomain ke vhost lspedukia.id — nginx: `server_name` (blok 80 & 443),
-   Apache: `ServerAlias verifikasi-sertifikat.lspedukia.id`.
-3. SSL: `sudo certbot --nginx -d lspedukia.id -d www.lspedukia.id -d verifikasi-sertifikat.lspedukia.id --expand`
-   (ganti `--nginx` dengan `--apache` bila memakai Apache; sesuaikan daftar `-d` dengan sertifikat yang ada).
-4. `php artisan config:cache && php artisan route:cache`.
+```nginx
+server {
+    server_name verifikasi-sertifikat.lspedukia.id;
+
+    location = / { return 301 https://lspedukia.id/daftar-penerima-sertifikat; }
+    location /   { return 301 https://lspedukia.id/verifikasi-sertifikat$request_uri; }
+
+    # baris listen 443 / ssl_* "managed by Certbot" dibiarkan apa adanya
+}
+```
+
+Cadangan: bila subdomain malah diarahkan ke aplikasi ini (`server_name` vhost lspedukia.id),
+route domain `VERIFIKASI_DOMAIN` di `routes/web.php` melakukan pengalihan yang sama.
 
 ## Lamaran karier
 
