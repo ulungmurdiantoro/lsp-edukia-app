@@ -37,6 +37,25 @@ Aturan sync CBT:
 - Sertifikat lama milik orang yang sama untuk skema yang sama (terbit lebih awal) disembunyikan,
   bukan dihapus.
 
+## Verifikasi sertifikat (QR code)
+
+QR code di Sertifikat & SK yang diterbitkan CBT berisi
+`https://verifikasi-sertifikat.lspedukia.id/{nomor_sertifikat}` dan `.../sk/{no_sk}`.
+Aplikasi ini melayani subdomain tersebut (`VERIFIKASI_DOMAIN`, default
+`verifikasi-sertifikat.lspedukia.id`) dan mengalihkannya (301) ke
+`/verifikasi-sertifikat/{nomor}` dan `/verifikasi-sertifikat/sk/{no_sk}` di domain utama,
+yang menampilkan data dari tabel `sertifikats` (hanya `tampil = true`). Sertifikat baru
+muncul setelah ditandai terkirim di CBT dan tersinkron (harian 02:00 atau tombol Sync).
+
+Agar subdomain aktif, di server:
+
+1. DNS: record `A` `verifikasi-sertifikat` → IP VPS yang sama dengan `lspedukia.id`.
+2. Web server: tambahkan subdomain ke vhost lspedukia.id — nginx: `server_name` (blok 80 & 443),
+   Apache: `ServerAlias verifikasi-sertifikat.lspedukia.id`.
+3. SSL: `sudo certbot --nginx -d lspedukia.id -d www.lspedukia.id -d verifikasi-sertifikat.lspedukia.id --expand`
+   (ganti `--nginx` dengan `--apache` bila memakai Apache; sesuaikan daftar `-d` dengan sertifikat yang ada).
+4. `php artisan config:cache && php artisan route:cache`.
+
 ## Lamaran karier
 
 - Lowongan dikelola di admin: **Karir → Lowongan**.

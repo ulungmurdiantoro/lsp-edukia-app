@@ -54,6 +54,9 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    // Subdomain di QR code sertifikat/SK CBT — dialihkan ke /verifikasi-sertifikat di domain utama.
+    'verifikasi_domain' => env('VERIFIKASI_DOMAIN', 'verifikasi-sertifikat.lspedukia.id'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

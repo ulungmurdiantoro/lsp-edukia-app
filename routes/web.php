@@ -8,6 +8,15 @@ use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\LlmsController;
 use App\Http\Controllers\KarierController;
 use App\Http\Controllers\DokumenLamaranController;
+use App\Http\Controllers\VerifikasiSertifikatController;
+
+// Subdomain verifikasi (tujuan QR di sertifikat/SK dari CBT) — harus terdaftar paling atas:
+// route tanpa domain di bawah juga cocok untuk host ini.
+Route::domain(config('app.verifikasi_domain'))->group(function () {
+    Route::get('/{path?}', [VerifikasiSertifikatController::class, 'fromSubdomain'])
+        ->where('path', '.*')
+        ->name('verifikasi.subdomain');
+});
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/informasi-publik', [PageController::class, 'informasi'])->name('informasi');
@@ -17,6 +26,11 @@ Route::get('/skema-sertifikasi/bidang/{bidang}', [SkemaController::class, 'bidan
 Route::get('/skema-sertifikasi/{slug}', [SkemaController::class, 'show'])->name('skema.show');
 Route::get('/daftar-penerima-sertifikat', [PageController::class, 'sertifikat'])->name('sertifikat');
 Route::get('/daftar-penerima-sertifikat/search', [PageController::class, 'sertifikatSearch'])->name('sertifikat.search');
+Route::permanentRedirect('/verifikasi-sertifikat', '/daftar-penerima-sertifikat');
+Route::get('/verifikasi-sertifikat/sk/{noSk}', [VerifikasiSertifikatController::class, 'sk'])
+    ->where('noSk', '.+')
+    ->name('verifikasi.sk');
+Route::get('/verifikasi-sertifikat/{nomor}', [VerifikasiSertifikatController::class, 'show'])->name('verifikasi.show');
 Route::get('/jadwal-sertifikasi-kompetensi', [PageController::class, 'jadwalSertifikasi'])->name('jadwal-sertifikasi');
 Route::get('/kegiatan', [PageController::class, 'kegiatan'])->name('kegiatan.index');
 Route::get('/webinar-gerakan-nasional-sertifikasi-kompetensi', [PageController::class, 'webinarGerakanNasional'])->name('webinar.gerakan-nasional');
@@ -43,5 +57,5 @@ Route::get('/dokumen-lamaran/{lamaran}/{jenis}', DokumenLamaranController::class
     ->name('lamaran.dokumen');
 
 Route::get('/{slug}', [BlogController::class, 'show'])
-    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|jadwal-sertifikasi-kompetensi$|karier$|kegiatan$|livewire$|llms\.txt$|llms-full\.txt$|login$|logout$|register$|reset-password$|sanctum$|sitemap\.xml$|skema-sertifikasi$|storage$|tentang-kami$|vendor$)[^/]+')
+    ->where('slug', '(?!admin$|api$|blog$|daftar-penerima-sertifikat$|email$|forgot-password$|informasi-publik$|jadwal-sertifikasi-kompetensi$|karier$|kegiatan$|livewire$|llms\.txt$|llms-full\.txt$|login$|logout$|register$|reset-password$|sanctum$|sitemap\.xml$|skema-sertifikasi$|storage$|tentang-kami$|vendor$|verifikasi-sertifikat$)[^/]+')
     ->name('blog.show');
