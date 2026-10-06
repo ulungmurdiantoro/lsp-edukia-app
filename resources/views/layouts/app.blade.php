@@ -44,7 +44,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdro
 .brand{display:flex;align-items:center;gap:12px;margin-right:auto;text-decoration:none}
 .brand-logo{height:52px;width:auto;display:block;object-fit:contain}
 nav.menu{display:flex;align-items:center;gap:24px}
-nav.menu > a,.menu-trigger{font-size:13.5px;font-weight:500;color:var(--ink-2);position:relative;padding:6px 0}
+nav.menu > a,.menu-trigger{font-size:13.5px;font-weight:500;color:var(--ink-2);position:relative;padding:6px 0;white-space:nowrap}
 nav.menu > a:hover,.menu-trigger:hover{color:var(--navy-800)}
 nav.menu > a.active,.menu-trigger.active{color:var(--navy-800);font-weight:600}
 nav.menu > a.active::after,.menu-trigger.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:linear-gradient(90deg,var(--blue),var(--orange));border-radius:2px}
@@ -62,6 +62,11 @@ nav.menu > a.active::after,.menu-trigger.active::after{content:"";position:absol
 @media(hover:hover) and (min-width:961px){
   .menu-group:hover .submenu{display:flex}
   .menu-group:hover .menu-trigger .chev{transform:rotate(180deg)}
+}
+/* Laptop kecil: rapatkan jarak agar semua menu tetap satu baris sebelum beralih ke hamburger */
+@media(min-width:961px) and (max-width:1060px){
+  .nav{gap:18px}
+  nav.menu{gap:16px}
 }
 /* Booklet — sengaja dibuat mencolok dibanding menu lain */
 nav.menu > a.menu-booklet{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 16px;border-radius:999px;background:var(--navy-800);color:#fff;font-weight:600;box-shadow:0 4px 14px rgba(10,37,71,.25);transition:background .2s,transform .15s}
@@ -279,16 +284,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
     @php($nav = $activeNav ?? '')
     <nav class="menu" id="site-menu" aria-label="Menu utama">
       <a href="{{ route('home') }}" @class(['active' => $nav === 'home'])>Beranda</a>
-      <div class="menu-group">
-        <button type="button" @class(['menu-trigger', 'active' => in_array($nav, ['tentang', 'informasi', 'karier'], true)]) aria-expanded="false" aria-controls="submenu-profil">
-          Profil <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="submenu" id="submenu-profil">
-          <a href="{{ route('tentang') }}" @class(['active' => $nav === 'tentang'])>Tentang Kami</a>
-          <a href="{{ route('informasi') }}" @class(['active' => $nav === 'informasi'])>Informasi Publik</a>
-          <a href="{{ route('karier.index') }}" @class(['active' => $nav === 'karier'])>Karier</a>
-        </div>
-      </div>
+      <a href="{{ route('tentang') }}" @class(['active' => $nav === 'tentang'])>Tentang Kami</a>
       <div class="menu-group">
         <button type="button" @class(['menu-trigger', 'active' => in_array($nav, ['skema', 'jadwal', 'sertifikat'], true)]) aria-expanded="false" aria-controls="submenu-sertifikasi">
           Sertifikasi <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
@@ -299,6 +295,8 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
           <a href="{{ route('sertifikat') }}" @class(['active' => $nav === 'sertifikat'])>Daftar Penerima Sertifikat</a>
         </div>
       </div>
+      <a href="{{ route('informasi') }}" @class(['active' => $nav === 'informasi'])>Informasi Publik</a>
+      {{-- Karier sengaja tidak di nav bar — tautannya ada di footer. --}}
       <a href="{{ route('blog.index') }}" @class(['active' => $nav === 'blog'])>Blog</a>
       {{-- Muncul hanya bila admin menampilkan minimal satu booklet (lihat AppServiceProvider). --}}
       @if($navBooklet ?? false)
@@ -334,6 +332,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
           <li><a href="{{ route('skema') }}">Skema Kompetensi</a></li>
           <li><a href="{{ route('jadwal-sertifikasi') }}">Jadwal Sertifikasi</a></li>
           <li><a href="{{ route('informasi') }}">Informasi Publik</a></li>
+          <li><a href="{{ route('karier.index') }}">Karier</a></li>
           @if($navBooklet ?? false)
           <li><a href="{{ route('booklet') }}">Booklet</a></li>
           @endif
@@ -376,7 +375,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
   var header = toggle.closest('header');
   var groups = header.querySelectorAll('.menu-group');
 
-  // Grup dropdown (Profil, Sertifikasi): hanya satu yang terbuka sekaligus.
+  // Grup dropdown (mis. Sertifikasi): hanya satu yang terbuka sekaligus.
   function closeGroups(except) {
     groups.forEach(function (g) {
       if (g === except) return;
