@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Booklet;
 use App\Support\Skemas;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
@@ -45,6 +46,9 @@ class AppServiceProvider extends ServiceProvider
                     'label' => $info['label'],
                     'jumlah' => Skemas::byBidang($key)->count(),
                 ])->values());
+
+            // Menu Booklet di nav bar & footer hanya muncul bila admin menampilkan minimal satu booklet.
+            $view->with('navBooklet', Booklet::tampil()->exists());
         });
     }
 }

@@ -40,14 +40,35 @@ p{margin:0;color:var(--ink-2)}
 .sub{color:var(--muted);font-size:16px;max-width:62ch}
 /* Header */
 header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;gap:32px;padding:14px 0}
+.nav{display:flex;align-items:center;gap:32px;padding-top:14px;padding-bottom:14px}/* bukan shorthand: padding samping .wrap harus tetap berlaku */
 .brand{display:flex;align-items:center;gap:12px;margin-right:auto;text-decoration:none}
 .brand-logo{height:52px;width:auto;display:block;object-fit:contain}
-nav.menu{display:flex;gap:20px}
-nav.menu a{font-size:13.5px;font-weight:500;color:var(--ink-2);position:relative;padding:6px 0}
-nav.menu a:hover{color:var(--navy-800)}
-nav.menu a.active{color:var(--navy-800);font-weight:600}
-nav.menu a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:linear-gradient(90deg,var(--blue),var(--orange));border-radius:2px}
+nav.menu{display:flex;align-items:center;gap:24px}
+nav.menu > a,.menu-trigger{font-size:13.5px;font-weight:500;color:var(--ink-2);position:relative;padding:6px 0}
+nav.menu > a:hover,.menu-trigger:hover{color:var(--navy-800)}
+nav.menu > a.active,.menu-trigger.active{color:var(--navy-800);font-weight:600}
+nav.menu > a.active::after,.menu-trigger.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:linear-gradient(90deg,var(--blue),var(--orange));border-radius:2px}
+/* Grup dropdown — terbuka lewat klik (semua perangkat) atau hover (desktop, lihat media query di bawah) */
+.menu-group{position:relative}
+.menu-trigger{display:inline-flex;align-items:center;gap:4px}
+.menu-trigger .chev{width:14px;height:14px;transition:transform .2s}
+.menu-group.open .menu-trigger .chev{transform:rotate(180deg)}
+.submenu{display:none;position:absolute;top:calc(100% + 12px);left:-14px;min-width:240px;flex-direction:column;padding:8px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(15,29,53,.14);z-index:60}
+.submenu::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px}/* jembatan hover: submenu tidak menutup saat kursor turun ke sini */
+.menu-group.open .submenu{display:flex}
+.submenu a{font-size:13.5px;font-weight:500;color:var(--ink-2);padding:9px 12px;border-radius:9px;white-space:nowrap}
+.submenu a:hover{background:var(--navy-50);color:var(--navy-800)}
+.submenu a.active{background:var(--navy-50);color:var(--navy-800);font-weight:600}
+@media(hover:hover) and (min-width:961px){
+  .menu-group:hover .submenu{display:flex}
+  .menu-group:hover .menu-trigger .chev{transform:rotate(180deg)}
+}
+/* Booklet — sengaja dibuat mencolok dibanding menu lain */
+nav.menu > a.menu-booklet{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 16px;border-radius:999px;background:var(--navy-800);color:#fff;font-weight:600;box-shadow:0 4px 14px rgba(10,37,71,.25);transition:background .2s,transform .15s}
+nav.menu > a.menu-booklet:hover{background:var(--navy-600);transform:translateY(-1px)}
+nav.menu > a.menu-booklet .icon{width:16px;height:16px;color:var(--orange)}
+nav.menu > a.menu-booklet.active{box-shadow:0 0 0 3px var(--blue-50),0 4px 14px rgba(10,37,71,.25)}
+nav.menu > a.menu-booklet.active::after{display:none}
 /* Tombol menu (hamburger) — hanya tampil di layar ≤960px */
 .nav-toggle{display:none;align-items:center;justify-content:center;width:42px;height:42px;flex:0 0 auto;border:1px solid var(--line-2);border-radius:12px;background:#fff;color:var(--navy-800);cursor:pointer;padding:0}
 .nav-toggle svg{width:22px;height:22px}
@@ -190,12 +211,21 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
   .cta{grid-template-columns:1fr;text-align:left}
   .nav{gap:12px}
   .nav-toggle{display:inline-flex}
-  nav.menu{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;padding:6px 20px 14px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 18px 30px rgba(15,29,53,.12);max-height:calc(100vh - 80px);overflow-y:auto}
+  nav.menu{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;padding:6px 20px 14px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 18px 30px rgba(15,29,53,.12);max-height:calc(100vh - 80px);overflow-y:auto}
   header.menu-open nav.menu{display:flex}
-  nav.menu a{font-size:15px;padding:13px 2px;border-bottom:1px solid var(--cream-2)}
-  nav.menu a:last-child{border-bottom:0}
-  nav.menu a.active{color:var(--orange-deep)}
-  nav.menu a.active::after{display:none}
+  nav.menu > a,.menu-trigger{font-size:15px;padding:13px 2px;border-bottom:1px solid var(--cream-2)}
+  .menu-trigger{width:100%;justify-content:space-between}
+  .menu-group.open .menu-trigger{border-bottom-color:transparent}
+  nav.menu > a:last-child{border-bottom:0}
+  nav.menu > a.active,.menu-trigger.active{color:var(--orange-deep)}
+  nav.menu > a.active::after,.menu-trigger.active::after{display:none}
+  .submenu{position:static;min-width:0;padding:0 0 10px 12px;border:0;border-bottom:1px solid var(--cream-2);border-radius:0;box-shadow:none}
+  .submenu::before{display:none}
+  .submenu a{font-size:14.5px;padding:10px 12px}
+  .submenu a.active{background:var(--orange-50);color:var(--orange-deep)}
+  /* Di menu mobile, Booklet naik ke paling atas sebagai tombol penuh */
+  nav.menu > a.menu-booklet{order:-1;justify-content:center;height:46px;margin:8px 0 6px;font-size:15px;border-bottom:0}
+  nav.menu > a:has(+ a.menu-booklet:last-child){border-bottom:0}
   section{padding:64px 0}
   .wrap{padding:0 20px}
   .slide{flex:0 0 calc(80% - 10px)}
@@ -229,6 +259,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
   <symbol id="i-monitor" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M3 5h18v12H3zM8 21h8M12 17v4"></path></symbol>
   <symbol id="i-award" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M12 3l3 6 7 1-5 4 1 7-6-3-6 3 1-7-5-4 7-1z"></path></symbol>
   <symbol id="i-image" viewBox="0 0 24 24"><rect fill="none" stroke="currentColor" stroke-width="1.6" x="3" y="3" width="18" height="18" rx="3"></rect><circle fill="none" stroke="currentColor" stroke-width="1.6" cx="8.5" cy="8.5" r="1.5"></circle><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M21 15l-5-5L5 21"></path></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5zM12 6.5v13"></path></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"></path></symbol>
   <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M20.5 3.5A11.4 11.4 0 0012.05 0C5.5 0 .2 5.3.2 11.85a11.7 11.7 0 001.6 5.95L0 24l6.35-1.65a11.85 11.85 0 005.7 1.45h.01c6.55 0 11.85-5.3 11.85-11.85a11.7 11.7 0 00-3.41-8.45zm-8.45 18.2a9.95 9.95 0 01-5.05-1.4l-.36-.22-3.77.98 1-3.67-.24-.38a9.85 9.85 0 1118.05-5.46c0 5.45-4.45 9.9-9.63 10.15zM17.5 14.3c-.3-.15-1.75-.85-2-1s-.45-.15-.65.15-.75 1-.9 1.2-.3.2-.6.05a8.1 8.1 0 01-2.4-1.5 9 9 0 01-1.65-2.05c-.2-.3 0-.45.15-.6s.3-.4.45-.55a2.7 2.7 0 00.3-.5.6.6 0 000-.55c0-.15-.65-1.55-.9-2.1s-.5-.5-.7-.5h-.55a1.1 1.1 0 00-.8.4 3.3 3.3 0 00-1 2.5 5.7 5.7 0 001.2 3.1 13.5 13.5 0 005.45 4.65c.75.3 1.35.45 1.8.6a4.4 4.4 0 002 .15 3.3 3.3 0 002.15-1.5 2.65 2.65 0 00.15-1.5c-.05-.1-.25-.2-.55-.35z"></path></symbol>
   <symbol id="i-arrow-r" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"></path></symbol>
@@ -245,15 +276,34 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
     <a class="brand" href="{{ route('home') }}">
       <img src="{{ asset('LOGO-EDUKIA-REV.002-UPD.14032024-001.png') }}" class="brand-logo" alt="LSP Edukia">
     </a>
-    <nav class="menu" id="site-menu">
-      <a href="{{ route('home') }}" @class(['active' => ($activeNav ?? '') === 'home'])>Beranda</a>
-      <a href="{{ route('tentang') }}" @class(['active' => ($activeNav ?? '') === 'tentang'])>Tentang Kami</a>
-      <a href="{{ route('skema') }}" @class(['active' => ($activeNav ?? '') === 'skema'])>Skema Kompetensi</a>
-      <a href="{{ route('informasi') }}" @class(['active' => ($activeNav ?? '') === 'informasi'])>Informasi Publik</a>
-      <a href="{{ route('sertifikat') }}" @class(['active' => ($activeNav ?? '') === 'sertifikat'])>Daftar Penerima Sertifikat</a>
-      <a href="{{ route('jadwal-sertifikasi') }}" @class(['active' => ($activeNav ?? '') === 'jadwal'])>Jadwal Sertifikasi</a>
-      <a href="{{ route('karier.index') }}" @class(['active' => ($activeNav ?? '') === 'karier'])>Karier</a>
-      <a href="{{ route('blog.index') }}" @class(['active' => ($activeNav ?? '') === 'blog'])>Blog</a>
+    @php($nav = $activeNav ?? '')
+    <nav class="menu" id="site-menu" aria-label="Menu utama">
+      <a href="{{ route('home') }}" @class(['active' => $nav === 'home'])>Beranda</a>
+      <div class="menu-group">
+        <button type="button" @class(['menu-trigger', 'active' => in_array($nav, ['tentang', 'informasi', 'karier'], true)]) aria-expanded="false" aria-controls="submenu-profil">
+          Profil <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="submenu" id="submenu-profil">
+          <a href="{{ route('tentang') }}" @class(['active' => $nav === 'tentang'])>Tentang Kami</a>
+          <a href="{{ route('informasi') }}" @class(['active' => $nav === 'informasi'])>Informasi Publik</a>
+          <a href="{{ route('karier.index') }}" @class(['active' => $nav === 'karier'])>Karier</a>
+        </div>
+      </div>
+      <div class="menu-group">
+        <button type="button" @class(['menu-trigger', 'active' => in_array($nav, ['skema', 'jadwal', 'sertifikat'], true)]) aria-expanded="false" aria-controls="submenu-sertifikasi">
+          Sertifikasi <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="submenu" id="submenu-sertifikasi">
+          <a href="{{ route('skema') }}" @class(['active' => $nav === 'skema'])>Skema Kompetensi</a>
+          <a href="{{ route('jadwal-sertifikasi') }}" @class(['active' => $nav === 'jadwal'])>Jadwal Sertifikasi</a>
+          <a href="{{ route('sertifikat') }}" @class(['active' => $nav === 'sertifikat'])>Daftar Penerima Sertifikat</a>
+        </div>
+      </div>
+      <a href="{{ route('blog.index') }}" @class(['active' => $nav === 'blog'])>Blog</a>
+      {{-- Muncul hanya bila admin menampilkan minimal satu booklet (lihat AppServiceProvider). --}}
+      @if($navBooklet ?? false)
+      <a href="{{ route('booklet') }}" @class(['menu-booklet', 'active' => $nav === 'booklet'])><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg>Booklet</a>
+      @endif
     </nav>
     <a href="https://wa.me/6285175479385" target="_blank" rel="noopener" class="btn btn-primary">Daftar Sekarang
       <svg class="icon"><use href="#i-arrow-r"></use></svg>
@@ -284,6 +334,9 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
           <li><a href="{{ route('skema') }}">Skema Kompetensi</a></li>
           <li><a href="{{ route('jadwal-sertifikasi') }}">Jadwal Sertifikasi</a></li>
           <li><a href="{{ route('informasi') }}">Informasi Publik</a></li>
+          @if($navBooklet ?? false)
+          <li><a href="{{ route('booklet') }}">Booklet</a></li>
+          @endif
         </ul>
       </div>
       <div class="foot-col">
@@ -321,18 +374,41 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
   var toggle = document.querySelector('.nav-toggle');
   if (!toggle) return;
   var header = toggle.closest('header');
+  var groups = header.querySelectorAll('.menu-group');
+
+  // Grup dropdown (Profil, Sertifikasi): hanya satu yang terbuka sekaligus.
+  function closeGroups(except) {
+    groups.forEach(function (g) {
+      if (g === except) return;
+      g.classList.remove('open');
+      g.querySelector('.menu-trigger').setAttribute('aria-expanded', 'false');
+    });
+  }
 
   function setOpen(open) {
     header.classList.toggle('menu-open', open);
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+    if (!open) closeGroups();
   }
 
   toggle.addEventListener('click', function () { setOpen(!header.classList.contains('menu-open')); });
+  groups.forEach(function (g) {
+    var trigger = g.querySelector('.menu-trigger');
+    trigger.addEventListener('click', function () {
+      var open = !g.classList.contains('open');
+      closeGroups(g);
+      g.classList.toggle('open', open);
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
   header.querySelectorAll('#site-menu a').forEach(function (a) {
     a.addEventListener('click', function () { setOpen(false); });
   });
-  document.addEventListener('click', function (e) { if (!header.contains(e.target)) setOpen(false); });
+  document.addEventListener('click', function (e) {
+    if (!header.contains(e.target)) setOpen(false);
+    else if (!e.target.closest('.menu-group')) closeGroups();
+  });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
 })();
 </script>

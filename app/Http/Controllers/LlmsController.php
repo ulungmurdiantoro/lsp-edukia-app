@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booklet;
 use App\Models\Post;
 use App\Support\Skemas;
 use Illuminate\Http\Response;
@@ -65,6 +66,9 @@ class LlmsController extends Controller
             $lines[] = '- [Daftar Penerima Sertifikat]('.route('sertifikat').'): verifikasi keaslian sertifikat kompetensi.';
             $lines[] = '- [Jadwal Sertifikasi Kompetensi]('.route('jadwal-sertifikasi').'): jadwal pelaksanaan sertifikasi per sektor.';
             $lines[] = '- [Kegiatan & Pelatihan]('.route('kegiatan.index').'): dokumentasi kegiatan, pelatihan, dan asesmen.';
+            if (Booklet::tampil()->exists()) {
+                $lines[] = '- [Booklet]('.route('booklet').'): booklet resmi lembaga untuk dibaca online atau diunduh.';
+            }
             $lines[] = '';
 
             // ── Artikel & blog (konteks tambahan) ───────────────────────

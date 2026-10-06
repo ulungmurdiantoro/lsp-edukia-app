@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booklet;
 use App\Models\Post;
 use App\Support\Skemas;
 use Illuminate\Http\Response;
@@ -24,6 +25,10 @@ class SitemapController extends Controller
                 ['url' => route('kegiatan.index'), 'priority' => '0.6', 'changefreq' => 'monthly'],
                 ['url' => route('webinar.gerakan-nasional'), 'priority' => '0.6', 'changefreq' => 'monthly'],
             ];
+
+            if (Booklet::tampil()->exists()) {
+                $staticPages[] = ['url' => route('booklet'), 'priority' => '0.6', 'changefreq' => 'monthly'];
+            }
 
             // Hub per bidang skema.
             foreach (array_keys(Skemas::bidangs()) as $bidang) {

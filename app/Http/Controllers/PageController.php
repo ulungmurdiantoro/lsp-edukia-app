@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booklet;
 use App\Models\JadwalSertifikasi;
 use App\Models\Kegiatan;
 use App\Models\Post;
@@ -235,6 +236,23 @@ class PageController extends Controller
                 description: 'Dokumentasi kegiatan sertifikasi, pelatihan, dan asesmen kompetensi yang diselenggarakan LSP Edukia bersama mitra industri dan perguruan tinggi.',
                 schema: SchemaCollection::initialize()
                     ->addBreadcrumbs(fn (BreadcrumbListSchema $b) => $b->prependBreadcrumbs([
+                        'Beranda' => url('/'),
+                    ])),
+            ));
+    }
+
+    public function booklet()
+    {
+        $booklets = Booklet::tampil()->orderBy('urutan')->latest()->get();
+
+        return view('booklet', compact('booklets'))
+            ->with('activeNav', 'booklet')
+            ->with('SEOData', new SEOData(
+                title: 'Booklet',
+                description: 'Baca dan unduh booklet resmi LSP Edukia: profil lembaga, skema sertifikasi kompetensi person, serta informasi alur dan persyaratan uji kompetensi.',
+                image: 'images/hero-informasi.jpg',
+                schema: SchemaCollection::initialize()
+                    ->addBreadcrumbs(fn (BreadcrumbListSchema $b): BreadcrumbListSchema => $b->prependBreadcrumbs([
                         'Beranda' => url('/'),
                     ])),
             ));
