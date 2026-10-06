@@ -66,8 +66,8 @@ class LlmsController extends Controller
             $lines[] = '- [Daftar Penerima Sertifikat]('.route('sertifikat').'): verifikasi keaslian sertifikat kompetensi.';
             $lines[] = '- [Jadwal Sertifikasi Kompetensi]('.route('jadwal-sertifikasi').'): jadwal pelaksanaan sertifikasi per sektor.';
             $lines[] = '- [Kegiatan & Pelatihan]('.route('kegiatan.index').'): dokumentasi kegiatan, pelatihan, dan asesmen.';
-            if (Booklet::tampil()->exists()) {
-                $lines[] = '- [Booklet]('.route('booklet').'): booklet resmi lembaga untuk dibaca online atau diunduh.';
+            if (Booklet::aktif()) {
+                $lines[] = '- [Booklet]('.route('booklet').'): booklet resmi lembaga untuk dibaca online.';
             }
             $lines[] = '';
 

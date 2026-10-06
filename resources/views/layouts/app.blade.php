@@ -298,9 +298,9 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
       <a href="{{ route('informasi') }}" @class(['active' => $nav === 'informasi'])>Informasi Publik</a>
       {{-- Karier sengaja tidak di nav bar — tautannya ada di footer. --}}
       <a href="{{ route('blog.index') }}" @class(['active' => $nav === 'blog'])>Blog</a>
-      {{-- Muncul hanya bila admin menampilkan minimal satu booklet (lihat AppServiceProvider). --}}
-      @if($navBooklet ?? false)
-      <a href="{{ route('booklet') }}" @class(['menu-booklet', 'active' => $nav === 'booklet'])><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg>Booklet</a>
+      {{-- Muncul hanya bila admin menampilkan booklet (lihat AppServiceProvider). Booklet tautan eksternal dibuka di tab baru. --}}
+      @if($navBooklet ?? null)
+      <a href="{{ route('booklet') }}" @class(['menu-booklet', 'active' => $nav === 'booklet']) @if(! $navBooklet->file) target="_blank" rel="noopener" @endif><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg>Booklet</a>
       @endif
     </nav>
     <a href="https://wa.me/6285175479385" target="_blank" rel="noopener" class="btn btn-primary">Daftar Sekarang
@@ -333,8 +333,8 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.7);padding:64px 0 28px
           <li><a href="{{ route('jadwal-sertifikasi') }}">Jadwal Sertifikasi</a></li>
           <li><a href="{{ route('informasi') }}">Informasi Publik</a></li>
           <li><a href="{{ route('karier.index') }}">Karier</a></li>
-          @if($navBooklet ?? false)
-          <li><a href="{{ route('booklet') }}">Booklet</a></li>
+          @if($navBooklet ?? null)
+          <li><a href="{{ route('booklet') }}" @if(! $navBooklet->file) target="_blank" rel="noopener" @endif>Booklet</a></li>
           @endif
         </ul>
       </div>

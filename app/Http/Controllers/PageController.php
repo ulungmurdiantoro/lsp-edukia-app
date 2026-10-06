@@ -243,13 +243,18 @@ class PageController extends Controller
 
     public function booklet()
     {
-        $booklets = Booklet::tampil()->orderBy('urutan')->latest()->get();
+        $booklet = Booklet::aktif() ?? abort(404);
 
-        return view('booklet', compact('booklets'))
+        // Booklet berupa tautan eksternal (flipbook, Drive, Canva) dibaca langsung di sana.
+        if (! $booklet->file) {
+            return redirect()->away($booklet->link);
+        }
+
+        return view('booklet', compact('booklet'))
             ->with('activeNav', 'booklet')
             ->with('SEOData', new SEOData(
-                title: 'Booklet',
-                description: 'Baca dan unduh booklet resmi LSP Edukia: profil lembaga, skema sertifikasi kompetensi person, serta informasi alur dan persyaratan uji kompetensi.',
+                title: $booklet->judul,
+                description: 'Baca booklet resmi LSP Edukia secara online: profil lembaga, skema sertifikasi kompetensi person, serta alur dan persyaratan uji kompetensi.',
                 image: 'images/hero-informasi.jpg',
                 schema: SchemaCollection::initialize()
                     ->addBreadcrumbs(fn (BreadcrumbListSchema $b): BreadcrumbListSchema => $b->prependBreadcrumbs([

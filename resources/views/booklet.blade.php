@@ -1,95 +1,182 @@
 @extends('layouts.app')
-{{-- Meta dikelola via $SEOData dari PageController@booklet. --}}
-{{-- $booklets: Collection<Booklet> yang ditampilkan, urut kolom `urutan` — dikelola admin di menu Booklet. --}}
+{{-- Mode baca booklet (PageController@booklet). $booklet: Booklet aktif yang punya file PDF. --}}
+{{-- PDF dirender per halaman ke <canvas> dengan PDF.js (public/vendor/pdfjs) — iframe PDF tidak tampil di
+     kebanyakan browser HP. Halaman hanya digambar saat mendekati layar & dilepas saat jauh agar hemat memori. --}}
 @push('head')
-<link rel="preload" as="image" href="{{ asset('images/hero-informasi.jpg') }}" fetchpriority="high">
+<link rel="modulepreload" href="{{ asset('vendor/pdfjs/pdf.min.js') }}">
 @endpush
 
 @section('extra-css')
 <style>
-.page-hero{background:radial-gradient(700px 400px at 80% -10%,rgba(68,159,229,.25),transparent 60%),radial-gradient(600px 300px at 10% 110%,rgba(244,137,31,.15),transparent 60%),linear-gradient(180deg,rgba(10,37,71,.82) 0%,rgba(6,23,46,.92) 100%),url('/images/hero-informasi.jpg');background-size:auto,auto,auto,cover;background-position:center;color:#fff;position:relative;overflow:hidden;border-top:0;padding:0}
-.page-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(80% 70% at 50% 30%,#000 30%,transparent 80%)}
-.page-hero-inner{padding:80px 0 88px;position:relative}
-.badge{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px 0 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);font-size:12.5px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:20px}
-.page-hero h1{color:#fff;margin-bottom:16px}
-.page-hero h1 em{font-family:"Fraunces",serif;font-style:italic;font-weight:500;color:var(--blue);letter-spacing:-0.02em}
-.page-hero p.lead{color:rgba(255,255,255,.78);font-size:17px;max-width:56ch;line-height:1.55}
-
-/* auto-fit: satu booklet melebar penuh, dua booklet berdampingan */
-.booklet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr));gap:24px}
-.booklet-card{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;transition:border-color .2s,box-shadow .2s,transform .2s}
-.booklet-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 12px 32px rgba(15,29,53,.08)}
-.booklet-cover{aspect-ratio:3/4;border-radius:10px;overflow:hidden;background:linear-gradient(150deg,var(--navy-700),var(--navy-900));box-shadow:0 10px 24px rgba(10,37,71,.18);display:block}
-.booklet-cover img{width:100%;height:100%;object-fit:cover;display:block}
-.booklet-cover .ph{height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:18px 16px;color:#fff}
-.booklet-cover .ph svg{width:30px;height:30px;color:var(--orange)}
-.booklet-cover .ph span{font-weight:700;font-size:15px;line-height:1.3;letter-spacing:-0.01em}
-.booklet-body{display:flex;flex-direction:column;gap:10px;min-width:0;padding-top:4px}
-.booklet-kind{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--blue-deep)}
-.booklet-body h2{font-size:22px;line-height:1.25;letter-spacing:-0.02em}
-.booklet-body p{font-size:14.5px;color:var(--muted);line-height:1.6;max-width:60ch}
-.booklet-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-
-.booklet-empty{padding:60px 24px;text-align:center;color:var(--muted);font-size:14px;background:#fff;border:1px solid var(--line);border-radius:16px}
-
+.reader{padding:0;border-top:0;background:#e8e4da;min-height:70vh}
+.reader-bar{background:#fff;border-bottom:1px solid var(--line)}
+.reader-bar .wrap{display:flex;align-items:center;gap:16px;padding-top:12px;padding-bottom:12px}
+.reader-title{display:flex;align-items:center;gap:10px;min-width:0;margin-right:auto}
+.reader-title svg{width:22px;height:22px;color:var(--orange);flex:0 0 auto}
+.reader-title h1{font-size:17px;line-height:1.3;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reader-bar .btn{height:38px;padding:0 16px;font-size:13.5px;flex:0 0 auto}
+.reader-pages{max-width:920px;margin:0 auto;padding:24px 16px 72px;display:flex;flex-direction:column;gap:16px}
+/* Tinggi placeholder lewat padding-bottom (rasio halaman) — aman untuk browser lama tanpa aspect-ratio */
+.reader-page{position:relative;height:0;background:#fff;box-shadow:0 6px 24px rgba(15,29,53,.12);border-radius:3px;overflow:hidden}
+.reader-page canvas{position:absolute;top:0;left:0;width:100%;height:100%;display:block}
+.reader-msg{max-width:520px;margin:0 auto;padding:72px 24px;text-align:center;color:var(--muted);font-size:14.5px}
+.reader-msg .btn{margin-top:18px}
+.reader-pos{position:fixed;left:28px;bottom:34px;z-index:98;height:40px;padding:0 16px;border-radius:999px;background:rgba(6,23,46,.88);color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;font-variant-numeric:tabular-nums;box-shadow:0 6px 20px rgba(6,23,46,.25)}
+.reader-pos[hidden]{display:none}
 @media(max-width:640px){
-  .booklet-card{grid-template-columns:110px 1fr;gap:18px;padding:18px}
-  .booklet-body h2{font-size:18px}
-  .booklet-cover .ph{padding:12px 10px}
-  .booklet-cover .ph span{font-size:12px}
-  .booklet-actions .btn{height:40px;padding:0 14px;font-size:13.5px}
+  .reader-bar .wrap{gap:12px;padding-top:10px;padding-bottom:10px}
+  .reader-title h1{font-size:15px}
+  .reader-pages{padding:12px 8px 88px;gap:10px}
+  .reader-pos{left:16px}
 }
 </style>
 @endsection
 
 @section('content')
-<div class="page-hero">
-  <div class="wrap page-hero-inner">
-    <div class="badge">Booklet · LSP Edukia</div>
-    <h1>Booklet <em>LSP Edukia</em></h1>
-    <p class="lead">Kenali LSP Edukasi Global Cendekia lebih dekat — profil lembaga, skema sertifikasi kompetensi, serta alur dan persyaratan uji kompetensi dalam satu booklet yang bisa dibaca online atau diunduh.</p>
-  </div>
-</div>
-
-<section style="padding:60px 0 96px;background:var(--cream)">
-  <div class="wrap">
-    @if($booklets->isEmpty())
-      <div class="booklet-empty">Belum ada booklet yang dipublikasikan. Silakan cek kembali nanti atau hubungi tim kami via WhatsApp.</div>
-    @else
-      <div class="booklet-grid">
-        @foreach($booklets as $booklet)
-        <article class="booklet-card">
-          <a class="booklet-cover" href="{{ $booklet->url() }}" target="_blank" rel="noopener" aria-label="Baca {{ $booklet->judul }}">
-            @if($booklet->coverUrl())
-              <img src="{{ $booklet->coverUrl() }}" alt="Sampul {{ $booklet->judul }}" loading="lazy">
-            @else
-              <div class="ph">
-                <svg><use href="#i-book"></use></svg>
-                <span>{{ $booklet->judul }}</span>
-              </div>
-            @endif
-          </a>
-          <div class="booklet-body">
-            <div class="booklet-kind">{{ $booklet->bisaDiunduh() ? 'Booklet · PDF' : 'Booklet · Online' }}</div>
-            <h2>{{ $booklet->judul }}</h2>
-            @if($booklet->deskripsi)
-              <p>{{ $booklet->deskripsi }}</p>
-            @endif
-            <div class="booklet-actions">
-              <a class="btn btn-primary" href="{{ $booklet->url() }}" target="_blank" rel="noopener">
-                <svg class="icon"><use href="#i-book"></use></svg> Baca Booklet
-              </a>
-              @if($booklet->bisaDiunduh())
-                <a class="btn btn-outline" href="{{ $booklet->url() }}" download="{{ $booklet->namaUnduhan() }}">
-                  <svg class="icon"><use href="#i-download"></use></svg> Unduh PDF
-                </a>
-              @endif
-            </div>
-          </div>
-        </article>
-        @endforeach
+<section class="reader">
+  <div class="reader-bar">
+    <div class="wrap">
+      <div class="reader-title">
+        <svg aria-hidden="true"><use href="#i-book"></use></svg>
+        <h1>{{ $booklet->judul }}</h1>
       </div>
-    @endif
+      <a class="btn btn-outline" href="{{ $booklet->url() }}" download="{{ $booklet->namaUnduhan() }}">
+        <svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg> Unduh
+      </a>
+    </div>
   </div>
+
+  <div class="reader-pages" id="reader-pages" aria-label="Halaman booklet"></div>
+  <div class="reader-msg" id="reader-msg" role="status"><p>Memuat booklet…</p></div>
+  <div class="reader-pos" id="reader-pos" aria-live="polite" hidden></div>
+
+  <template id="reader-fallback">
+    <p>Booklet tidak dapat ditampilkan di browser ini. Silakan buka file PDF-nya langsung.</p>
+    <a class="btn btn-primary" href="{{ $booklet->url() }}" target="_blank" rel="noopener">Buka PDF
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow-r"></use></svg>
+    </a>
+  </template>
 </section>
+@endsection
+
+@section('scripts')
+<script nomodule>
+document.getElementById('reader-msg').innerHTML = document.getElementById('reader-fallback').innerHTML;
+</script>
+<script type="module">
+const SRC = @json($booklet->url());
+const LIB = @json(asset('vendor/pdfjs/pdf.min.js'));
+const WORKER = @json(asset('vendor/pdfjs/pdf.worker.min.js'));
+const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+const pagesEl = document.getElementById('reader-pages');
+const msgEl = document.getElementById('reader-msg');
+const posEl = document.getElementById('reader-pos');
+
+function showFallback(err) {
+  if (err) console.error(err);
+  pagesEl.hidden = true;
+  posEl.hidden = true;
+  msgEl.hidden = false;
+  msgEl.innerHTML = document.getElementById('reader-fallback').innerHTML;
+}
+
+async function run(pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = WORKER;
+
+  const task = pdfjsLib.getDocument({ url: SRC });
+  task.onProgress = ({ loaded, total }) => {
+    if (total) msgEl.firstElementChild.textContent = 'Memuat booklet… ' + Math.min(99, Math.round(loaded / total * 100)) + '%';
+  };
+  const pdf = await task.promise;
+  const total = pdf.numPages;
+
+  // Semua placeholder memakai rasio halaman 1 (booklet umumnya seragam); tiap halaman
+  // mengoreksi rasionya sendiri saat digambar.
+  const first = (await pdf.getPage(1)).getViewport({ scale: 1 });
+  const ratio = (first.height / first.width * 100) + '%';
+  const pages = [];
+  for (let n = 1; n <= total; n++) {
+    const el = document.createElement('div');
+    el.className = 'reader-page';
+    el.style.paddingBottom = ratio;
+    el.dataset.i = String(n - 1);
+    el.setAttribute('aria-label', 'Halaman ' + n);
+    pagesEl.appendChild(el);
+    pages.push({ n, el, page: null, canvas: null, task: null, near: false });
+  }
+  msgEl.hidden = true;
+
+  async function draw(p) {
+    if (p.canvas) return;
+    const canvas = document.createElement('canvas');
+    p.canvas = canvas; // dipasang lebih dulu agar draw() ganda untuk halaman yang sama diabaikan
+    try {
+      p.page = p.page || await pdf.getPage(p.n);
+      if (p.canvas !== canvas) return; // sudah dilepas selagi menunggu
+      const base = p.page.getViewport({ scale: 1 });
+      p.el.style.paddingBottom = (base.height / base.width * 100) + '%';
+      const viewport = p.page.getViewport({ scale: p.el.clientWidth / base.width * DPR });
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+      p.el.appendChild(canvas);
+      p.task = p.page.render({ canvas, viewport });
+      await p.task.promise;
+    } catch (err) {
+      if (!(err instanceof pdfjsLib.RenderingCancelledException)) console.error(err);
+    } finally {
+      if (p.canvas === canvas) p.task = null;
+    }
+  }
+
+  function release(p) {
+    if (!p.canvas) return;
+    if (p.task) p.task.cancel();
+    p.task = null;
+    p.canvas.width = p.canvas.height = 0; // bebaskan memori kanvas segera, tidak menunggu GC
+    p.canvas.remove();
+    p.canvas = null;
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      const p = pages[e.target.dataset.i];
+      p.near = e.isIntersecting;
+      if (p.near) draw(p); else release(p);
+    }
+  }, { rootMargin: '1200px 0px' });
+  pages.forEach((p) => io.observe(p.el));
+
+  // Penanda "halaman X / N": halaman yang melintasi tengah layar.
+  let ticking = false;
+  function updatePos() {
+    ticking = false;
+    const mid = window.innerHeight / 2;
+    const cur = pages.find((p) => p.el.getBoundingClientRect().bottom > mid) || pages[total - 1];
+    posEl.textContent = cur.n + ' / ' + total;
+  }
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(updatePos); } }, { passive: true });
+  updatePos();
+  posEl.hidden = false;
+
+  // Lebar berubah jauh (putar layar, ubah ukuran jendela) → gambar ulang agar tetap tajam.
+  let lastWidth = pagesEl.clientWidth;
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const w = pagesEl.clientWidth;
+      if (Math.abs(w - lastWidth) / lastWidth < 0.15) return;
+      lastWidth = w;
+      pages.forEach((p) => { if (p.canvas) { release(p); if (p.near) draw(p); } });
+    }, 200);
+  });
+}
+
+if (!('IntersectionObserver' in window)) {
+  showFallback();
+} else {
+  import(LIB).then(run).catch(showFallback);
+}
+</script>
 @endsection

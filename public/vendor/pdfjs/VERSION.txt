@@ -1,0 +1,5 @@
+PDF.js (pdfjs-dist) 6.4.299 — legacy build, dari npm pdfjs-dist@6.4.299.
+Dipakai oleh resources/views/booklet.blade.php (mode baca booklet).
+Berkas aslinya .mjs; diganti ekstensi .js agar server mana pun mengirim MIME JavaScript
+(syarat <script type="module"> & module worker). Untuk upgrade: salin legacy/build/pdf.min.mjs
+& pdf.worker.min.mjs dari paket npm versi baru, lalu ganti ekstensinya ke .js.

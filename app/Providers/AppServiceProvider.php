@@ -47,8 +47,8 @@ class AppServiceProvider extends ServiceProvider
                     'jumlah' => Skemas::byBidang($key)->count(),
                 ])->values());
 
-            // Menu Booklet di nav bar & footer hanya muncul bila admin menampilkan minimal satu booklet.
-            $view->with('navBooklet', Booklet::tampil()->exists());
+            // Menu Booklet di nav bar & footer hanya muncul bila admin menampilkan booklet (null = sembunyikan).
+            $view->with('navBooklet', Booklet::aktif());
         });
     }
 }

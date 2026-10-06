@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Filament\Resources\BookletResource\Pages\CreateBooklet;
-use App\Filament\Resources\BookletResource\Pages\EditBooklet;
+use App\Filament\Pages\KelolaBooklet;
 use App\Models\Booklet;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,75 +22,85 @@ class BookletTest extends TestCase
         Storage::fake('public');
     }
 
-    public function test_nav_hides_booklet_until_a_visible_booklet_exists(): void
+    public function test_nav_hides_booklet_until_admin_shows_it(): void
     {
-        Booklet::create(['judul' => 'Draf', 'link' => 'https://example.com/draf', 'tampil' => false]);
-
         $navLink = 'href="'.route('booklet').'" class="menu-booklet"';
+        $booklet = Booklet::create(['judul' => 'Booklet', 'file' => 'booklet/a.pdf', 'tampil' => false]);
 
         $this->get(route('home'))->assertOk()->assertDontSee($navLink, false);
+        $this->get(route('booklet'))->assertNotFound();
 
-        Booklet::create(['judul' => 'Company Profile', 'link' => 'https://example.com/cp', 'tampil' => true]);
+        $booklet->update(['tampil' => true]);
 
         $this->get(route('home'))->assertOk()->assertSee($navLink, false);
     }
 
-    public function test_booklet_page_shows_empty_state_without_booklets(): void
-    {
-        $this->get(route('booklet'))->assertOk()->assertSee('Belum ada booklet yang dipublikasikan.');
-    }
-
-    public function test_booklet_page_lists_visible_booklets_with_read_and_download_links(): void
+    public function test_booklet_page_opens_pdf_in_reading_mode(): void
     {
         Storage::disk('public')->put('booklet/profil-lsp-edukia-abc123.pdf', '%PDF-1.4 test');
-
-        Booklet::create(['judul' => 'Profil LSP Edukia', 'file' => 'booklet/profil-lsp-edukia-abc123.pdf', 'urutan' => 1]);
-        Booklet::create(['judul' => 'Katalog Skema', 'link' => 'https://example.com/flipbook', 'urutan' => 2]);
-        Booklet::create(['judul' => 'Booklet Tersembunyi', 'link' => 'https://example.com/x', 'tampil' => false]);
+        Booklet::create(['judul' => 'Profil LSP Edukia', 'file' => 'booklet/profil-lsp-edukia-abc123.pdf']);
 
         $this->get(route('booklet'))
             ->assertOk()
-            ->assertSeeInOrder(['Profil LSP Edukia', 'Katalog Skema'])
-            ->assertSee(Storage::disk('public')->url('booklet/profil-lsp-edukia-abc123.pdf'), false)
+            ->assertSee('Profil LSP Edukia')
+            ->assertSee(json_encode(Storage::disk('public')->url('booklet/profil-lsp-edukia-abc123.pdf')), false)
             ->assertSee('download="profil-lsp-edukia.pdf"', false)
-            ->assertSee('https://example.com/flipbook', false)
-            ->assertDontSee('Booklet Tersembunyi');
+            ->assertSee(json_encode(asset('vendor/pdfjs/pdf.min.js')), false);
     }
 
-    public function test_admin_can_view_booklet_pages(): void
+    public function test_external_link_booklet_redirects_and_opens_in_new_tab(): void
+    {
+        Booklet::create(['judul' => 'Flipbook', 'link' => 'https://example.com/flipbook']);
+
+        $this->get(route('booklet'))->assertRedirect('https://example.com/flipbook');
+        $this->assertMatchesRegularExpression(
+            '#class="menu-booklet"\s+target="_blank"#',
+            $this->get(route('home'))->getContent()
+        );
+    }
+
+    public function test_pdfjs_assets_exist(): void
+    {
+        $this->assertFileExists(public_path('vendor/pdfjs/pdf.min.js'));
+        $this->assertFileExists(public_path('vendor/pdfjs/pdf.worker.min.js'));
+    }
+
+    public function test_admin_can_view_booklet_page(): void
     {
         $this->actingAs(User::factory()->admin()->create());
 
-        $this->get('/admin/booklets')->assertOk();
-        $this->get('/admin/booklets/create')->assertOk();
+        $this->get('/admin/booklet')->assertOk();
     }
 
-    public function test_admin_can_create_booklet_from_external_link(): void
+    public function test_admin_saving_twice_keeps_a_single_booklet(): void
     {
         $this->actingAs(User::factory()->admin()->create());
 
-        Livewire::test(CreateBooklet::class)
-            ->fillForm([
-                'judul' => 'Company Profile',
-                'link' => 'https://drive.google.com/file/d/abc/view',
-                'tampil' => true,
-            ])
-            ->call('create')
+        Livewire::test(KelolaBooklet::class)
+            ->fillForm(['judul' => 'Booklet 2025', 'link' => 'https://example.com/2025', 'tampil' => true])
+            ->call('save')
             ->assertHasNoFormErrors();
 
-        $this->assertDatabaseHas('booklets', ['judul' => 'Company Profile', 'file' => null]);
+        Livewire::test(KelolaBooklet::class)
+            ->assertFormSet(['judul' => 'Booklet 2025', 'link' => 'https://example.com/2025'])
+            ->fillForm(['judul' => 'Booklet 2026'])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertSame(1, Booklet::count());
+        $this->assertSame('Booklet 2026', Booklet::first()->judul);
     }
 
-    public function test_admin_can_create_booklet_by_uploading_pdf(): void
+    public function test_admin_can_upload_pdf(): void
     {
         $this->actingAs(User::factory()->admin()->create());
 
-        Livewire::test(CreateBooklet::class)
+        Livewire::test(KelolaBooklet::class)
             ->fillForm([
                 'judul' => 'Company Profile',
                 'file' => UploadedFile::fake()->create('Company Profile 2026.pdf', 500, 'application/pdf'),
             ])
-            ->call('create')
+            ->call('save')
             ->assertHasNoFormErrors();
 
         $booklet = Booklet::firstOrFail();
@@ -103,34 +112,23 @@ class BookletTest extends TestCase
     {
         $this->actingAs(User::factory()->admin()->create());
 
-        Livewire::test(CreateBooklet::class)
+        Livewire::test(KelolaBooklet::class)
             ->fillForm(['judul' => 'Tanpa File'])
-            ->call('create')
+            ->call('save')
             ->assertHasFormErrors(['file' => 'required', 'link' => 'required_without']);
 
         $this->assertDatabaseCount('booklets', 0);
     }
 
-    public function test_replacing_and_deleting_booklet_removes_old_files(): void
+    public function test_replacing_pdf_removes_old_file(): void
     {
         Storage::disk('public')->put('booklet/lama.pdf', '%PDF-1.4 lama');
         Storage::disk('public')->put('booklet/baru.pdf', '%PDF-1.4 baru');
         $booklet = Booklet::create(['judul' => 'Profil', 'file' => 'booklet/lama.pdf']);
 
         $booklet->update(['file' => 'booklet/baru.pdf']);
+
         Storage::disk('public')->assertMissing('booklet/lama.pdf');
         Storage::disk('public')->assertExists('booklet/baru.pdf');
-
-        $booklet->delete();
-        Storage::disk('public')->assertMissing('booklet/baru.pdf');
-    }
-
-    public function test_admin_edit_page_loads_existing_booklet(): void
-    {
-        $this->actingAs(User::factory()->admin()->create());
-        $booklet = Booklet::create(['judul' => 'Profil', 'link' => 'https://example.com/profil']);
-
-        Livewire::test(EditBooklet::class, ['record' => $booklet->getRouteKey()])
-            ->assertFormSet(['judul' => 'Profil', 'link' => 'https://example.com/profil']);
     }
 }

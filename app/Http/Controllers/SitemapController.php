@@ -26,7 +26,8 @@ class SitemapController extends Controller
                 ['url' => route('webinar.gerakan-nasional'), 'priority' => '0.6', 'changefreq' => 'monthly'],
             ];
 
-            if (Booklet::tampil()->exists()) {
+            // Hanya booklet PDF — booklet tautan eksternal membuat /booklet sekadar pengalihan.
+            if (Booklet::aktif()?->file) {
                 $staticPages[] = ['url' => route('booklet'), 'priority' => '0.6', 'changefreq' => 'monthly'];
             }
 
