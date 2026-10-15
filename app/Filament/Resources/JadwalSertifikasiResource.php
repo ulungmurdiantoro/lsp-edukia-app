@@ -111,7 +111,10 @@ class JadwalSertifikasiResource extends Resource
                 ->label('Tampil')
                 ->boolean(),
         ])
-        ->defaultSort('tanggal_sertifikasi', 'asc')
+        // Jadwal mendatang di atas (terdekat dulu), jadwal yang sudah lewat dipindah ke akhir.
+        ->defaultSort(fn (Builder $query): Builder => $query
+            ->orderByRaw('CASE WHEN tanggal_sertifikasi < ? THEN 1 ELSE 0 END', [today()->toDateString()])
+            ->orderBy('tanggal_sertifikasi'))
         ->filters([
             Tables\Filters\SelectFilter::make('bidang')
                 ->label('Sektor')

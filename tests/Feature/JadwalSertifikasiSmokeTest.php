@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Filament\Resources\JadwalSertifikasiResource\Pages\CreateJadwalSertifikasi;
+use App\Filament\Resources\JadwalSertifikasiResource\Pages\ListJadwalSertifikasis;
 use App\Models\JadwalSertifikasi;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -55,6 +56,33 @@ class JadwalSertifikasiSmokeTest extends TestCase
         $this->actingAs(User::factory()->admin()->create());
 
         $this->get('/admin/jadwal-sertifikasis')->assertOk();
+    }
+
+    public function test_admin_list_puts_past_jadwal_at_the_end(): void
+    {
+        $this->actingAs(User::factory()->admin()->create());
+
+        $lewat = JadwalSertifikasi::create([
+            'skema' => 'Quality Assurance Officer',
+            'bidang' => 'manajemen',
+            'tanggal_sertifikasi' => now()->subDays(3)->toDateString(),
+            'tampil' => true,
+        ]);
+        $nanti = JadwalSertifikasi::create([
+            'skema' => 'Corporate Legal Officer',
+            'bidang' => 'manajemen',
+            'tanggal_sertifikasi' => now()->addMonth()->toDateString(),
+            'tampil' => true,
+        ]);
+        $hariIni = JadwalSertifikasi::create([
+            'skema' => 'Auditor Internal SPMI Terintegrasi ISO 21001:2018',
+            'bidang' => 'spmi',
+            'tanggal_sertifikasi' => now()->toDateString(),
+            'tampil' => true,
+        ]);
+
+        Livewire::test(ListJadwalSertifikasis::class)
+            ->assertCanSeeTableRecords([$hariIni, $nanti, $lewat], inOrder: true);
     }
 
     public function test_admin_can_view_jadwal_sertifikasi_create_form(): void
