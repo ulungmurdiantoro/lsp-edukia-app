@@ -91,6 +91,25 @@
 .tuk-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
 .tuk-list li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink-2);line-height:1.55}
 .tuk-dot{width:5px;height:5px;border-radius:50%;flex:0 0 auto;margin-top:8px}
+.tuk-intro{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.tuk-no{font-size:11.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.tuk-desc{font-size:14px;color:var(--ink-2);line-height:1.6;margin:0 0 12px}
+.tuk-ref{margin-top:18px;padding:12px 14px;border-radius:10px;background:var(--cream);border:1px solid var(--line);font-size:12.5px;color:var(--muted);line-height:1.55}
+.tuk-card .kb-dl{margin-top:14px}
+.tuk-block{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px}
+.tuk-block h3{font-size:19px;font-weight:700;color:var(--ink);margin:0 0 14px}
+.tuk-block p{font-size:14.5px;color:var(--ink-2);line-height:1.65;margin:0 0 12px}
+.tuk-block p:last-child{margin-bottom:0}
+.tuk-verif{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:4px 0 16px}
+.tuk-verif-item{padding:16px 18px;border-radius:12px;background:var(--navy-50);font-size:14px;color:var(--ink-2);line-height:1.6}
+.tuk-verif-item strong{display:block;color:var(--navy-800);margin-bottom:4px}
+.tuk-result{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0 16px}
+.tuk-result-item{padding:18px;border-radius:12px;font-size:14px;line-height:1.6}
+.tuk-result-item strong{display:inline-block;font-size:12px;letter-spacing:0.08em;padding:3px 10px;border-radius:999px;margin-bottom:8px;color:#fff}
+.tuk-result-item.ok{background:#e8f4ee;border:1px solid #c6e3d3;color:#1f5a37}
+.tuk-result-item.ok strong{background:var(--green-ok)}
+.tuk-result-item.no{background:#fdf0ee;border:1px solid #f3cfc5;color:#7a2e1c}
+.tuk-result-item.no strong{background:var(--warn)}
 
 /* Keluhan & Banding — 3-column grid */
 .kb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -120,7 +139,7 @@
 .ak-list{display:grid;grid-template-columns:1fr 1fr;gap:12px 32px}
 
 @media(max-width:960px){
-  .hk-grid,.resert-grid,.tuk-grid,.ak-list{grid-template-columns:1fr}
+  .hk-grid,.resert-grid,.tuk-grid,.tuk-verif,.tuk-result,.ak-list{grid-template-columns:1fr}
   .proc-article{grid-template-columns:1fr}
   .kb-grid{grid-template-columns:1fr}
   .cta{grid-template-columns:1fr}
@@ -306,133 +325,132 @@
   </div>
 </section>
 
-{{-- KRITERIA TUK OFFLINE & ONLINE --}}
+{{-- TEMPAT UJI KOMPETENSI (TUK) — teks dari dokumen "Tempat Uji Kompetensi" (SOP.SM.21) --}}
 <section id="kriteria-tuk">
   <div class="wrap">
     <div class="sec-head">
       <div class="eyebrow">Tempat Uji Kompetensi</div>
-      <h2>Kriteria TUK Offline &amp; Online</h2>
-      <p class="sub">Setiap Tempat Uji Kompetensi (TUK) — fisik maupun daring — diverifikasi LSP Edukia sebelum digunakan agar asesmen berlangsung valid, aman, tertib, objektif, dan mampu telusur (SOP.SM.21).</p>
+      <h2>Tempat Uji Kompetensi (TUK)</h2>
+      <div class="tuk-intro">
+        <p class="sub">Pelaksanaan asesmen LSP Edukasi Global Cendekia (Edukia) dilaksanakan secara online dan offline pada Tempat Uji Kompetensi (TUK) yang telah diverifikasi oleh LSP Edukasi Global Cendekia dan dinyatakan memenuhi persyaratan sesuai dengan metode asesmen yang digunakan.</p>
+        <p class="sub">TUK dapat berupa TUK Offline/Fisik dan/atau TUK Online, dengan mempertimbangkan karakteristik kompetensi yang dinilai, metode asesmen, kebutuhan sarana dan prasarana, keamanan, kerahasiaan, serta kemampuan LSP dalam menjamin validitas, objektivitas, dan integritas pelaksanaan asesmen.</p>
+      </div>
     </div>
     @php
-    $tukCriteria = [
+    $tukJenis = [
       'offline' => [
-        'title' => 'Kriteria TUK Offline',
-        'subtitle' => 'Tempat Uji Kompetensi tatap muka (fisik)',
+        'title' => '1. TUK Offline/Fisik',
         'icon' => 'pin',
         'tone' => 'blue',
-        'groups' => [
-          'Legalitas dan pengelolaan lokasi' => [
-            'Identitas/nama dan alamat TUK dapat ditelusuri.',
-            'Terdapat penanggung jawab/PIC lokasi yang dapat berkoordinasi dengan LSP.',
-            'Penggunaan lokasi untuk kegiatan asesmen telah memperoleh persetujuan dari pengelola/pemilik lokasi.',
-          ],
-          'Ruang dan kondisi lingkungan' => [
-            'Ruang asesmen cukup untuk jumlah peserta dan metode asesmen yang digunakan.',
-            'Pencahayaan, ventilasi/sirkulasi udara dan kebersihan memadai.',
-            'Kondisi ruang mendukung ketenangan, ketertiban, privasi dan konsentrasi peserta.',
-            'Tata letak memungkinkan Pengawas Ujian/Asesor memantau peserta dengan memadai.',
-            'Tersedia area tunggu/registrasi apabila diperlukan dan tidak mengganggu ruang asesmen.',
-          ],
-          'Sarana, prasarana dan peralatan' => [
-            'Meja, kursi dan fasilitas dasar tersedia dalam jumlah yang memadai.',
-            'Peralatan khusus yang dipersyaratkan oleh skema/metode asesmen tersedia dan berfungsi.',
-            'Komputer, jaringan/internet, proyektor atau sarana elektronik tersedia apabila dibutuhkan oleh metode ujian.',
-            'Sumber listrik dan fasilitas pendukung memadai; mitigasi gangguan tersedia apabila diperlukan.',
-          ],
-          'Keamanan, keselamatan dan akses' => [
-            'Akses masuk/keluar lokasi dapat dikendalikan selama asesmen.',
-            'Terdapat kondisi keselamatan dasar dan jalur evakuasi/fasilitas kedaruratan yang memadai sesuai karakter lokasi.',
-            'Materi ujian, dokumen peserta dan rekaman asesmen dapat dijaga dari akses pihak yang tidak berwenang.',
-            'Tersedia pengaturan untuk peserta berkebutuhan khusus apabila relevan dan dimungkinkan oleh skema.',
-          ],
-          'Dukungan pelaksanaan asesmen' => [
-            'Tersedia ruang/area yang memungkinkan verifikasi identitas dan administrasi peserta.',
-            'Tersedia fasilitas bagi Asesor/Penguji dan Pengawas Ujian untuk menjalankan tugasnya.',
-            'Kondisi TUK mendukung penerapan tata tertib ujian dan pencegahan kecurangan.',
-            'Jumlah peserta yang dapat dilayani ditetapkan sesuai kapasitas ruang dan sarana.',
-          ],
+        'desc' => [
+          'TUK Offline/Fisik digunakan untuk pelaksanaan asesmen secara tatap muka pada lokasi yang telah diverifikasi oleh LSP. TUK harus memiliki identitas lokasi dan penanggung jawab yang jelas serta memperoleh persetujuan untuk digunakan sebagai tempat pelaksanaan asesmen.',
+        ],
+        'label' => 'TUK Offline/Fisik harus memenuhi persyaratan yang relevan meliputi:',
+        'items' => [
+          'Ruang dan kondisi lingkungan yang memadai sesuai jumlah peserta dan metode asesmen;',
+          'Pencahayaan, ventilasi, kebersihan, ketenangan, privasi, dan tata letak yang mendukung pelaksanaan asesmen;',
+          'Meja, kursi, komputer, jaringan internet, peralatan, bahan dan/atau sarana khusus yang dipersyaratkan dalam skema dan metode asesmen;',
+          'Sumber listrik dan fasilitas pendukung yang berfungsi dengan baik;',
+          'Keamanan dan pengendalian akses selama pelaksanaan asesmen;',
+          'Perlindungan terhadap materi ujian, dokumen peserta, dan rekaman asesmen dari akses pihak yang tidak berwenang;',
+          'Fasilitas keselamatan dan kondisi kedaruratan yang sesuai dengan karakteristik lokasi;',
+          'Fasilitas yang memungkinkan asesor dan pengawas ujian menjalankan tugasnya;',
+          'Pengaturan bagi peserta berkebutuhan khusus apabila diperlukan dan dapat difasilitasi tanpa mengubah kompetensi yang dinilai; dan',
+          'Kapasitas TUK yang sesuai dengan jumlah peserta dan sarana yang tersedia.',
+        ],
+        'ref' => 'Persyaratan tersebut sesuai dengan pengaturan TUK Offline dalam SOP.SM.21. Verifikasi Tempat Uji Kompetensi (TUK) dan FR.TUK.02 Checklist Verifikasi TUK Offline/Fisik.',
+        'form' => [
+          'kode' => 'FR.TUK.02',
+          'nama' => 'Checklist Verifikasi TUK Offline/Fisik',
+          'ket' => 'Rev.04 · PDF',
+          'file' => 'downloads/FR.TUK.02 Checklist Verifikasi TUK Offline R4.pdf',
         ],
       ],
       'online' => [
-        'title' => 'Kriteria TUK Online',
-        'subtitle' => 'Lingkungan asesmen jarak jauh (Zoom Meeting & sistem ujian daring)',
+        'title' => '2. TUK Online',
         'icon' => 'monitor',
         'tone' => 'orange',
-        'groups' => [
-          'Kondisi lingkungan/ruangan' => [
-            'Ruangan/area peserta cukup tenang dan kondusif untuk pelaksanaan asesmen.',
-            'Pencahayaan memadai sehingga wajah dan aktivitas peserta dapat terlihat jelas.',
-            'Peserta mengikuti asesmen secara individual dan tidak memperoleh bantuan dari pihak lain.',
-            'Tidak terdapat pihak lain di sekitar peserta yang dapat memengaruhi integritas asesmen.',
-            'Meja/area kerja bebas dari perangkat atau bahan lain yang tidak diizinkan.',
-            'Peserta bersedia menunjukkan kondisi ruangan/area kerja melalui kamera apabila diminta Pengawas Ujian.',
-            'Lokasi memungkinkan peserta mengikuti rangkaian asesmen tanpa gangguan yang signifikan.',
-          ],
-          'Perangkat' => [
-            'Peserta menggunakan komputer/laptop yang dapat menjalankan Zoom Meeting dan sistem/aplikasi ujian LSP.',
-            'Kamera/webcam berfungsi dan dapat menampilkan wajah peserta secara jelas.',
-            'Mikrofon dan speaker/audio berfungsi dengan baik.',
-            'Perangkat memiliki daya yang memadai atau terhubung dengan sumber listrik.',
-            'Tidak terdapat penggunaan perangkat/alat bantu lain yang tidak diizinkan selama asesmen.',
-          ],
-          'Koneksi dan aplikasi' => [
-            'Koneksi internet memadai untuk menjalankan Zoom Meeting dan sistem ujian secara bersamaan.',
-            'Peserta dapat mengakses tautan/platform ujian yang ditetapkan LSP.',
-            'Peserta dapat mengaktifkan kamera dan mikrofon selama asesmen.',
-            'Nama akun Zoom dapat diidentifikasi sesuai identitas peserta.',
-            'Tersedia mekanisme komunikasi dengan Pengawas Ujian apabila terjadi gangguan koneksi.',
-          ],
-          'Identifikasi peserta' => [
-            'Peserta sesuai dengan daftar peserta asesmen.',
-            'Identitas peserta diverifikasi sesuai mekanisme LSP.',
-            'Wajah peserta sesuai dengan identitas/data peserta.',
-            'Kamera tetap aktif selama asesmen kecuali ditetapkan lain oleh metode asesmen.',
-          ],
-          'Keamanan dan integritas asesmen' => [
-            'Peserta tidak menerima bantuan pihak lain.',
-            'Peserta hanya menggunakan referensi apabila metode asesmen mengizinkan.',
-            'Peserta tidak membuka aplikasi, situs, komunikasi atau sumber informasi yang tidak diizinkan.',
-            'Peserta tidak merekam, memotret, menyalin atau menyebarluaskan materi ujian.',
-            'Peserta tidak meninggalkan area asesmen tanpa izin Pengawas Ujian.',
-            'Peserta tetap berada dalam jangkauan kamera selama asesmen.',
-            'Peserta bersedia mengikuti instruksi Pengawas untuk menunjukkan area sekitar apabila terdapat indikasi ketidaksesuaian.',
-          ],
-          'Pengawasan' => [
-            'Pengawas dapat melihat peserta dengan jelas melalui Zoom Meeting.',
-            'Pengawas dapat berkomunikasi dengan peserta selama asesmen.',
-            'Pengawas dapat meminta peserta mengarahkan kamera untuk memverifikasi kondisi lingkungan.',
-            'Pengawas mencatat gangguan, pelanggaran atau ketidaksesuaian yang terjadi.',
-            'Ketidaksesuaian yang dapat memengaruhi validitas atau integritas asesmen harus ditindaklanjuti sebelum peserta memulai atau melanjutkan asesmen.',
-          ],
+        'desc' => [
+          'TUK Online digunakan untuk pelaksanaan asesmen jarak jauh melalui sarana teknologi informasi dan komunikasi yang ditetapkan oleh LSP. TUK Online dapat berupa lokasi yang disediakan oleh lembaga pelatihan/organisasi maupun lokasi individual peserta seperti tempat tinggal atau kantor asesi, sepanjang lokasi tersebut memenuhi seluruh persyaratan yang ditetapkan LSP.',
+          'Apabila asesmen dilakukan dari tempat tinggal atau kantor asesi, lokasi tersebut diperlakukan sebagai lingkungan asesmen dan wajib diverifikasi sebelum asesmen dimulai.',
+        ],
+        'label' => 'TUK Online harus memenuhi persyaratan berikut:',
+        'items' => [
+          'Peserta menggunakan ruang atau area yang tenang, cukup terang, kondusif, dan memungkinkan asesmen dilakukan tanpa gangguan yang dapat memengaruhi hasil asesmen;',
+          'Peserta mengikuti asesmen secara individual dan tidak memperoleh bantuan dari pihak lain;',
+          'Tidak terdapat pihak lain, materi, perangkat, atau alat bantu yang tidak diizinkan pada area asesmen;',
+          'Peserta bersedia menunjukkan kondisi ruangan dan area kerja melalui kamera apabila diminta oleh pengawas ujian;',
+          'Tersedia komputer atau laptop yang dapat menjalankan aplikasi pertemuan daring dan sistem ujian LSP;',
+          'Kamera/webcam, mikrofon, speaker/audio, dan perangkat pendukung lainnya berfungsi dengan baik;',
+          'Tersedia device tambahan (tab/HP/laptop) dengan kamera yang jelas dan dapat diarahkan untuk verifikasi area sekitar selama pelaksanaan ujian berlangsung dan tetap aktif selama asesmen sesuai ketentuan metode asesmen;',
+          'Tersedia sumber listrik yang memadai dan perangkat dapat digunakan selama keseluruhan proses asesmen;',
+          'Tersedia koneksi internet yang memadai untuk menjalankan sistem asesmen dan komunikasi daring secara bersamaan;',
+          'Peserta dapat mengakses Zoom Meeting dan/atau sistem ujian yang ditetapkan LSP;',
+          'Identitas peserta dapat diverifikasi dan sesuai dengan daftar peserta;',
+          'Tersedia mekanisme komunikasi dengan pengawas ujian apabila terjadi gangguan teknis atau koneksi;',
+          'Peserta tidak diperkenankan merekam, memotret, menyalin, atau menyebarluaskan materi ujian;',
+          'Peserta tidak diperkenankan membuka aplikasi, situs, komunikasi, atau sumber informasi yang tidak diizinkan; dan',
+          'Kondisi peserta dan lingkungan asesmen dapat dipantau secara memadai oleh pengawas ujian selama proses asesmen.',
+        ],
+        'ref' => 'SOP.SM.21 telah menetapkan persyaratan lingkungan, perangkat, koneksi, identifikasi, keamanan, integritas, dan pengawasan untuk TUK Online dalam SOP.SM.21. Verifikasi Tempat Uji Kompetensi (TUK) dan FR.TUK.06 Checklist Verifikasi TUK Online.',
+        'form' => [
+          'kode' => 'FR.TUK.06',
+          'nama' => 'Checklist Verifikasi TUK Online',
+          'ket' => 'Rev.1 · PDF',
+          'file' => 'downloads/FR.TUK.06 Checklist Verifikasi TUK Online LSP Edukia R1.pdf',
         ],
       ],
     ];
     @endphp
     <div class="tuk-grid">
-      @foreach($tukCriteria as $tuk)
+      @foreach($tukJenis as $tuk)
       <div class="tuk-card">
         <div class="tuk-header">
           <div class="tuk-icon {{ $tuk['tone'] }}">
             <svg width="24" height="24"><use href="#i-{{ $tuk['icon'] }}"></use></svg>
           </div>
-          <div>
-            <h3>{{ $tuk['title'] }}</h3>
-            <div class="sm">{{ $tuk['subtitle'] }}</div>
-          </div>
+          <h3>{{ $tuk['title'] }}</h3>
         </div>
-        @foreach($tuk['groups'] as $label => $items)
+        @foreach($tuk['desc'] as $paragraf)
+        <p class="tuk-desc">{{ $paragraf }}</p>
+        @endforeach
         <div class="tuk-group">
-          <div class="tuk-group-label">{{ $label }}</div>
+          <div class="tuk-group-label">{{ $tuk['label'] }}</div>
           <ul class="tuk-list">
-            @foreach($items as $item)
+            @foreach($tuk['items'] as $item)
             <li><span class="tuk-dot" style="background:var(--{{ $tuk['tone'] }}-deep)"></span><span>{{ $item }}</span></li>
             @endforeach
           </ul>
         </div>
-        @endforeach
+        <div class="tuk-ref">{{ $tuk['ref'] }}</div>
+        <a class="kb-dl" href="{{ asset($tuk['form']['file']) }}" target="_blank" rel="noopener">
+          <svg width="18" height="18"><use href="#i-download"></use></svg>
+          <span><strong>{{ $tuk['form']['kode'] }}</strong> {{ $tuk['form']['nama'] }}<small>{{ $tuk['form']['ket'] }}</small></span>
+        </a>
       </div>
       @endforeach
+    </div>
+
+    <div class="tuk-block">
+      <h3>3. Verifikasi dan Penetapan TUK</h3>
+      <p>Setiap TUK harus diverifikasi sebelum digunakan dalam pelaksanaan asesmen.</p>
+      <div class="tuk-verif">
+        <div class="tuk-verif-item"><strong>TUK Offline/Fisik</strong>Untuk TUK Offline/Fisik, verifikasi dilakukan terhadap kondisi aktual lokasi, sarana-prasarana, peralatan, keamanan, akses, fasilitas pendukung, dan kesesuaiannya dengan skema serta metode asesmen.</div>
+        <div class="tuk-verif-item"><strong>TUK Online</strong>Untuk TUK Online, verifikasi dilakukan terhadap identitas peserta, kondisi lingkungan, sarana dan prasarana, perangkat, koneksi, keamanan, serta integritas pelaksanaan asesmen. Pengawas Ujian dapat meminta peserta menunjukkan kondisi ruang dan area kerja melalui kamera sebagai bagian dari proses verifikasi.</div>
+      </div>
+      <p>Hasil verifikasi TUK ditetapkan dalam dua kategori:</p>
+      <div class="tuk-result">
+        <div class="tuk-result-item ok"><strong>MEMENUHI</strong><br>Seluruh persyaratan wajib yang relevan telah dipenuhi dan bukti hasil verifikasi dinyatakan memadai. TUK dapat digunakan untuk pelaksanaan asesmen sesuai ruang lingkup yang telah diverifikasi.</div>
+        <div class="tuk-result-item no"><strong>TIDAK MEMENUHI</strong><br>Terdapat satu atau lebih persyaratan wajib yang belum atau tidak dapat dipenuhi, atau terdapat kondisi yang dapat memengaruhi validitas, keamanan, keselamatan, ketertiban, objektivitas dan/atau integritas asesmen. TUK tidak dapat digunakan sampai persyaratan tersebut dipenuhi dan dilakukan verifikasi ulang.</div>
+      </div>
+      <p>Untuk TUK Online, apabila ketidaksesuaian masih dapat diperbaiki sebelum asesmen dimulai, peserta diberikan kesempatan melakukan perbaikan dan Pengawas Ujian melakukan verifikasi ulang. Asesmen hanya dapat dimulai setelah seluruh persyaratan wajib terpenuhi dan hasil verifikasi dinyatakan MEMENUHI.</p>
+      <div class="tuk-ref">SOP.SM.21. Verifikasi Tempat Uji Kompetensi (TUK)</div>
+    </div>
+
+    <div class="tuk-block">
+      <h3>4. Pengendalian TUK</h3>
+      <p>Pemilihan jenis TUK harus disesuaikan dengan metode asesmen pada skema ini. Apabila suatu metode asesmen membutuhkan peralatan khusus, fasilitas tertentu, atau kondisi lingkungan tertentu, TUK yang digunakan wajib menyediakan kebutuhan tersebut. Selama pelaksanaan asesmen, kondisi TUK tetap dipantau. Setiap perubahan, gangguan, atau ketidaksesuaian yang berpotensi memengaruhi validitas dan integritas asesmen harus dicatat dan ditindaklanjuti oleh LSP.</p>
+      <p>Mekanisme verifikasi, penetapan, penggunaan, pemantauan, dan evaluasi TUK diatur lebih lanjut dalam SOP.SM.21 – Verifikasi Tempat Uji Kompetensi (TUK) beserta formulir yang berlaku.</p>
     </div>
   </div>
 </section>
