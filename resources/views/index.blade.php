@@ -43,6 +43,13 @@
   </div>
 </section>
 
+<!-- PEMBERITAHUAN -->
+<section style="padding:32px 0;border-top:0">
+  <div class="wrap">
+    @include('partials.pengumuman-koreksi-masa-berlaku')
+  </div>
+</section>
+
 <!-- ALUR SERTIFIKASI -->
 <section id="alur">
   <div class="wrap">

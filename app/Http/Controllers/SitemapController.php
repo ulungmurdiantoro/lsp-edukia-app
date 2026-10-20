@@ -24,6 +24,7 @@ class SitemapController extends Controller
                 ['url' => route('informasi'),      'priority' => '0.7', 'changefreq' => 'monthly'],
                 ['url' => route('kegiatan.index'), 'priority' => '0.6', 'changefreq' => 'monthly'],
                 ['url' => route('webinar.gerakan-nasional'), 'priority' => '0.6', 'changefreq' => 'monthly'],
+                ['url' => route('pengumuman.koreksi-masa-berlaku'), 'priority' => '0.5', 'changefreq' => 'yearly'],
             ];
 
             // Hanya booklet PDF — booklet tautan eksternal membuat /booklet sekadar pengalihan.

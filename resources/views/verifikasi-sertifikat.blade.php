@@ -112,6 +112,10 @@
     @if($sertifikat)
       <p class="verif-note">Informasi ini bersumber dari basis data resmi LSP Edukasi Global Cendekia.
         Lihat seluruh penerima di <a href="{{ route('sertifikat') }}">Daftar Penerima Sertifikat</a>.</p>
+      @if($sertifikat->tercakup_koreksi_masa_berlaku)
+        <p class="verif-note">Tanggal "Berlaku Sampai" mengikuti
+          <a href="{{ route('pengumuman.koreksi-masa-berlaku') }}">Pemberitahuan Koreksi Administratif Masa Berlaku Sertifikat No. {{ \App\Models\Sertifikat::NOMOR_PEMBERITAHUAN_KOREKSI }}</a>.</p>
+      @endif
     @endif
   </div>
 </section>

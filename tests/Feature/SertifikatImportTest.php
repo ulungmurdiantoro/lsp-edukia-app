@@ -31,7 +31,23 @@ class SertifikatImportTest extends TestCase
         $this->assertSame('spmi', $r->kategori);
         $this->assertTrue((bool) $r->lisensi);
         $this->assertSame('2024-01-15', $r->tanggal_terbit->toDateString());
-        $this->assertSame('2027-01-15', $r->tanggal_kadaluarsa->toDateString());
+        // Template masih memakai pola lama (terbit + tepat 3 tahun) → dikoreksi saat import.
+        $this->assertSame('2027-01-14', $r->tanggal_kadaluarsa->toDateString());
+    }
+
+    public function test_import_keeps_already_corrected_end_date(): void
+    {
+        $csv = "No,Nama Lengkap,Skema,Batch,No Skema,No Sertifikat,No SK,Nama Gelar,Tanggal Rilis,Tanggal_Berakhir\n"
+             . "1,Sudah Benar,Corporate Legal Officer,1,EDUKIA-CLO-2024-026,BENAR-001,SK/1,S.H.,18 Juni 2026,17 Juni 2029\n"
+             . "2,Pola Lama,Corporate Legal Officer,1,EDUKIA-CLO-2024-026,LAMA-001,SK/2,S.H.,18 Juni 2026,18 Juni 2029\n";
+        $path = sys_get_temp_dir() . '/koreksi_masa_berlaku_probe.csv';
+        file_put_contents($path, $csv);
+
+        Excel::import(new SertifikatImport(), $path);
+        @unlink($path);
+
+        $this->assertSame('2029-06-17', Sertifikat::where('nomor_sertifikat', 'BENAR-001')->first()->tanggal_kadaluarsa->toDateString());
+        $this->assertSame('2029-06-17', Sertifikat::where('nomor_sertifikat', 'LAMA-001')->first()->tanggal_kadaluarsa->toDateString());
     }
 
     public function test_reimporting_same_template_updates_instead_of_duplicating(): void

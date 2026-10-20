@@ -31,6 +31,7 @@ Route::get('/verifikasi-sertifikat/sk/{noSk}', [VerifikasiSertifikatController::
     ->where('noSk', '.+')
     ->name('verifikasi.sk');
 Route::get('/verifikasi-sertifikat/{nomor}', [VerifikasiSertifikatController::class, 'show'])->name('verifikasi.show');
+Route::get('/pengumuman/koreksi-masa-berlaku-sertifikat', [PageController::class, 'pengumumanKoreksiMasaBerlaku'])->name('pengumuman.koreksi-masa-berlaku');
 Route::get('/jadwal-sertifikasi-kompetensi', [PageController::class, 'jadwalSertifikasi'])->name('jadwal-sertifikasi');
 Route::get('/kegiatan', [PageController::class, 'kegiatan'])->name('kegiatan.index');
 Route::get('/booklet', [PageController::class, 'booklet'])->name('booklet');

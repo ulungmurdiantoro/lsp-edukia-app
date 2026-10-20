@@ -263,6 +263,17 @@ class PageController extends Controller
             ));
     }
 
+    public function pengumumanKoreksiMasaBerlaku()
+    {
+        return view('pengumuman.koreksi-masa-berlaku')
+            ->with('activeNav', 'sertifikat')
+            ->with('SEOData', new SEOData(
+                title: 'Pemberitahuan Koreksi Administratif Masa Berlaku Sertifikat Kompetensi',
+                description: 'Pemberitahuan LSP Edukia No. '.Sertifikat::NOMOR_PEMBERITAHUAN_KOREKSI.': tanggal berakhir sertifikat kompetensi 3 tahun periode April 2024 – Agustus 2026 ditetapkan 1 hari sebelum tanggal yang sama pada tahun ketiga.',
+                image: 'images/hero-sertifikat.jpg',
+            ));
+    }
+
     public function webinarGerakanNasional()
     {
         $assets = [

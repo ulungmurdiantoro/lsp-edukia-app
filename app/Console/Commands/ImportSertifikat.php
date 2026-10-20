@@ -70,7 +70,10 @@ class ImportSertifikat extends Command
             $noSk = SertifikatExcelHelper::clean($sheet->getCell("G{$r}")->getValue());
             $gelar = SertifikatExcelHelper::clean($sheet->getCell("H{$r}")->getValue());
             $tanggalTerbit = SertifikatExcelHelper::parseTanggal($sheet->getCell("I{$r}")->getValue());
-            $tanggalKadaluarsa = SertifikatExcelHelper::parseTanggal($sheet->getCell("J{$r}")->getValue());
+            $tanggalKadaluarsa = Sertifikat::koreksiTanggalBerakhir(
+                $tanggalTerbit,
+                SertifikatExcelHelper::parseTanggal($sheet->getCell("J{$r}")->getValue()),
+            );
 
             $scheme = SertifikatExcelHelper::resolveScheme($noSkemaRaw, $skemaTextRaw);
 

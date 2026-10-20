@@ -53,7 +53,10 @@ class SertifikatImport implements ToModel, WithHeadingRow, WithUpserts
         $noSk = SertifikatExcelHelper::clean($row['no_sk'] ?? '');
         $gelar = SertifikatExcelHelper::clean($row['nama_gelar'] ?? '');
         $tanggalTerbit = SertifikatExcelHelper::parseTanggal($row['tanggal_rilis'] ?? null);
-        $tanggalKadaluarsa = SertifikatExcelHelper::parseTanggal($row['tanggal_berakhir'] ?? null);
+        $tanggalKadaluarsa = Sertifikat::koreksiTanggalBerakhir(
+            $tanggalTerbit,
+            SertifikatExcelHelper::parseTanggal($row['tanggal_berakhir'] ?? null),
+        );
 
         $scheme = SertifikatExcelHelper::resolveScheme($noSkemaRaw, $skemaTextRaw);
 

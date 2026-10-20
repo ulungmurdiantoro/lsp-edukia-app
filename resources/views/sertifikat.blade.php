@@ -81,6 +81,10 @@
 <section style="padding:60px 0 96px;background:var(--cream,#fbf9f3)">
   <div class="wrap">
 
+    <div style="margin-bottom:24px">
+      @include('partials.pengumuman-koreksi-masa-berlaku')
+    </div>
+
     <div class="stat-strip">
       <div class="stat-card navy"><div class="stat-val">{{ $stats['total'] }}</div><div class="stat-label">Total sertifikat diterbitkan</div></div>
       <div class="stat-card green"><div class="stat-val">{{ $stats['aktif'] }}</div><div class="stat-label">Sertifikat aktif</div></div>
