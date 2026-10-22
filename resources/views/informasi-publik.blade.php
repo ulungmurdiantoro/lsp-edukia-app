@@ -345,7 +345,7 @@
         'desc' => [
           'TUK Offline/Fisik digunakan untuk pelaksanaan asesmen secara tatap muka pada lokasi yang telah diverifikasi oleh LSP. TUK harus memiliki identitas lokasi dan penanggung jawab yang jelas serta memperoleh persetujuan untuk digunakan sebagai tempat pelaksanaan asesmen.',
         ],
-        'label' => 'TUK Offline/Fisik harus memenuhi persyaratan yang relevan meliputi:',
+        'label' => 'TUK Offline/Fisik harus memenuhi persyaratan berikut:',
         'items' => [
           'Ruang dan kondisi lingkungan yang memadai sesuai jumlah peserta dan metode asesmen;',
           'Pencahayaan, ventilasi, kebersihan, ketenangan, privasi, dan tata letak yang mendukung pelaksanaan asesmen;',
