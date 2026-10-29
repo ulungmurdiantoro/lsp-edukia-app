@@ -64,7 +64,7 @@ h1 em{font-family:"Fraunces",Georgia,serif;font-style:italic;font-weight:600;let
 .lead{margin:0 auto;max-width:52ch;color:var(--text-2);font-size:16.5px}
 
 .contacts-title{margin:40px 0 14px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-2)}
-.contacts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.contacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:560px;margin:0 auto}
 .contact{display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 14px;border-radius:18px;text-align:center;
   background:rgba(255,255,255,.04);border:1px solid var(--glass-line);transition:transform .2s,background .2s,border-color .2s}
 .contact:hover{transform:translateY(-3px);background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22)}
@@ -72,7 +72,6 @@ h1 em{font-family:"Fraunces",Georgia,serif;font-style:italic;font-weight:600;let
 .contact .ic svg{width:22px;height:22px}
 .ic.wa{background:rgba(37,211,102,.15);color:#4ade80}
 .ic.mail{background:rgba(68,159,229,.16);color:var(--blue)}
-.ic.cbt{background:rgba(244,137,31,.16);color:var(--orange)}
 .contact small{display:block;font-size:11.5px;color:var(--text-2);font-weight:500;margin-bottom:2px}
 .contact strong{display:block;font-size:13px;font-weight:700;overflow-wrap:anywhere}
 .contact div{min-width:0;width:100%}
@@ -126,10 +125,6 @@ footer{position:relative;z-index:1;text-align:center;padding:0 16px 28px;font-si
       <a class="contact" href="mailto:{{ config('site.email') }}">
         <span class="ic mail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
         <div><small>Email</small><strong>{{ config('site.email') }}</strong></div>
-      </a>
-      <a class="contact" href="{{ config('site.pendaftaran_url') }}" target="_blank" rel="noopener">
-        <span class="ic cbt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
-        <div><small>Pendaftaran Uji</small><strong>Sistem CBT LSP</strong></div>
       </a>
     </div>
   </div>

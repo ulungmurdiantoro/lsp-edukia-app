@@ -134,8 +134,6 @@
 .kb-dl:hover{border-color:var(--blue);transform:translateY(-1px)}
 
 /* Proses — tautan tindak lanjut & daftar akomodasi */
-.proc-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:14px;font-weight:600;color:var(--blue-deep)}
-.proc-link:hover{color:var(--navy-800)}
 .ak-list{display:grid;grid-template-columns:1fr 1fr;gap:12px 32px}
 
 @media(max-width:960px){
@@ -247,7 +245,7 @@
           'Pemohon menyatakan setuju memenuhi persyaratan sertifikasi dan memberikan informasi yang diperlukan untuk pengkajian permohonan.',
           'Pengkaji Permohonan meninjau rekaman formulir dan dokumen persyaratan sesuai skema sertifikasi yang dipilih.',
           'Pemohon yang memenuhi persyaratan direkomendasikan lanjut ke proses asesmen setelah menyelesaikan administrasi pembayaran.',
-        ], 'link'=>['url'=>config('site.pendaftaran_url'),'label'=>'Buka sistem pendaftaran']],
+        ]],
         ['icon'=>'monitor','title'=>'Pelaksanaan Asesmen','items'=>[
           'Uji kompetensi dapat dilaksanakan secara Offline (tatap muka di Tempat Uji Kompetensi/TUK yang telah diverifikasi LSP) maupun Online (melalui Zoom Meeting & sistem ujian daring dengan pengawasan langsung), sesuai metode yang ditetapkan pada jadwal skema yang dipilih.',
           'LSP Edukia memastikan kesiapan TUK/platform ujian, perangkat asesmen, identitas peserta, dan metode pengumpulan bukti.',
@@ -283,11 +281,6 @@
             </li>
             @endforeach
           </ol>
-          @if(!empty($step['link']))
-          <a class="proc-link" href="{{ $step['link']['url'] }}" target="_blank" rel="noopener">
-            {{ $step['link']['label'] }} <svg width="14" height="14"><use href="#i-arrow-r"></use></svg>
-          </a>
-          @endif
         </div>
       </article>
       @endforeach

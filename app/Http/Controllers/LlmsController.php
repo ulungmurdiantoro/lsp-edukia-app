@@ -109,8 +109,8 @@ class LlmsController extends Controller
                 .'Versi ringkas: '.route('llms').'.';
             $lines[] = '';
             $lines[] = 'Kontak: WhatsApp '.config('site.whatsapp').' — email '.config('site.email')
-                .'. Pendaftaran uji kompetensi melalui sistem pendaftaran LSP Edukia ('.config('site.pendaftaran_url')
-                .') atau konsultasi via WhatsApp. Verifikasi sertifikat: '.route('sertifikat')
+                .'. Pendaftaran uji kompetensi melalui sistem pendaftaran LSP Edukia '
+                .'atau konsultasi via WhatsApp. Verifikasi sertifikat: '.route('sertifikat')
                 .'. Jadwal pelaksanaan sertifikasi terbaru: '.route('jadwal-sertifikasi').'.';
             $lines[] = '';
 

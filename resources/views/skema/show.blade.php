@@ -202,9 +202,6 @@
       <div class="sk-cta">
         <h3>Daftar Sertifikasi Ini</h3>
         <p>Isi formulir permohonan (FR.APL.01) dan persetujuan asesmen (FR.AK.01) melalui sistem pendaftaran LSP Edukia, atau konsultasikan jadwal dan biaya untuk skema {{ Str::limit($skema['nama'], 50) }} bersama tim kami.</p>
-        <a class="btn btn-primary" href="{{ config('site.pendaftaran_url') }}" target="_blank" rel="noopener">Daftar Online
-          <svg class="icon"><use href="#i-arrow-r"></use></svg>
-        </a>
         <a class="wa" href="https://wa.me/{{ config('site.whatsapp') }}?text={{ urlencode('Halo, saya ingin mendaftar sertifikasi ' . $skema['nama']) }}" target="_blank" rel="noopener">
           <svg class="icon"><use href="#i-wa"></use></svg> Konsultasi via WhatsApp
         </a>
