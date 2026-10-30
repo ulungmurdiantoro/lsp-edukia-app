@@ -21,7 +21,8 @@
 .sk-meta{display:flex;flex-wrap:wrap;gap:18px;margin-top:18px;font-size:13.5px;color:rgba(255,255,255,.72)}
 .sk-meta b{color:#fff;font-weight:700}
 .sk-body{padding:48px 0 88px;background:var(--cream)}
-.sk-grid{display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:flex-start}
+.sk-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:40px;align-items:flex-start}
+.sk-grid>*{min-width:0}
 .sk-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 28px;margin-bottom:24px}
 .sk-card h2{font-size:20px;margin-bottom:16px;letter-spacing:-.02em}
 .sk-lead{font-size:16px;line-height:1.75;color:var(--ink-2)}
@@ -51,7 +52,15 @@
 .sk-rel h4{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .sk-rel a{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.4;transition:all .15s}
 .sk-rel a:hover{border-color:var(--blue);color:var(--navy-800);transform:translateX(2px)}
-@media(max-width:900px){.sk-grid{grid-template-columns:1fr}.sk-side{position:static}}
+.sk-hero h1,.sk-lead,.sk-text,.sk-ol{overflow-wrap:anywhere}
+@media(max-width:900px){.sk-grid{grid-template-columns:minmax(0,1fr)}.sk-side{position:static}}
+@media(max-width:600px){
+  .sk-card{padding:20px 18px}
+  .unit-code{min-width:0;padding-right:10px}
+  .unit-table th,.unit-table td.num,.unit-table th.num{white-space:normal}
+  .unit-table td.num,.unit-table th.num{padding-left:8px}
+  .sk-meta{gap:8px 18px}
+}
 </style>
 @endsection
 

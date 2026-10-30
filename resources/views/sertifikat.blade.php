@@ -24,9 +24,9 @@
 .cert-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .cert-search-wrap{padding:24px 24px 0}
 .search-bar{display:flex;align-items:center;gap:12px;background:var(--cream);border:1px solid var(--line-2);border-radius:12px;padding:4px 4px 4px 16px}
-.search-bar input{flex:1;height:44px;border:0;outline:0;background:transparent;font-size:15px;color:var(--ink);font-family:inherit}
+.search-bar input{flex:1;min-width:0;height:44px;border:0;outline:0;background:transparent;font-size:15px;color:var(--ink);font-family:inherit}
 .search-bar .search-ico{color:var(--muted);display:flex}
-.search-btn{height:40px;padding:0 22px;border-radius:999px;border:0;background:var(--navy-800);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:inherit}
+.search-btn{flex:0 0 auto;height:40px;padding:0 22px;border-radius:999px;border:0;background:var(--navy-800);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:inherit}
 
 .filter-bar{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;align-items:center}
 .filter-label{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-right:8px}
@@ -65,6 +65,11 @@
   .cert-table-head,.cert-row{grid-template-columns:40px 1fr 1fr;font-size:12px}
   .cert-table-head div:nth-child(n+4),.cert-row>div:nth-child(n+4){display:none}
   .cta{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  .cert-search-wrap{padding:16px 16px 0}
+  .search-bar{gap:8px;padding-left:12px}
+  .search-btn{padding:0 16px}
 }
 </style>
 @endsection
