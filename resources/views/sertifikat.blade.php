@@ -62,8 +62,8 @@
 
 @media(max-width:960px){
   .stat-strip{grid-template-columns:1fr 1fr}
-  .cert-table-head,.cert-row{grid-template-columns:40px 1fr 1fr;font-size:12px}
-  .cert-table-head div:nth-child(n+4),.cert-row>div:nth-child(n+4){display:none}
+  .cert-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  .cert-table-head,.cert-row{grid-template-columns:40px 180px 200px 170px 90px 110px 120px;min-width:910px;padding-left:16px;padding-right:16px;column-gap:12px}
   .cta{grid-template-columns:1fr}
 }
 @media(max-width:520px){
@@ -142,7 +142,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="cert-table-scroll">
         <div class="cert-table-head">
           <div>#</div><div>Nama Lengkap</div><div>Skema Sertifikasi</div>
           <div>Nomor Sertifikat</div><div style="text-align:center">Lisensi</div><div>Kadaluarsa</div><div style="text-align:center">Status</div>
